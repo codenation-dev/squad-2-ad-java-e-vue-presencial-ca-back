@@ -1,4 +1,4 @@
-#Central de Erros
+# Centralizador de Erros
 
 ## Objetivo
 O objetivo deste produto é centralizar os erros de aplicações que ajudarão os desenvolvedores 
