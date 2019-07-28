@@ -1,3 +1,5 @@
+HELP.md
+
 ### IntelliJ IDEA ###
 squad-2-ad-java-e-vue-presencial-ca.iml
 .idea
@@ -13,6 +15,7 @@ squad-2-ad-java-e-vue-presencial-ca.iml
 .settings
 .springBeans
 .sts4-cache
+
 ### VS Code ###
 .vscode/
 
