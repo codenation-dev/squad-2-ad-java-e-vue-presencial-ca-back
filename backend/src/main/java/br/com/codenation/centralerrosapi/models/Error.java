@@ -22,12 +22,12 @@ public class Error implements Serializable {
     private Integer events;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Boolean arquived;
+    private Boolean archived;
 
     public Error() {
     }
 
-    public Error(UUID id, String title, String detail, Integer level, Integer events, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean arquived) {
+    public Error(UUID id, String title, String detail, Integer level, Integer events, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean archived) {
         super();
         this.id = id;
         this.title = title;
@@ -36,7 +36,7 @@ public class Error implements Serializable {
         this.events = events;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.arquived = arquived;
+        this.archived = archived;
     }
 
     public UUID getId() {
@@ -95,12 +95,12 @@ public class Error implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public Boolean getArquived() {
-        return arquived;
+    public Boolean getArchived() {
+        return archived;
     }
 
-    public void setArquived(Boolean arquived) {
-        this.arquived = arquived;
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 
     @Override
@@ -115,12 +115,12 @@ public class Error implements Serializable {
                 Objects.equals(detail, error.detail) &&
                 Objects.equals(createdAt, error.createdAt) &&
                 Objects.equals(updatedAt, error.updatedAt) &&
-                Objects.equals(arquived, error.arquived);
+                Objects.equals(archived, error.archived);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, detail, level, events, createdAt, updatedAt, arquived);
+        return Objects.hash(id, title, detail, level, events, createdAt, updatedAt, archived);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class Error implements Serializable {
                 ", events=" + events +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", arquived=" + arquived +
+                ", archived=" + archived +
                 '}';
     }
 }

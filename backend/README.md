@@ -61,8 +61,12 @@ Pending
 
 ## Explore Rest APIs
 
-URL | HTTP Verb | Result 
-------------- | ------------- | -------------
-/errors  | GET | Return all errors
+URL                     | HTTP Verb      | Result 
+----------------------- | -------------- | -------------
+/api/errors             | POST           | Add error
+/api/errors             | GET            | Return all errors
+/api/errors/:id         | GET            | Return error by ID
+/api/errors/:id         | DELETE         | Delete error
+/api/errors/:id/archive | POST           | Archive error
 
 You can test them using postman or any other rest client.
