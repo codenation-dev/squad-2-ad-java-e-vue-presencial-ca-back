@@ -29,7 +29,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 		e1.setEvents(100);
 		e1.setCreatedAt(LocalDateTime.now());
 		e1.setUpdatedAt(null);
-		e1.setArquived(false);
+		e1.setArchived(false);
 
 		repository.save(e1);
 
