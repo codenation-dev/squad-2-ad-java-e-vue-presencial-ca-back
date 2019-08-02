@@ -7,14 +7,15 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class Error implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String title;
     private String detail;
     private Integer level;
@@ -26,7 +27,7 @@ public class Error implements Serializable {
     public Error() {
     }
 
-    public Error(Long id, String title, String detail, Integer level, Integer events, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean arquived) {
+    public Error(UUID id, String title, String detail, Integer level, Integer events, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean arquived) {
         super();
         this.id = id;
         this.title = title;
@@ -38,11 +39,11 @@ public class Error implements Serializable {
         this.arquived = arquived;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
