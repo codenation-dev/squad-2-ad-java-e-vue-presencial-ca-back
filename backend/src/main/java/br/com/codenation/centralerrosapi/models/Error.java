@@ -1,5 +1,7 @@
 package br.com.codenation.centralerrosapi.models;
 
+import lombok.*;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Error implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,85 +29,6 @@ public class Error implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean archived;
-
-    public Error() {
-    }
-
-    public Error(UUID id, String title, String detail, Integer level, Integer events, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean archived) {
-        super();
-        this.id = id;
-        this.title = title;
-        this.detail = detail;
-        this.level = level;
-        this.events = events;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.archived = archived;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Integer getEvents() {
-        return events;
-    }
-
-    public void setEvents(Integer events) {
-        this.events = events;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Boolean getArchived() {
-        return archived;
-    }
-
-    public void setArchived(Boolean archived) {
-        this.archived = archived;
-    }
 
     @Override
     public boolean equals(Object o) {
