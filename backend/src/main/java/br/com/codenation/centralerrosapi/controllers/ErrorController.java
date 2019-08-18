@@ -24,7 +24,7 @@ public class ErrorController {
 
     private ErrorService service;
 
-    @ApiOperation(value = "Retona uma lista de erros")
+    @ApiOperation(value = "Retorna uma lista de erros")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK")
     })
