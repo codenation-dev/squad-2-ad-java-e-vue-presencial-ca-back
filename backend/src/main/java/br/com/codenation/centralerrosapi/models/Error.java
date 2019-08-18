@@ -32,6 +32,11 @@ public class Error implements Serializable {
     @NotNull
     private String detail;
 
+    @NotNull
+    @Enumerated(value = EnumType.STRING)
+    private ErrorEnvironment environment;
+
+    @NotNull
     @Enumerated(value = EnumType.STRING)
     private ErrorLevel level;
 
