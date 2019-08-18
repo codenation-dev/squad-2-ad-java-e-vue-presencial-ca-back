@@ -1,18 +1,23 @@
 package br.com.codenation.centralerrosapi;
 
 import br.com.codenation.centralerrosapi.models.Error;
+import br.com.codenation.centralerrosapi.models.ErrorLevel;
 import br.com.codenation.centralerrosapi.repositories.ErrorRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
+@EnableJpaAuditing
 @SpringBootApplication
+@AllArgsConstructor
 public class CentralErrosApiApplication implements CommandLineRunner {
 
-	@Autowired
 	private ErrorRepository repository;
 
 	public static void main(String[] args) {
@@ -21,17 +26,9 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-
-		Error e1 = new Error();
-		e1.setTitle("Título do erro 1");
-		e1.setDetail("Detalhe do erro 1");
-		e1.setLevel(1);
-		e1.setEvents(100);
-		e1.setCreatedAt(LocalDateTime.now());
-		e1.setUpdatedAt(null);
-		e1.setArchived(false);
-
-		repository.save(e1);
-
+		Error e1 = new Error().builder().title("Título do erro 1").detail("Detalhe do erro 1").level(ErrorLevel.DEBUG).events(100).archived(false).build();
+		Error e2 = new Error().builder().title("Título do erro 2").detail("Detalhe do erro 2").level(ErrorLevel.ERROR).events(100).archived(false).build();
+		Error e3 = new Error().builder().title("Título do erro 3").detail("Detalhe do erro 3").level(ErrorLevel.WARNING).events(100).archived(false).build();
+		repository.saveAll(Arrays.asList(e1, e2, e3));
 	}
 }

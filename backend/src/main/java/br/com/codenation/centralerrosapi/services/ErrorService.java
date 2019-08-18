@@ -2,17 +2,17 @@ package br.com.codenation.centralerrosapi.services;
 
 import br.com.codenation.centralerrosapi.models.Error;
 import br.com.codenation.centralerrosapi.repositories.ErrorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Service
 public class ErrorService {
 
-    @Autowired
     private ErrorRepository repository;
 
     public List<Error> listAll() {
