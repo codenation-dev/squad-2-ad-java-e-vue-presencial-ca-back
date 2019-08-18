@@ -1,7 +1,7 @@
-package br.com.codenation.centralerrosapi.controllers;
+package br.com.codenation.centralerrosapi.controller;
 
-import br.com.codenation.centralerrosapi.models.Error;
-import br.com.codenation.centralerrosapi.services.ErrorService;
+import br.com.codenation.centralerrosapi.model.Error;
+import br.com.codenation.centralerrosapi.service.ErrorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

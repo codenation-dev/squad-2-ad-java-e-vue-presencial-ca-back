@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.models;
+package br.com.codenation.centralerrosapi.model;
 
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -30,6 +30,7 @@ public class Error implements Serializable {
     private String title;
 
     @NotNull
+    @Lob
     private String detail;
 
     @NotNull

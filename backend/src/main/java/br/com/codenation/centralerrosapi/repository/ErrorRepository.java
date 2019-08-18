@@ -1,6 +1,6 @@
-package br.com.codenation.centralerrosapi.repositories;
+package br.com.codenation.centralerrosapi.repository;
 
-import br.com.codenation.centralerrosapi.models.Error;
+import br.com.codenation.centralerrosapi.model.Error;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

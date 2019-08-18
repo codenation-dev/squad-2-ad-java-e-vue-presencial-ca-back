@@ -24,7 +24,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("br.com.codenation.centralerrosapi.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("br.com.codenation.centralerrosapi.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

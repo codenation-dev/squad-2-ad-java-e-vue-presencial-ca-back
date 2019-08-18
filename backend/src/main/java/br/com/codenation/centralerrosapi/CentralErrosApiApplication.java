@@ -1,17 +1,15 @@
 package br.com.codenation.centralerrosapi;
 
-import br.com.codenation.centralerrosapi.models.Error;
-import br.com.codenation.centralerrosapi.models.ErrorEnvironment;
-import br.com.codenation.centralerrosapi.models.ErrorLevel;
-import br.com.codenation.centralerrosapi.repositories.ErrorRepository;
+import br.com.codenation.centralerrosapi.model.Error;
+import br.com.codenation.centralerrosapi.model.ErrorEnvironment;
+import br.com.codenation.centralerrosapi.model.ErrorLevel;
+import br.com.codenation.centralerrosapi.repository.ErrorRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @EnableJpaAuditing

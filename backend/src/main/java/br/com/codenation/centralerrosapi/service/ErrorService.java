@@ -1,7 +1,8 @@
-package br.com.codenation.centralerrosapi.services;
+package br.com.codenation.centralerrosapi.service;
 
-import br.com.codenation.centralerrosapi.models.Error;
-import br.com.codenation.centralerrosapi.repositories.ErrorRepository;
+import br.com.codenation.centralerrosapi.model.Error;
+import br.com.codenation.centralerrosapi.repository.ErrorRepository;
+import br.com.codenation.centralerrosapi.service.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,6 @@ public class ErrorService {
     }
 
     public Error findById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new NoResultException("Error not found with the specified id"));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Error not found with the specified id"));
     }
 }
