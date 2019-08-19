@@ -57,7 +57,7 @@ The app will start running at <http://localhost:8080>.
 
 ## API Documentation
 
-Pending
+http://localhost:8080/api/swagger-ui.html
 
 ## Explore Rest APIs
 

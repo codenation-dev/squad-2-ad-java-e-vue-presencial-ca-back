@@ -1,9 +1,8 @@
-package br.com.codenation.centralerrosapi.controllers.exceptions;
+package br.com.codenation.centralerrosapi.controller.exception;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
