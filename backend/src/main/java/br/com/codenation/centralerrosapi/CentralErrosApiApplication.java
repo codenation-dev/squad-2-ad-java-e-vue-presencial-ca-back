@@ -42,7 +42,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.environment(ErrorEnvironment.TEST)
 				.level(ErrorLevel.ERROR)
 				.events(100)
-				.archived(false)
+				.archived(true)
 				.build();
 
 		Error e3 = new Error()
