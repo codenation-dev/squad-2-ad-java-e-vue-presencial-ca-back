@@ -23,31 +23,31 @@ public class ErrorController {
     @Autowired
     private ErrorService service;
 
-    @ApiOperation(value = "Return list all errors", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return list all errors")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Return all errors", response = Error.class, responseContainer = "List")
     })
-    @GetMapping
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<Error> listAll() {
         return service.listAll();
     }
 
-    @ApiOperation(value = "Return error by ID", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return error by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Return error by ID", response = Error.class),
             @ApiResponse(code = 404, message = "Error not found", response = StandardError.class)
     })
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private Error getById(@PathVariable UUID id) {
         return service.findById(id);
     }
 
-    @ApiOperation(value = "Unarchive error by ID", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Unarchive error by ID")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Unarchive error by ID", response = Error.class),
             @ApiResponse(code = 404, message = "Error not found", response = StandardError.class)
     })
-    @PostMapping("/{id}/unarchive")
+    @PostMapping(value = "/{id}/unarchive", produces = MediaType.APPLICATION_JSON_VALUE)
     private Error unarchive(@PathVariable UUID id) {
         return service.unarchive(id);
     }
