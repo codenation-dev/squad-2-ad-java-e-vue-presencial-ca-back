@@ -23,4 +23,11 @@ public class ErrorService {
     public Error findById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Error not found with the specified id"));
     }
+
+    public Error unarchive(UUID id) {
+        Error error = findById(id);
+        error.setArchived(false);
+        return repository.save(error);
+    }
+
 }
