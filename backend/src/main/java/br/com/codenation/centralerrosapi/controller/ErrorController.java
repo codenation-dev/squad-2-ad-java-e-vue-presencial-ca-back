@@ -52,4 +52,13 @@ public class ErrorController {
         return service.unarchive(id);
     }
 
+    @ApiOperation(value = "Archive error by ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Archive error by ID", response = Error.class),
+            @ApiResponse(code = 404, message = "Error not found", response = StandardError.class)
+    })
+    @PostMapping(value = "/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    private Error archive(@PathVariable UUID id){
+        return service.archive(id);
+    }
 }
