@@ -30,4 +30,9 @@ public class ErrorService {
         return repository.save(error);
     }
 
+    public Error archive(UUID id) {
+        Error error = findById(id);
+        error.setArchived(true);
+        return repository.save(error);
+    }
 }
