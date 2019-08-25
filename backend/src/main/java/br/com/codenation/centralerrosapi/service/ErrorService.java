@@ -4,6 +4,10 @@ import br.com.codenation.centralerrosapi.model.Error;
 import br.com.codenation.centralerrosapi.repository.ErrorRepository;
 import br.com.codenation.centralerrosapi.service.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
@@ -16,8 +20,9 @@ public class ErrorService {
 
     private ErrorRepository repository;
 
-    public List<Error> listAll() {
-        return repository.findAll();
+    public Page<Error> listAll(Integer page, Integer size, String sort) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, sort);
+        return repository.findAll(pageRequest);
     }
 
     public Error findById(UUID id) {
