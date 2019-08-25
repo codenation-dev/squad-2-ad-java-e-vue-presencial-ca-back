@@ -61,12 +61,13 @@ http://localhost:8080/api/swagger-ui.html
 
 ## Explore Rest APIs
 
-URL                     | HTTP Verb      | Result 
------------------------ | -------------- | -------------
-/api/errors             | POST           | Add error
-/api/errors             | GET            | Return all errors
-/api/errors/:id         | GET            | Return error by ID
-/api/errors/:id         | DELETE         | Delete error
-/api/errors/:id/archive | POST           | Archive error
+URL                       | HTTP Verb      | Result 
+------------------------- | -------------- | -------------
+/api/errors               | POST           | Add error
+/api/errors               | GET            | Return all errors
+/api/errors/:id           | GET            | Return error by ID
+/api/errors/:id           | DELETE         | Delete error
+/api/errors/:id/archive   | POST           | Archive error
+/api/errors/:id/unarchive | POST           | Unarchive error
 
 You can test them using postman or any other rest client.
