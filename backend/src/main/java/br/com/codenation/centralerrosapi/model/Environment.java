@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.model;
 
-public enum ErrorEnvironment {
+public enum Environment {
 
     DEVELOPMENT, TEST, PRODUCTION
 
