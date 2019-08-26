@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.model;
+package br.com.codenation.centralerrosapi.model.enums;
 
 public enum Environment {
 

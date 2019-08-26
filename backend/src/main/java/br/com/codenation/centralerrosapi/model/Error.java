@@ -1,5 +1,7 @@
 package br.com.codenation.centralerrosapi.model;
 
+import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.enums.Level;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

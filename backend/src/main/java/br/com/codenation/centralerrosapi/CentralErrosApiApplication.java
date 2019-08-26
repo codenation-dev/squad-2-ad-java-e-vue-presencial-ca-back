@@ -1,8 +1,8 @@
 package br.com.codenation.centralerrosapi;
 
 import br.com.codenation.centralerrosapi.model.Error;
-import br.com.codenation.centralerrosapi.model.Environment;
-import br.com.codenation.centralerrosapi.model.Level;
+import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.enums.Level;
 import br.com.codenation.centralerrosapi.repository.ErrorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
