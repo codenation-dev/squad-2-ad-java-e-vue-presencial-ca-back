@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Error extends Auditable<String> implements Serializable {
+public class Log extends Auditable<String> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

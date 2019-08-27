@@ -1,9 +1,9 @@
 package br.com.codenation.centralerrosapi;
 
-import br.com.codenation.centralerrosapi.model.Error;
+import br.com.codenation.centralerrosapi.model.Log;
 import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
-import br.com.codenation.centralerrosapi.repository.ErrorRepository;
+import br.com.codenation.centralerrosapi.repository.LogRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public class CentralErrosApiApplication implements CommandLineRunner {
 
-	private ErrorRepository repository;
+	private LogRepository repository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CentralErrosApiApplication.class, args);
@@ -23,7 +23,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Error e1 = new Error()
+		Log e1 = new Log()
 				.builder()
 				.title("Título do erro 1")
 				.detail("Detalhe do erro 1")
@@ -34,7 +34,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.archived(false)
 				.build();
 
-		Error e2 = new Error()
+		Log e2 = new Log()
 				.builder()
 				.title("Título do erro 2")
 				.detail("Detalhe do erro 2")
@@ -45,7 +45,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.archived(true)
 				.build();
 
-		Error e3 = new Error()
+		Log e3 = new Log()
 				.builder()
 				.title("Título do erro 3")
 				.detail("Detalhe do erro 3")
