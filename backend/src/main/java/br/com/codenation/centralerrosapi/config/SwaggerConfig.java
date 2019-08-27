@@ -33,8 +33,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Centralizador de Erros REST API")
-                .description("Projeto desenvolvimento no programa de aceleração da Codenation para a empresa Conta Azul")
+                .title("API Rest Centralizador de Erros")
+                .description("Web Service API para centralizar erros de aplicações")
                 .version("1.0.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
