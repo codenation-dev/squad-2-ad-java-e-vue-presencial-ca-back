@@ -1,5 +1,7 @@
 package br.com.codenation.centralerrosapi.model;
 
+import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.enums.Level;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -34,12 +36,15 @@ public class Error implements Serializable {
     private String detail;
 
     @NotNull
-    @Enumerated(value = EnumType.STRING)
-    private ErrorEnvironment environment;
+    private String host;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
-    private ErrorLevel level;
+    private Environment environment;
+
+    @NotNull
+    @Enumerated(value = EnumType.STRING)
+    private Level level;
 
     @NotNull
     private Integer events;

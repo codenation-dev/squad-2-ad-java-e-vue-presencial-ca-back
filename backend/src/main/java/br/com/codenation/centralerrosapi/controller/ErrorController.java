@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,10 @@ public class ErrorController {
             @ApiResponse(code = 200, message = "Return all errors", response = Error.class, responseContainer = "List")
     })
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<Error> listAll() {
-        return service.listAll();
+    private Page<Error> listAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+                                @RequestParam(value = "sort", required = false, defaultValue = "id") String sort) {
+        return service.listAll(page, size, sort);
     }
 
     @ApiOperation(value = "Return error by ID")

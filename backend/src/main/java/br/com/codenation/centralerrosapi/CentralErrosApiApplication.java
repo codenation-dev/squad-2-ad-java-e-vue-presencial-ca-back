@@ -1,8 +1,8 @@
 package br.com.codenation.centralerrosapi;
 
 import br.com.codenation.centralerrosapi.model.Error;
-import br.com.codenation.centralerrosapi.model.ErrorEnvironment;
-import br.com.codenation.centralerrosapi.model.ErrorLevel;
+import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.enums.Level;
 import br.com.codenation.centralerrosapi.repository.ErrorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -29,8 +29,9 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.builder()
 				.title("Título do erro 1")
 				.detail("Detalhe do erro 1")
-				.environment(ErrorEnvironment.DEVELOPMENT)
-				.level(ErrorLevel.DEBUG)
+				.host("127.0.0.1")
+				.environment(Environment.DEVELOPMENT)
+				.level(Level.DEBUG)
 				.events(100)
 				.archived(false)
 				.build();
@@ -39,8 +40,9 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.builder()
 				.title("Título do erro 2")
 				.detail("Detalhe do erro 2")
-				.environment(ErrorEnvironment.TEST)
-				.level(ErrorLevel.ERROR)
+				.host("127.0.0.1")
+				.environment(Environment.TEST)
+				.level(Level.ERROR)
 				.events(100)
 				.archived(true)
 				.build();
@@ -49,8 +51,9 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.builder()
 				.title("Título do erro 3")
 				.detail("Detalhe do erro 3")
-				.environment(ErrorEnvironment.PRODUCTION)
-				.level(ErrorLevel.WARNING)
+				.host("127.0.0.1")
+				.environment(Environment.PRODUCTION)
+				.level(Level.WARNING)
 				.events(100)
 				.archived(false)
 				.build();
