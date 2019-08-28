@@ -2,37 +2,30 @@ package br.com.codenation.centralerrosapi.model;
 
 import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
-import io.swagger.annotations.ApiModel;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogDetails implements Serializable {
+public class Server implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Lob
-    private String description;
-
-    @NotNull
-    private LocalDateTime date;
+    private String host;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
-    private Level level;
+    private Environment environment;
 
-    @NotNull
-    private Integer events;
-
-    @Embedded
-    Server server;
 
 }
