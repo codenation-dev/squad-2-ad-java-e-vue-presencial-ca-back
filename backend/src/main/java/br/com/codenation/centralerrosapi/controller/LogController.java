@@ -63,7 +63,7 @@ public class LogController {
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
-    @PostMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private Log archive(@PathVariable UUID id){
         return service.archive(id);
     }
