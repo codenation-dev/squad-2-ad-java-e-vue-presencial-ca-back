@@ -3,6 +3,7 @@ package br.com.codenation.centralerrosapi.model;
 import br.com.codenation.centralerrosapi.audit.Auditable;
 import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import org.hibernate.annotations.LazyToOne;
@@ -22,6 +23,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@JsonPropertyOrder({
+        "id",
+        "title",
+        "details",
+        "archived",
+        "createdDate",
+        "createdBy",
+        "lastModifiedDate",
+        "lastModifiedBy"
+})
 public class Log extends Auditable<String> implements Serializable {
     private static final long serialVersionUID = 1L;
 
