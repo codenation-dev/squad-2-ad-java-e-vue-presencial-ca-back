@@ -78,7 +78,7 @@ public class LogController {
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
-    @PostMapping(value = "/logs/{id}/unarchive", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/logs/{id}/unarchive", produces = MediaType.APPLICATION_JSON_VALUE)
     private Log unarchive(@PathVariable UUID id) {
         return service.unarchive(id);
     }
