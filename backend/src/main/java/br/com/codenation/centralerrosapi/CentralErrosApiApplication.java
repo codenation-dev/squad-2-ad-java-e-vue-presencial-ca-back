@@ -1,6 +1,7 @@
 package br.com.codenation.centralerrosapi;
 
 import br.com.codenation.centralerrosapi.model.Log;
+import br.com.codenation.centralerrosapi.model.LogDetails;
 import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
 import br.com.codenation.centralerrosapi.repository.LogRepository;
@@ -23,39 +24,40 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Log e1 = new Log()
+
+		LogDetails details1 = new LogDetails()
 				.builder()
-				.title("Título do erro 1")
-				.detail("Detalhe do erro 1")
+				.detail("Detalhe do log 1")
 				.host("127.0.0.1")
 				.environment(Environment.DEVELOPMENT)
 				.level(Level.DEBUG)
 				.events(100)
-				.archived(false)
 				.build();
 
-		Log e2 = new Log()
+		Log log1 = new Log().builder().title("Título do log 1").archived(false).details(details1).build();
+
+		LogDetails details2 = new LogDetails()
 				.builder()
-				.title("Título do erro 2")
-				.detail("Detalhe do erro 2")
+				.detail("Detalhe do log 2")
 				.host("127.0.0.1")
 				.environment(Environment.TEST)
 				.level(Level.ERROR)
 				.events(100)
-				.archived(true)
 				.build();
 
-		Log e3 = new Log()
+		Log log2 = new Log().builder().title("Título do erro 2").archived(true).details(details2).build();
+
+		LogDetails details3 = new LogDetails()
 				.builder()
-				.title("Título do erro 3")
-				.detail("Detalhe do erro 3")
+				.detail("Detalhe do log 3")
 				.host("127.0.0.1")
 				.environment(Environment.PRODUCTION)
 				.level(Level.WARNING)
 				.events(100)
-				.archived(false)
 				.build();
 
-		repository.saveAll(Arrays.asList(e1, e2, e3));
+		Log log3 = new Log().builder().title("Título do erro 3").archived(false).details(details3).build();
+
+		repository.saveAll(Arrays.asList(log1, log2, log3));
 	}
 }

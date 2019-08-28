@@ -1,13 +1,9 @@
 package br.com.codenation.centralerrosapi.model;
 
-import br.com.codenation.centralerrosapi.audit.Auditable;
 import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,14 +11,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @ApiModel
-@Getter
-@Setter
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Log extends Auditable<String> implements Serializable {
+public class LogDetails implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -30,13 +24,21 @@ public class Log extends Auditable<String> implements Serializable {
     private UUID id;
 
     @NotNull
-    private String title;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "log_id")
-    private LogDetails details;
+    @Lob
+    private String detail;
 
     @NotNull
-    private Boolean archived;
+    private String host;
+
+    @NotNull
+    @Enumerated(value = EnumType.STRING)
+    private Environment environment;
+
+    @NotNull
+    @Enumerated(value = EnumType.STRING)
+    private Level level;
+
+    @NotNull
+    private Integer events;
 
 }
