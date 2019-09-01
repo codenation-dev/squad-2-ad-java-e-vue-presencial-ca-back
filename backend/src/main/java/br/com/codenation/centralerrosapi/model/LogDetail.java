@@ -1,38 +1,38 @@
 package br.com.codenation.centralerrosapi.model;
 
-import br.com.codenation.centralerrosapi.model.enums.Environment;
 import br.com.codenation.centralerrosapi.model.enums.Level;
-import io.swagger.annotations.ApiModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogDetails implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Getter
+@Setter
+@Entity
+public class LogDetail {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     @NotNull
-    @Lob
-    private String description;
+    private String line;
 
     @NotNull
-    private LocalDateTime date;
+    private LocalDateTime timestamp;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
     private Level level;
 
-    @NotNull
-    private Integer events;
-
-    @Embedded
-    Server server;
+    @ManyToOne
+    @JsonBackReference
+    private Log log;
 
 }
