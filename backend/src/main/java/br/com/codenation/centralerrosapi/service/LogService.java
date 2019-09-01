@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -17,9 +18,8 @@ public class LogService {
 
     private LogRepository repository;
 
-    public Page<Log> listAll(Integer page, Integer size, String sort) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.ASC, sort);
-        return repository.findAll(pageRequest);
+    public List<Log> listAll() {
+        return repository.findAll();
     }
 
     public Log findById(UUID id) {

@@ -1,26 +1,35 @@
 package br.com.codenation.centralerrosapi.controller;
 
 import br.com.codenation.centralerrosapi.controller.exception.ErrorMessage;
+import br.com.codenation.centralerrosapi.dto.LogDTO;
+import br.com.codenation.centralerrosapi.dto.LogDetailDTO;
+import br.com.codenation.centralerrosapi.mappers.LogDetailMapper;
+import br.com.codenation.centralerrosapi.mappers.LogMapper;
 import br.com.codenation.centralerrosapi.model.Log;
 import br.com.codenation.centralerrosapi.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InvalidObjectException;
+import java.util.List;
 import java.util.UUID;
 
-@RestController
 @Api(value = "Logs")
+@AllArgsConstructor
+@RestController
 @RequestMapping(value="/api/v1")
 public class LogController {
 
-    @Autowired
     private LogService service;
+    private LogMapper mapper;
+    private LogDetailMapper mapperDetail;
 
     @ApiOperation(
             value = "Recupera todos os logs cadastrados",
@@ -32,10 +41,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
     @GetMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Page<Log> listAll(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                              @RequestParam(value = "per_page", required = false, defaultValue = "10") Integer per_page,
-                              @RequestParam(value = "sort", required = false, defaultValue = "id") String sort) {
-        return service.listAll(page, per_page, sort);
+    private List<LogDTO> listAll() {
+        return mapper.map(service.listAll());
     }
 
     @ApiOperation(
@@ -49,8 +56,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
     @GetMapping(value = "/logs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Log getById(@PathVariable UUID id) {
-        return service.findById(id);
+    private LogDetailDTO getById(@PathVariable UUID id) {
+        return mapperDetail.toDto(service.findById(id));
     }
 
     @ApiOperation(
@@ -64,8 +71,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
     @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Log archive(@PathVariable UUID id){
-        return service.archive(id);
+    private LogDTO archive(@PathVariable UUID id){
+        return mapper.map(service.archive(id));
     }
 
     @ApiOperation(
@@ -79,8 +86,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
     @DeleteMapping(value = "/logs/{id}/unarchive", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Log unarchive(@PathVariable UUID id) {
-        return service.unarchive(id);
+    private LogDTO unarchive(@PathVariable UUID id) {
+        return mapper.map(service.unarchive(id));
     }
 
 }
