@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.model;
 
-import br.com.codenation.centralerrosapi.model.enums.Level;
+import br.com.codenation.centralerrosapi.model.enums.Environment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,22 +9,22 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class LogDetail {
+public class LogServer {
+
+    private String hostname;
+
+    private String ip;
 
     @NotNull
-    private LocalDateTime timestamp;
+    private String application;
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
-    private Level level;
-
-    @NotNull
-    private String content;
+    private Environment environment;
 
 }

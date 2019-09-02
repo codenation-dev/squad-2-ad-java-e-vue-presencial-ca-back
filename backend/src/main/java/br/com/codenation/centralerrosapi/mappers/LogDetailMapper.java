@@ -14,7 +14,7 @@ public interface LogDetailMapper {
 	public LogDetailDTO toDto(Log entity);
 
 	@Mappings({
-			@Mapping(source = "details", target = "details"),
+			@Mapping(source = "detail", target = "detail"),
 	})
 	public Log toEntity(LogDetailDTO dto) throws InvalidObjectException;
 

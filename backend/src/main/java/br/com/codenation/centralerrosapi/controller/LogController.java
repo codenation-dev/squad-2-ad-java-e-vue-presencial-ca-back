@@ -12,12 +12,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InvalidObjectException;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +33,7 @@ public class LogController {
             notes = "Método utilizado para recuperar todos os logs cadastrados."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Page.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "OK", response = LogDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })

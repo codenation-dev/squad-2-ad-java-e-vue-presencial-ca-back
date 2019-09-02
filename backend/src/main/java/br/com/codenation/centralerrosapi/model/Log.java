@@ -1,20 +1,14 @@
 package br.com.codenation.centralerrosapi.model;
 
 import br.com.codenation.centralerrosapi.audit.Auditable;
-import br.com.codenation.centralerrosapi.model.enums.Environment;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import io.swagger.annotations.ApiModel;
-import lombok.*;
-import org.aspectj.lang.annotation.DeclareAnnotation;
-import org.hibernate.annotations.Cascade;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -33,24 +27,12 @@ public class Log extends Auditable<String> {
     private String title;
 
     @Embedded
-    private Server server;
+    private LogServer server;
 
-    @NotNull
-    private String application;
-
-    @NotNull
-    @Enumerated(value = EnumType.STRING)
-    private Environment environment;
-
-    @OneToMany(mappedBy = "log")
-    @JsonManagedReference
-    private List<LogDetail> details;
+    @Embedded
+    private LogDetail detail;
 
     @NotNull
     private Boolean archived;
-
-    public Integer getEvents() {
-        return this.details.size();
-    }
 
 }
