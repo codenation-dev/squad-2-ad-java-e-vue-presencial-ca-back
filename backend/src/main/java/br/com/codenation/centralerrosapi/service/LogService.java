@@ -25,19 +25,19 @@ public class LogService {
 
     public List<Log> findByTitleIgnoreCaseContaining(String title) {
         return repository.findByTitleIgnoreCaseContaining(title);
-    };
+    }
 
     public List<Log> findByIpContaining(String ip) {
         return repository.findByServerIpContaining(ip);
-    };
+    }
 
     public List<Log> findByApplicationIgnoreCaseContaining(String application) {
-        return repository.findByApplicationIgnoreCaseContaining(application);
-    };
+        return repository.findByServerApplicationIgnoreCaseContaining(application);
+    }
 
     public List<Log> findByEnvironmentIgnoreCaseContaining(String environment) {
         return repository.findByEnvironmentIgnoreCaseContaining(environment);
-    };
+    }
 
     public Log unarchive(UUID id) {
         Log error = findById(id);

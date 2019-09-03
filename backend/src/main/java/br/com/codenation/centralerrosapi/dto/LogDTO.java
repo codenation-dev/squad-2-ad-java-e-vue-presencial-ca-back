@@ -1,7 +1,6 @@
 package br.com.codenation.centralerrosapi.dto;
 
-import br.com.codenation.centralerrosapi.model.Server;
-import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.LogServer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,15 +15,9 @@ public class LogDTO {
 
     private String title;
 
-    private Server server;
-
-    private String application;
-
-    private Environment environment;
+    private LogServer server;
 
     private Boolean archived;
-
-    private Integer events;
 
     private LocalDateTime createdDate;
 
