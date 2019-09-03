@@ -23,11 +23,11 @@ public class LogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
     }
 
-    public List<Log> findByTitleIgnoreCaseContaining(String title) {
+    public List<Log> findByTitle(String title) {
         return repository.findByTitleIgnoreCaseContaining(title);
     }
 
-    public List<Log> findByIpContaining(String ip) {
+    public List<Log> findByIp(String ip) {
         return repository.findByServerIpContaining(ip);
     }
 
@@ -35,11 +35,11 @@ public class LogService {
         return repository.findByDetailLevelIgnoreCaseContaining(level);
     }
 
-    public List<Log> findByApplicationIgnoreCaseContaining(String application) {
+    public List<Log> findByApplication(String application) {
         return repository.findByServerApplicationIgnoreCaseContaining(application);
     }
 
-    public List<Log> findByEnvironmentIgnoreCaseContaining(String environment) {
+    public List<Log> findByEnvironment(String environment) {
         return repository.findByEnvironmentIgnoreCaseContaining(environment);
     }
 
