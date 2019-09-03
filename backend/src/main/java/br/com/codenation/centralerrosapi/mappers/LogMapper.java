@@ -14,12 +14,11 @@ public interface LogMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "title", target = "title"),
-            @Mapping(source = "application", target = "application"),
-            @Mapping(source = "environment", target = "environment"),
-            @Mapping(source = "events", target = "events"),
-            @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "server.hostname", target = "server.hostname"),
             @Mapping(source = "server.ip", target = "server.ip"),
+            @Mapping(source = "server.application", target = "server.application"),
+            @Mapping(source = "server.environment", target = "server.environment"),
+            @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "createdDate", target = "createdDate", dateFormat = "yyyy-MM-dd HH:mm")
     })
     LogDTO map(Log log);
