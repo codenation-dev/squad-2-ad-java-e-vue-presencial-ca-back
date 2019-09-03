@@ -12,13 +12,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InvalidObjectException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Api(value = "Logs")
@@ -41,8 +40,17 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
     @GetMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<LogDTO> listAll() {
-        return mapper.map(service.listAll());
+    private List<LogDTO> find(@RequestParam Optional<String> title,
+                              @RequestParam Optional<String> ip,
+                              @RequestParam Optional<String> application,
+                              @RequestParam Optional<String> environment) {
+
+        if (title.isPresent()) return mapper.map(service.findByTitleIgnoreCaseContaining(title.get()));
+        if (ip.isPresent()) return mapper.map(service.findByIpContaining(ip.get()));
+        if (application.isPresent()) return mapper.map(service.findByApplicationIgnoreCaseContaining(application.get()));
+        if (environment.isPresent()) return mapper.map(service.findByEnvironmentIgnoreCaseContaining(environment.get()));
+
+        return mapper.map(service.findAll());
     }
 
     @ApiOperation(
