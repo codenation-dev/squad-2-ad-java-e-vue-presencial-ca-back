@@ -42,12 +42,14 @@ public class LogController {
     private List<LogDTO> find(@RequestParam Optional<String> title,
                               @RequestParam Optional<String> ip,
                               @RequestParam Optional<String> application,
-                              @RequestParam Optional<String> environment) {
+                              @RequestParam Optional<String> environment,
+                              @RequestParam Optional<String> level) {
 
         if (title.isPresent()) return mapper.map(service.findByTitleIgnoreCaseContaining(title.get()));
         if (ip.isPresent()) return mapper.map(service.findByIpContaining(ip.get()));
         if (application.isPresent()) return mapper.map(service.findByApplicationIgnoreCaseContaining(application.get()));
         if (environment.isPresent()) return mapper.map(service.findByEnvironmentIgnoreCaseContaining(environment.get()));
+        if (level.isPresent()) return mapper.map(service.findByLevel(level.get()));
 
         return mapper.map(service.findAll());
     }

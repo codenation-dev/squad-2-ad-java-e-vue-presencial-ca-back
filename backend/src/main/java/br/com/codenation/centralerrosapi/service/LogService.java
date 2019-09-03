@@ -31,6 +31,10 @@ public class LogService {
         return repository.findByServerIpContaining(ip);
     }
 
+    public List<Log> findByLevel(String level) {
+        return repository.findByDetailLevelIgnoreCaseContaining(level);
+    }
+
     public List<Log> findByApplicationIgnoreCaseContaining(String application) {
         return repository.findByServerApplicationIgnoreCaseContaining(application);
     }
