@@ -59,7 +59,7 @@ public class LogController {
             notes = "Método utilizado para recuperar um log específico."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Log.class),
+            @ApiResponse(code = 200, message = "OK", response = LogDetailDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
@@ -74,7 +74,7 @@ public class LogController {
             notes = "Método utilizado para arquivar um log específico."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Log arquivado", response = Log.class),
+            @ApiResponse(code = 200, message = "Log arquivado", response = LogDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
@@ -89,7 +89,7 @@ public class LogController {
             notes = "Método utilizado para desarquivar um log específico."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Log desarquivado", response = Log.class),
+            @ApiResponse(code = 200, message = "Log desarquivado", response = LogDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
