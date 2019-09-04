@@ -28,15 +28,15 @@ public class LogService {
     }
 
     public List<Log> findByIp(String ip) {
-        return repository.findByServerIpContaining(ip);
+        return repository.findByApplicationIpContaining(ip);
     }
 
     public List<Log> findByLevel(String level) {
         return repository.findByDetailLevelIgnoreCaseContaining(level);
     }
 
-    public List<Log> findByApplication(String application) {
-        return repository.findByServerApplicationIgnoreCaseContaining(application);
+    public List<Log> findByApplicationName(String name) {
+        return repository.findByApplicationNameIgnoreCaseContaining(name);
     }
 
     public List<Log> findByEnvironment(String environment) {

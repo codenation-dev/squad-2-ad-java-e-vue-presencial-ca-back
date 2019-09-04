@@ -27,7 +27,7 @@ public class Log extends Auditable<String> {
     private String title;
 
     @Embedded
-    private LogServer server;
+    private LogApplication application;
 
     @Embedded
     private LogDetail detail;

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
@@ -14,16 +15,22 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogServer {
+public class LogApplication {
 
-    private String hostname;
+    @NotNull
+    @Column(name = "app_name")
+    private String name;
 
+    @NotNull
+    @Column(name = "app_host")
+    private String host;
+
+    @NotNull
+    @Column(name = "app_ip")
     private String ip;
 
     @NotNull
-    private String application;
-
-    @NotNull
+    @Column(name = "app_environment")
     @Enumerated(value = EnumType.STRING)
     private Environment environment;
 

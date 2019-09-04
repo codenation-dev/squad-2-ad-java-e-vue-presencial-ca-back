@@ -41,13 +41,13 @@ public class LogController {
     @GetMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<LogDTO> find(@RequestParam Optional<String> title,
                               @RequestParam Optional<String> ip,
-                              @RequestParam Optional<String> application,
+                              @RequestParam Optional<String> appName,
                               @RequestParam Optional<String> environment,
                               @RequestParam Optional<String> level) {
 
         if (title.isPresent()) return mapper.map(service.findByTitle(title.get()));
         if (ip.isPresent()) return mapper.map(service.findByIp(ip.get()));
-        if (application.isPresent()) return mapper.map(service.findByApplication(application.get()));
+        if (appName.isPresent()) return mapper.map(service.findByApplicationName(appName.get()));
         if (environment.isPresent()) return mapper.map(service.findByEnvironment(environment.get()));
         if (level.isPresent()) return mapper.map(service.findByLevel(level.get()));
 
