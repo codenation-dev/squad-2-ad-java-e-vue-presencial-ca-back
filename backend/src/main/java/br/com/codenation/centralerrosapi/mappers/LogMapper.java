@@ -16,7 +16,7 @@ public interface LogMapper {
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "application.name", target = "application.name"),
             @Mapping(source = "application.environment", target = "application.environment"),
-            @Mapping(source = "application.hostname", target = "application.hostname"),
+            @Mapping(source = "application.host", target = "application.host"),
             @Mapping(source = "application.ip", target = "application.ip"),
             @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "createdDate", target = "createdDate", dateFormat = "yyyy-MM-dd HH:mm")
