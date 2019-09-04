@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.config;
+package br.com.codenation.centralerrosapi.config.jpa;
 
 
 import br.com.codenation.centralerrosapi.audit.AuditorAwareImpl;

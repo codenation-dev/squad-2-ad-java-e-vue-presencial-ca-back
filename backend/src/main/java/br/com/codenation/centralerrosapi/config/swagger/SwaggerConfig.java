@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.config;
+package br.com.codenation.centralerrosapi.config.swagger;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
