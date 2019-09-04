@@ -14,10 +14,10 @@ public interface LogMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "title", target = "title"),
-            @Mapping(source = "server.hostname", target = "server.hostname"),
-            @Mapping(source = "server.ip", target = "server.ip"),
-            @Mapping(source = "server.application", target = "server.application"),
-            @Mapping(source = "server.environment", target = "server.environment"),
+            @Mapping(source = "application.name", target = "application.name"),
+            @Mapping(source = "application.environment", target = "application.environment"),
+            @Mapping(source = "application.hostname", target = "application.hostname"),
+            @Mapping(source = "application.ip", target = "application.ip"),
             @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "createdDate", target = "createdDate", dateFormat = "yyyy-MM-dd HH:mm")
     })

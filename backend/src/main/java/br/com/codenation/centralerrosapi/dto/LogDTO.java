@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.dto;
 
-import br.com.codenation.centralerrosapi.model.LogServer;
+import br.com.codenation.centralerrosapi.model.LogApplication;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +15,7 @@ public class LogDTO {
 
     private String title;
 
-    private LogServer server;
+    private LogApplication application;
 
     private Boolean archived;
 
