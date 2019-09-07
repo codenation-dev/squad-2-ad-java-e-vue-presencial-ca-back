@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.controller.exception;
+package br.com.codenation.centralerrosapi.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorMessage implements Serializable {
+public class ErrorMessageDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long timestamp;

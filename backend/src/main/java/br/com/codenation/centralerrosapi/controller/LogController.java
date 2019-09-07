@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.controller;
 
-import br.com.codenation.centralerrosapi.controller.exception.ErrorMessage;
+import br.com.codenation.centralerrosapi.dto.ErrorMessageDTO;
 import br.com.codenation.centralerrosapi.dto.LogDTO;
 import br.com.codenation.centralerrosapi.dto.LogDetailDTO;
 import br.com.codenation.centralerrosapi.mappers.LogDetailMapper;
@@ -34,8 +34,8 @@ public class LogController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = LogDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @GetMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<LogDTO> find(@RequestParam Optional<String> title,
@@ -59,9 +59,9 @@ public class LogController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = LogDetailDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
-            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @GetMapping(value = "/logs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogDetailDTO getById(@PathVariable UUID id) {
@@ -74,9 +74,9 @@ public class LogController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Log arquivado", response = LogDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
-            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogDTO archive(@PathVariable UUID id){
@@ -89,9 +89,9 @@ public class LogController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Log desarquivado", response = LogDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessage.class),
-            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @DeleteMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogDTO unarchive(@PathVariable UUID id) {
