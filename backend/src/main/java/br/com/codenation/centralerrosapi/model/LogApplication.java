@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.model;
 
-import br.com.codenation.centralerrosapi.model.enums.Environment;
+import br.com.codenation.centralerrosapi.model.enums.LogEnvironment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +32,6 @@ public class LogApplication {
     @NotNull
     @Column(name = "app_environment")
     @Enumerated(value = EnumType.STRING)
-    private Environment environment;
+    private LogEnvironment environment;
 
 }

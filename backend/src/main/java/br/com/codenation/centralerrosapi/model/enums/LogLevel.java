@@ -1,7 +1,7 @@
 package br.com.codenation.centralerrosapi.model.enums;
 
-public enum Environment {
+public enum LogLevel {
 
-    DEVELOPMENT, TEST, PRODUCTION
+    DEBUG, ERROR, WARNING;
 
 }
