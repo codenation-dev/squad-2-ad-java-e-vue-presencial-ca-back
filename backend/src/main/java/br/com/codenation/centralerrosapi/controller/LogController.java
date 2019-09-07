@@ -5,7 +5,6 @@ import br.com.codenation.centralerrosapi.dto.LogDTO;
 import br.com.codenation.centralerrosapi.dto.LogDetailDTO;
 import br.com.codenation.centralerrosapi.mappers.LogDetailMapper;
 import br.com.codenation.centralerrosapi.mappers.LogMapper;
-import br.com.codenation.centralerrosapi.model.Log;
 import br.com.codenation.centralerrosapi.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -94,7 +93,7 @@ public class LogController {
             @ApiResponse(code = 404, message = "Log não encontrado", response = ErrorMessage.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessage.class)
     })
-    @DeleteMapping(value = "/logs/{id}/unarchive", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogDTO unarchive(@PathVariable UUID id) {
         return mapper.map(service.unarchive(id));
     }
