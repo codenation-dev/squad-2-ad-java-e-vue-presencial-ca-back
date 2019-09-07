@@ -1,6 +1,6 @@
 package br.com.codenation.centralerrosapi.model;
 
-import br.com.codenation.centralerrosapi.model.enums.Level;
+import br.com.codenation.centralerrosapi.model.enums.LogLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class LogDetail {
 
     @NotNull
     @Enumerated(value = EnumType.STRING)
-    private Level level;
+    private LogLevel level;
 
     @NotNull
     private String content;

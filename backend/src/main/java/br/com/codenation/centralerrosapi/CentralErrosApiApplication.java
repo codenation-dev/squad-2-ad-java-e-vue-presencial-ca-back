@@ -3,8 +3,8 @@ package br.com.codenation.centralerrosapi;
 import br.com.codenation.centralerrosapi.model.Log;
 import br.com.codenation.centralerrosapi.model.LogApplication;
 import br.com.codenation.centralerrosapi.model.LogDetail;
-import br.com.codenation.centralerrosapi.model.enums.Environment;
-import br.com.codenation.centralerrosapi.model.enums.Level;
+import br.com.codenation.centralerrosapi.model.enums.LogEnvironment;
+import br.com.codenation.centralerrosapi.model.enums.LogLevel;
 import br.com.codenation.centralerrosapi.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -34,12 +34,12 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 				.name("central-api-rest")
 				.ip("127.0.0.1")
 				.host("java-client-test")
-				.environment(Environment.DEVELOPMENT)
+                .environment(LogEnvironment.DEVELOPMENT)
 				.build();
 
 		List<Log> logs = new ArrayList<Log>();
 		for (int i = 0; i < 25; i++) {
-			LogDetail detail = new LogDetail().builder().timestamp(timestamp).level(Level.ERROR).content("Detalhe do log " + i).build();
+            LogDetail detail = new LogDetail().builder().timestamp(timestamp).level(LogLevel.ERROR).content("Detalhe do log " + i).build();
 			Log log = new Log().builder().title("Título do log " + i).application(application).detail(detail).archived(false).build();
 			logs.add(log);
 		}
