@@ -1,8 +1,8 @@
 package br.com.codenation.centralerrosapi.service;
 
+import br.com.codenation.centralerrosapi.exception.ResourceNotFoundException;
 import br.com.codenation.centralerrosapi.model.Log;
 import br.com.codenation.centralerrosapi.repository.LogRepository;
-import br.com.codenation.centralerrosapi.service.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

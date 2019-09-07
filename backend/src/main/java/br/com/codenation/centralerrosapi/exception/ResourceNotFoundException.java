@@ -1,4 +1,4 @@
-package br.com.codenation.centralerrosapi.service.exception;
+package br.com.codenation.centralerrosapi.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

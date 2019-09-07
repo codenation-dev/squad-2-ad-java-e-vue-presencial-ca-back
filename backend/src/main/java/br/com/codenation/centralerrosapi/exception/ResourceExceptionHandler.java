@@ -1,7 +1,6 @@
-package br.com.codenation.centralerrosapi.controller.exception;
+package br.com.codenation.centralerrosapi.exception;
 
 import br.com.codenation.centralerrosapi.dto.ErrorMessageDTO;
-import br.com.codenation.centralerrosapi.service.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
