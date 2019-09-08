@@ -1,4 +1,4 @@
-# Centralizador de Erros REST API
+# LogStack
 
 ## Getting Started
 
@@ -28,12 +28,12 @@ mvn spring-boot:run
 
 Run the postgres database from the command line using: 
 ```
-docker run -d  --network=host\
-    --name central-erros-db-test \
-    -e POSTGRES_DB=db \
+docker run -d --network=host\
+    --name logstack-db \
+    -e POSTGRES_DB=logstack \
     -e POSTGRES_USER=postgres \
     -e POSTGRES_PASSWORD=postgres \
-   postgres:10.4 
+   postgres:10.4
 ```
 
 Run the application from the command line using:
@@ -43,7 +43,12 @@ mvn spring-boot:run -Dspring-boot.run.profiles=test
 
 To Stop the postgres database from the command line using:
 ```
-docker stop central-erros-db-test
+docker stop logstack-db
+```
+
+To Start again the postgres database from the command line using:
+```
+docker start logstack-db
 ```
 
 #### Production
@@ -52,22 +57,21 @@ Execute docker compose
 docker-compose up
 ```
 
-
 The app will start running at <http://localhost:8080>.
 
 ## API Documentation
 
-http://localhost:8080/api/swagger-ui.html
+http://localhost:8080/swagger-ui.html
 
 ## Explore Rest APIs
 
-URL                       | HTTP Verb      | Result 
-------------------------- | -------------- | -------------
-/api/errors               | POST           | Add error
-/api/errors               | GET            | Return all errors
-/api/errors/:id           | GET            | Return error by ID
-/api/errors/:id           | DELETE         | Delete error
-/api/errors/:id/archive   | POST           | Archive error
-/api/errors/:id/unarchive | POST           | Unarchive error
+URL                        | HTTP Verb        | Result 
+-------------------------- | ---------------- | -------------
+/api/v1/logs               | POST             | Add log
+/api/v1/logs               | GET              | Return all logs
+/api/v1/logs/:id           | GET              | Return log by ID
+/api/v1/logs/:id           | DELETE           | Delete log
+/api/v1/logs/:id/archive   | PUT              | Archive log by ID
+/api/v1/logs/:id/archive   | DELETE           | Unarchive log by ID
 
 You can test them using postman or any other rest client.
