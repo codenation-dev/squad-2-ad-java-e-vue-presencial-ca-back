@@ -39,4 +39,17 @@ public class ControllerAdviceHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(ResourceExistsException.class)
+    public ResponseEntity<ErrorMessageDTO> illegalArgument(ResourceExistsException e, HttpServletRequest r) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorMessageDTO err = ErrorMessageDTO.builder()
+                .timestamp(System.currentTimeMillis())
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .messsage(e.getMessage())
+                .path(r.getRequestURI())
+                .build();
+        return ResponseEntity.status(status).body(err);
+    }
 }
