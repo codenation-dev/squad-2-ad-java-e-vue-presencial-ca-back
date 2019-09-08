@@ -14,15 +14,29 @@ public class ControllerAdviceHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorMessageDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest r) {
 
-        ErrorMessageDTO err = new ErrorMessageDTO(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(), e.getMessage(), r.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorMessageDTO err = ErrorMessageDTO.builder()
+                .timestamp(System.currentTimeMillis())
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .messsage(e.getMessage())
+                .path(r.getRequestURI())
+                .build();
+        return ResponseEntity.status(status).body(err);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorMessageDTO> illegalArgument(IllegalArgumentException e, HttpServletRequest r) {
 
-        ErrorMessageDTO err = new ErrorMessageDTO(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), e.getMessage(), r.getRequestURI());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorMessageDTO err = ErrorMessageDTO.builder()
+                .timestamp(System.currentTimeMillis())
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .messsage(e.getMessage())
+                .path(r.getRequestURI())
+                .build();
+        return ResponseEntity.status(status).body(err);
     }
 
 }
