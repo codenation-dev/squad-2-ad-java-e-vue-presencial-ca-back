@@ -1,6 +1,5 @@
 package br.com.codenation.logstackapi.dto;
 
-import br.com.codenation.logstackapi.model.entity.LogDetail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LogDetailDTO extends LogDTO {
 
-    private LogDetail detail;
+    private String content;
 
 }

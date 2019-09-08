@@ -65,7 +65,7 @@ public class LogController {
     })
     @GetMapping(value = "/logs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogDetailDTO getById(@PathVariable UUID id) {
-        return mapperDetail.toDto(service.findById(id));
+        return mapperDetail.map(service.findById(id));
     }
 
     @ApiOperation(

@@ -18,8 +18,9 @@ public interface LogMapper {
             @Mapping(source = "application.environment", target = "application.environment"),
             @Mapping(source = "application.host", target = "application.host"),
             @Mapping(source = "application.ip", target = "application.ip"),
+            @Mapping(source = "detail.level", target = "level"),
+            @Mapping(source = "detail.timestamp", target = "timestamp"),
             @Mapping(source = "archived", target = "archived"),
-            @Mapping(source = "createdDate", target = "createdDate", dateFormat = "yyyy-MM-dd HH:mm")
     })
     LogDTO map(Log log);
 
