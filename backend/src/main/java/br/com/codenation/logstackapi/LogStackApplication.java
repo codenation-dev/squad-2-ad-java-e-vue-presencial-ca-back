@@ -1,9 +1,9 @@
 package br.com.codenation.logstackapi;
 
-import br.com.codenation.logstackapi.model.Log;
-import br.com.codenation.logstackapi.model.LogApplication;
-import br.com.codenation.logstackapi.model.LogDetail;
-import br.com.codenation.logstackapi.model.User;
+import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.LogApplication;
+import br.com.codenation.logstackapi.model.entity.LogDetail;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.repository.LogRepository;

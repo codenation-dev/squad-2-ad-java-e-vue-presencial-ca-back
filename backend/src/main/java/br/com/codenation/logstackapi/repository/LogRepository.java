@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.repository;
 
-import br.com.codenation.logstackapi.model.Log;
+import br.com.codenation.logstackapi.model.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

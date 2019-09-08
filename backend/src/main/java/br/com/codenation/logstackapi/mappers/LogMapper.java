@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.mappers;
 
 import br.com.codenation.logstackapi.dto.LogDTO;
-import br.com.codenation.logstackapi.model.Log;
+import br.com.codenation.logstackapi.model.entity.Log;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -18,8 +18,9 @@ public interface LogMapper {
             @Mapping(source = "application.environment", target = "application.environment"),
             @Mapping(source = "application.host", target = "application.host"),
             @Mapping(source = "application.ip", target = "application.ip"),
+            @Mapping(source = "detail.level", target = "level"),
+            @Mapping(source = "detail.timestamp", target = "timestamp"),
             @Mapping(source = "archived", target = "archived"),
-            @Mapping(source = "createdDate", target = "createdDate", dateFormat = "yyyy-MM-dd HH:mm")
     })
     LogDTO map(Log log);
 

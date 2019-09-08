@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
-import br.com.codenation.logstackapi.model.Log;
+import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
