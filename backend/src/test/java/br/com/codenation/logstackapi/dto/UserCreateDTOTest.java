@@ -13,9 +13,11 @@ public class UserCreateDTOTest {
     }
 
     @Test
-    public void NaoDeveRetornarDTONulo() {
+    public void deveRetornarDTOPreenchido() {
         UserCreateDTO dto = new UserCreateDTO();
         dto.setFullName("Nome");
+        dto.setPassword("teste123");
+        dto.setEmail("email@example.com");
         assertThat(dto.isNull()).isFalse();
     }
 }
