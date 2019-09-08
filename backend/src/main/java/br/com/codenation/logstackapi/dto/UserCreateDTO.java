@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +29,7 @@ public class UserCreateDTO {
     @NotNull
     private String password;
 
+    public boolean isNull() {
+        return Stream.of(fullName, email, password).allMatch(Objects::isNull);
+    }
 }
