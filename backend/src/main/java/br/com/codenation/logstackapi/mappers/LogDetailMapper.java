@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.mappers;
 
 import br.com.codenation.logstackapi.dto.LogDetailDTO;
-import br.com.codenation.logstackapi.model.Log;
+import br.com.codenation.logstackapi.model.entity.Log;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

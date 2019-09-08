@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.service;
 
-import br.com.codenation.logstackapi.model.User;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

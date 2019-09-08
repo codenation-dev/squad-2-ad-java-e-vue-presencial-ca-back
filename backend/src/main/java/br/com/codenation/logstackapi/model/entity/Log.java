@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.model;
+package br.com.codenation.logstackapi.model.entity;
 
 import br.com.codenation.logstackapi.audit.Auditable;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.repository;
 
-import br.com.codenation.logstackapi.model.User;
+import br.com.codenation.logstackapi.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

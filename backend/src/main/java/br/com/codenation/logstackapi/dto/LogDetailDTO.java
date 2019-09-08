@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.dto;
 
-import br.com.codenation.logstackapi.model.LogDetail;
+import br.com.codenation.logstackapi.model.entity.LogDetail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

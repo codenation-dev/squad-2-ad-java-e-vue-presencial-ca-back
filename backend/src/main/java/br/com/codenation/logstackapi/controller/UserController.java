@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
-import br.com.codenation.logstackapi.model.User;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
