@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
-public class CentralErrosApiApplication implements CommandLineRunner {
+public class LogStackApplication implements CommandLineRunner {
 
 	@Autowired
 	private LogRepository logRepository;
@@ -28,7 +28,7 @@ public class CentralErrosApiApplication implements CommandLineRunner {
 	private UserRepository userRepository;
 
 	public static void main(String[] args) {
-		SpringApplication.run(CentralErrosApiApplication.class, args);
+        SpringApplication.run(LogStackApplication.class, args);
 	}
 
 	@Override

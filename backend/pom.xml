@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.codenation</groupId>
-	<artifactId>central-erros-api</artifactId>
+	<artifactId>logstack-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>central-erros-api</name>
-	<description>API Centralizador de Erros</description>
+	<name>logstack-api</name>
+	<description>API LogStack</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -96,7 +96,7 @@
 				<artifactId>heroku-maven-plugin</artifactId>
 				<version>2.0.8</version>
 				<configuration>
-					<appName>squad2-central-erros-api</appName>
+					<appName>logstack-api</appName>
 					<processTypes>
 						<web>java -Dserver.port=$PORT -Dspring.profiles.active=prod $JAVA_OPTS -jar target/${project.artifactId}-0.0.1-SNAPSHOT.jar</web>
 					</processTypes>
