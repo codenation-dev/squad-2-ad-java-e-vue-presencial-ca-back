@@ -17,6 +17,7 @@ public class AlertService {
     public Alert save(AlertCreateDTO dto) {
         if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
         Alert alert = mapper.map(dto);
+        alert.setActive(true);
         return repository.save(alert);
     }
 
