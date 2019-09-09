@@ -4,7 +4,7 @@ import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
 import br.com.codenation.logstackapi.dto.UserCreateDTO;
 import br.com.codenation.logstackapi.dto.UserDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
-import br.com.codenation.logstackapi.service.UserService;
+import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1")
 public class UserController {
 
-    private UserService service;
+    private UserServiceImpl service;
     private UserMapper mapper;
 
     @ApiOperation(

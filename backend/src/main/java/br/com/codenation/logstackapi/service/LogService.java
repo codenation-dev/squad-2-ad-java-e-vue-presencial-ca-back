@@ -1,57 +1,27 @@
 package br.com.codenation.logstackapi.service;
 
-import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.model.entity.Log;
-import br.com.codenation.logstackapi.repository.LogRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
-@AllArgsConstructor
-@Service
-public class LogService {
+public interface LogService {
 
-    private LogRepository repository;
+    List<Log> findAll();
 
-    public List<Log> findAll() {
-        return repository.findAll();
-    }
+    Log findById(UUID id);
 
-    public Log findById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
-    }
+    List<Log> findByTitle(String title);
 
-    public List<Log> findByTitle(String title) {
-        return repository.findByTitleIgnoreCaseContaining(title);
-    }
+    List<Log> findByIp(String ip);
 
-    public List<Log> findByIp(String ip) {
-        return repository.findByApplicationIpContaining(ip);
-    }
+    List<Log> findByLevel(String level);
 
-    public List<Log> findByLevel(String level) {
-        return repository.findByDetailLevelIgnoreCaseContaining(level);
-    }
+    List<Log> findByApplicationName(String name);
 
-    public List<Log> findByApplicationName(String name) {
-        return repository.findByApplicationNameIgnoreCaseContaining(name);
-    }
+    List<Log> findByEnvironment(String environment);
 
-    public List<Log> findByEnvironment(String environment) {
-        return repository.findByEnvironmentIgnoreCaseContaining(environment);
-    }
+    Log unarchive(UUID id);
 
-    public Log unarchive(UUID id) {
-        Log error = findById(id);
-        error.setArchived(false);
-        return repository.save(error);
-    }
-
-    public Log archive(UUID id) {
-        Log error = findById(id);
-        error.setArchived(true);
-        return repository.save(error);
-    }
+    Log archive(UUID id);
 }

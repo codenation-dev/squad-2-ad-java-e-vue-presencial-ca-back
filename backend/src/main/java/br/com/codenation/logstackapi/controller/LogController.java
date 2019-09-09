@@ -5,7 +5,7 @@ import br.com.codenation.logstackapi.dto.LogDTO;
 import br.com.codenation.logstackapi.dto.LogDetailDTO;
 import br.com.codenation.logstackapi.mappers.LogDetailMapper;
 import br.com.codenation.logstackapi.mappers.LogMapper;
-import br.com.codenation.logstackapi.service.LogService;
+import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequestMapping(value="/api/v1")
 public class LogController {
 
-    private LogService service;
+    private LogServiceImpl service;
     private LogMapper mapper;
     private LogDetailMapper mapperDetail;
 

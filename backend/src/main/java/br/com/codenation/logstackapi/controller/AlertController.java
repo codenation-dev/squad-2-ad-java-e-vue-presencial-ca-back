@@ -3,7 +3,7 @@ package br.com.codenation.logstackapi.controller;
 import br.com.codenation.logstackapi.dto.AlertCreateDTO;
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
 import br.com.codenation.logstackapi.model.entity.Alert;
-import br.com.codenation.logstackapi.service.AlertService;
+import br.com.codenation.logstackapi.service.impl.AlertServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1")
 public class AlertController {
 
-    private AlertService service;
+    private AlertServiceImpl service;
 
     @ApiOperation(
             value = "Cria um novo alerta",

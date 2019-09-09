@@ -1,29 +1,19 @@
 package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.dto.AlertCreateDTO;
-import br.com.codenation.logstackapi.mappers.AlertMapper;
 import br.com.codenation.logstackapi.model.entity.Alert;
-import br.com.codenation.logstackapi.repository.AlertRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Service
-@AllArgsConstructor
-public class AlertService {
+public interface AlertService {
 
-    private AlertRepository repository;
-    private AlertMapper mapper;
+    Alert save(AlertCreateDTO dto);
 
-    public Alert save(AlertCreateDTO dto) {
-        if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
-        Alert alert = mapper.map(dto);
-        alert.setActive(true);
-        return repository.save(alert);
-    }
+    List<Alert> findAll();
 
-    public List<Alert> findAll() {
-        return repository.findAll();
-    }
+    Optional<Alert> findById(UUID id);
+
+
 }
