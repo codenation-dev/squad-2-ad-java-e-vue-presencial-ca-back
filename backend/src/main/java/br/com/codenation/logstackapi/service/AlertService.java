@@ -7,6 +7,8 @@ import br.com.codenation.logstackapi.repository.AlertRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class AlertService {
@@ -21,4 +23,7 @@ public class AlertService {
         return repository.save(alert);
     }
 
+    public List<Alert> findAll() {
+        return repository.findAll();
+    }
 }
