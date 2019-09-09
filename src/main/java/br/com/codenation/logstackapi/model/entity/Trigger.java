@@ -19,14 +19,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Alert extends Auditable<String> {
+public class Trigger extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
-    private String description;
+    private String name;
 
     private String appName;
     private LogEnvironment environment;
