@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -23,11 +24,15 @@ public class UserServiceImpl implements UserService {
     }
 
     public User save(UserCreateDTO dto) {
-        if (repository.findByEmail(dto.getEmail()).isPresent()) {
+        if (findByEmail(dto.getEmail()).isPresent()) {
             throw new ResourceExistsException("Email já cadastrado");
         }
         User user = mapper.map(dto);
         return repository.save(user);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
 }
