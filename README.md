@@ -1,25 +1,77 @@
-# Centralizador de Erros
+# LogStack
 
-## Objetivo
-O objetivo deste produto é centralizar os erros de aplicações que ajudarão os desenvolvedores 
-no monitoramento dos sistemas e assim tomar decisões mais acertadas.
+## Getting Started
 
-## Contextualização
+### Prerequisites
+- Git
+- Maven 3.0+
+- JDK 8+
+- Docker 1.13.0+
+- Docker Compose 1.23.1+
 
-Em projetos modernos é cada vez mais comum o uso de arquiteturas baseadas em serviços 
-ou microsserviços. Nestes ambientes complexos, erros podem surgir em diferentes 
-camadas da aplicação (backend, frontend, mobile, desktop) e mesmo em serviços distintos. 
-Desta forma, é muito importante que os desenvolvedores possam centralizar todos os registros
- de erros em um local, de onde podem monitorar e tomar decisões mais acertadas.
+### Clone
 
-### Requisitos Técnicos 
+To get started you can simply clone this repository using git:
+```
+git clone https://github.com/codenation-dev/squad-2-ad-java-e-vue-presencial-ca.git
+cd squad-2-ad-java-e-vue-presencial-ca/backend
+```
 
-#### Backend
-- Deve disponibilizar endpoints para serem usados pelo frontend da aplicação
-- Deve gravar os logs de erro em um banco de dados relacional
-- Deve permitir acesso a API apenas com um token de autenticação válido
+#### Develop
 
-#### Frontend
-- Deve implementar as funcionalidades de acordo com os wireframes
-- Deve ser acessada por navegadores desktop e mobile
-- Deve consumir a API do produto desenvolvida na forma de uma Single Page Application
+Run the application from the command line using:
+```
+mvn spring-boot:run
+```
+
+#### Test
+
+Run the postgres database from the command line using: 
+```
+docker run -d --network=host\
+    --name logstack-db \
+    -e POSTGRES_DB=logstack \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=postgres \
+   postgres:10.4
+```
+
+Run the application from the command line using:
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=test
+```
+
+To Stop the postgres database from the command line using:
+```
+docker stop logstack-db
+```
+
+To Start again the postgres database from the command line using:
+```
+docker start logstack-db
+```
+
+#### Production
+Execute docker compose
+```
+docker-compose up
+```
+
+The app will start running at <http://localhost:8080>.
+
+## API Documentation
+
+http://localhost:8080/swagger-ui.html
+
+## Explore Rest APIs
+
+URL                        | HTTP Verb        | Result 
+-------------------------- | ---------------- | -------------
+/api/v1/logs               | POST             | Add log
+/api/v1/logs               | GET              | Return all logs
+/api/v1/logs/:id           | GET              | Return log by ID
+/api/v1/logs/:id           | DELETE           | Delete log
+/api/v1/logs/:id/archive   | PUT              | Archive log by ID
+/api/v1/logs/:id/archive   | DELETE           | Unarchive log by ID
+
+You can test them using postman or any other rest client.
