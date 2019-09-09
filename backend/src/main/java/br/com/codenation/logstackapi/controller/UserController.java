@@ -4,8 +4,7 @@ import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
 import br.com.codenation.logstackapi.dto.UserCreateDTO;
 import br.com.codenation.logstackapi.dto.UserDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
-import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.service.UserService;
+import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1")
 public class UserController {
 
-    private UserService service;
+    private UserServiceImpl service;
     private UserMapper mapper;
 
     @ApiOperation(
@@ -31,7 +30,7 @@ public class UserController {
             notes = "Método utilizado para recuperar todos os usuários cadastrados."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = User.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
@@ -42,10 +41,10 @@ public class UserController {
 
     @ApiOperation(
             value = "Cria um novo usuário",
-            notes = "Método utilizado para recuperar todos os usuários cadastrados."
+            notes = "Método utilizado para criar um novo usuário."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Usuário criado", response = UserDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 201, message = "Usuário criado", response = UserDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
