@@ -1,5 +1,6 @@
 package br.com.codenation.logstackapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class UserCreateDTO {
     @NotNull
     private String password;
 
+    @JsonIgnore
     public boolean isNull() {
         return Stream.of(fullName, email, password).allMatch(Objects::isNull);
     }

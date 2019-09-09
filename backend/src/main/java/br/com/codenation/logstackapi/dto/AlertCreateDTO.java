@@ -1,5 +1,6 @@
 package br.com.codenation.logstackapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,7 @@ public class AlertCreateDTO {
     @NotNull
     private String level;
 
+    @JsonIgnore
     public boolean isNull() {
         return Stream.of(appName, environment, level).allMatch(Objects::isNull);
     }
