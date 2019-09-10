@@ -1,13 +1,13 @@
 version: '3'
 services:
-  centralerros-api:
+  logstack-api:
     image: aceleradev/logstack-api
     network_mode: bridge
     container_name: logstack-api
     environment:
       - DB_HOST=logstack-db
       - DB_HOST_PORT=5432
-      - DB_NAME=db
+      - DB_NAME=logstack
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
     expose:
@@ -18,7 +18,7 @@ services:
       - logstack-db
     links:
       - logstack-db
-  central-erros-db:
+  logstack-db:
     image: postgres:10.4
     network_mode: bridge
     container_name: logstack-db

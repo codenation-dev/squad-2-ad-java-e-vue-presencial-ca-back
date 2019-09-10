@@ -42,7 +42,4 @@ public class Trigger extends Auditable<String> {
     @NotNull
     private Boolean active;
 
-    @ManyToOne(optional = false)
-    private User user;
-
 }

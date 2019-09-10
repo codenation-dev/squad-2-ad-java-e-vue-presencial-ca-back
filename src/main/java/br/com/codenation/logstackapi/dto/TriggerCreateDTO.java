@@ -12,12 +12,12 @@ import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
-public class AlertCreateDTO {
+public class TriggerCreateDTO {
 
-    @ApiModelProperty(value = "Descrição do alerta", example = "Erro em produção da API LogStack", required = true)
+    @ApiModelProperty(value = "Nome do gatilho", example = "Level Erro em produção da API LogStack", required = true)
     @Size(min = 1, max = 255)
     @NotNull
-    private String description;
+    private String name;
 
     @ApiModelProperty(value = "Nome da aplicação", example = "logstack-api")
     @Size(min = 1, max = 255)
