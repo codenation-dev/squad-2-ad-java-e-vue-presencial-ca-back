@@ -4,17 +4,17 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AlertCreateDTOTest {
+public class TriggerCreateDTOTest {
 
     @Test
     public void deveRetornarDTONulo() {
-        AlertCreateDTO dto = new AlertCreateDTO();
+        TriggerCreateDTO dto = new TriggerCreateDTO();
         assertThat(dto.isNull()).isTrue();
     }
 
     @Test
     public void deveRetornarDTOPreenchido() {
-        AlertCreateDTO dto = new AlertCreateDTO();
+        TriggerCreateDTO dto = new TriggerCreateDTO();
         dto.setAppName("logstack-api");
         assertThat(dto.isNull()).isFalse();
     }

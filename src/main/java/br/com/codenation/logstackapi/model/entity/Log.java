@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Log extends Auditable<String> {
+public class Log extends Auditable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

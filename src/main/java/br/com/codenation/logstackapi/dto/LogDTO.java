@@ -24,4 +24,8 @@ public class LogDTO {
 
     private Boolean archived;
 
+    private UserDTO createdBy;
+
+    private UserDTO lastModifiedBy;
+
 }

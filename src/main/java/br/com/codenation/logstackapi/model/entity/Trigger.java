@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.model.entity;
 
 import br.com.codenation.logstackapi.audit.Auditable;
+import br.com.codenation.logstackapi.dto.UserDTO;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import lombok.AllArgsConstructor;
@@ -19,17 +20,23 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Alert extends Auditable<String> {
+public class Trigger extends Auditable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
-    private String description;
+    @Column(length = 99)
+    private String name;
 
+    @Column(length = 99)
     private String appName;
+
+    @Enumerated(EnumType.STRING)
     private LogEnvironment environment;
+
+    @Enumerated(EnumType.STRING)
     private LogLevel level;
 
     @NotNull
