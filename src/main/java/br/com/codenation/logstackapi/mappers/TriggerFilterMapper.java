@@ -20,7 +20,7 @@ public interface TriggerFilterMapper {
     TriggerFilterDTO map(TriggerFilter triggerFilter);
 
     @Mappings({
-            @Mapping(source = "id", target = "trigger.id"),
+            @Mapping(source = "triggerId", target = "trigger.id"),
             @Mapping(source = "dto.field", target = "field"),
             @Mapping(source = "dto.value", target = "value"),
     })
