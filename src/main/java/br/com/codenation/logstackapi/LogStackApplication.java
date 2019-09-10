@@ -1,12 +1,10 @@
 package br.com.codenation.logstackapi;
 
-import br.com.codenation.logstackapi.model.entity.Log;
-import br.com.codenation.logstackapi.model.entity.LogApplication;
-import br.com.codenation.logstackapi.model.entity.LogDetail;
-import br.com.codenation.logstackapi.model.entity.User;
+import br.com.codenation.logstackapi.model.entity.*;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.repository.LogRepository;
+import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +26,35 @@ public class LogStackApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private TriggerRepository triggerRepository;
+
 	public static void main(String[] args) {
         SpringApplication.run(LogStackApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) {
+
+		User user = User.builder()
+				.id(UUID.randomUUID())
+				.fullName("Luan Eli Oliveira")
+				.email("luannn@gmail.com")
+				.password("teste123")
+				.build();
+
+		user = userRepository.saveAndFlush(user);
+		System.out.println("User created -> " + user.toString());
+
+		Trigger trigger = Trigger.builder()
+				.name("Level Error em Produção")
+				.environment(LogEnvironment.PRODUCTION)
+				.level(LogLevel.ERROR)
+				.active(true)
+				.user(user)
+				.build();
+
+		System.out.println("Trigger created -> " + trigger.toString());
 
 		LocalDateTime timestamp = LocalDateTime.now();
 
@@ -55,20 +77,12 @@ public class LogStackApplication implements CommandLineRunner {
 					.application(application)
 					.detail(detail)
 					.archived(false)
+					.user(user)
 					.build();
 			logs.add(log);
 		}
 
 		logRepository.saveAll(logs);
-
-		User user = User.builder()
-				.id(UUID.randomUUID())
-				.fullName("Luan Eli Oliveira")
-				.email("luannn@gmail.com")
-				.password("teste123")
-				.build();
-
-		userRepository.save(user);
-
+		triggerRepository.saveAll(Arrays.asList(trigger));
 	}
 }
