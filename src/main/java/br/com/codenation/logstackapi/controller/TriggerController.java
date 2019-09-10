@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Api(value = "Triggers")
 @AllArgsConstructor
@@ -51,6 +52,20 @@ public class TriggerController {
     @GetMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<TriggerDTO> findAll() {
         return mapper.map(service.findAll());
+    }
+
+    @ApiOperation(
+            value = "Recupera um gatilho específico.",
+            notes = "Método utilizado para recuperar um gatilho específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = TriggerDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+    })
+    @GetMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerDTO findById(@PathVariable UUID id) {
+        return mapper.map(service.findById(id));
     }
 
 }
