@@ -24,4 +24,6 @@ public class LogDTO {
 
     private Boolean archived;
 
+    private UUID createdBy;
+
 }
