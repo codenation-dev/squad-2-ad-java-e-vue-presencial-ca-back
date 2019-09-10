@@ -2,6 +2,8 @@ package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.TriggerDTO;
+import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.service.impl.TriggerServiceImpl;
 import io.swagger.annotations.Api;
@@ -22,6 +24,7 @@ import java.util.List;
 public class TriggerController {
 
     private TriggerServiceImpl service;
+    private TriggerMapper mapper;
 
     @ApiOperation(
             value = "Cria um novo gatilho",
@@ -42,13 +45,13 @@ public class TriggerController {
             notes = "Método utilizado para recuperar todos os Triggeras cadastrados."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Trigger.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "OK", response = TriggerDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @GetMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<Trigger> findAll() {
-        return service.findAll();
+    private List<TriggerDTO> findAll() {
+        return mapper.map(service.findAll());
     }
 
 }

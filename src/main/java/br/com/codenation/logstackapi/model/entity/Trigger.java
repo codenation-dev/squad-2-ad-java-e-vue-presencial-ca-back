@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.model.entity;
 
 import br.com.codenation.logstackapi.audit.Auditable;
+import br.com.codenation.logstackapi.dto.UserDTO;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Trigger extends Auditable<String> {
+public class Trigger extends Auditable<UUID> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,5 +41,8 @@ public class Trigger extends Auditable<String> {
 
     @NotNull
     private Boolean active;
+
+    @ManyToOne(optional = false)
+    private User user;
 
 }
