@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @JsonPropertyOrder({"id", "title", "application", "level", "level", "timestamp", "content", "archived", "createdBy", "lastModifiedBy"})
 public class LogDetailDTO extends LogDTO {
 
-    @ApiModelProperty(value = "Conteúdo do log", position = 1)
+    @ApiModelProperty(value = "Conteúdo do log", position = 1, example = "Initializing Spring DispatcherServlet 'dispatcherServlet'")
     private String content;
 
 }
