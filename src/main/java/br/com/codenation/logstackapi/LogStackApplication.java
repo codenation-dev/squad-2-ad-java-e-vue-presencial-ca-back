@@ -36,22 +36,11 @@ public class LogStackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		User user = User.builder()
-				.id(UUID.randomUUID())
-				.fullName("Luan Eli Oliveira")
-				.email("luannn@gmail.com")
-				.password("teste123")
-				.build();
-
-		user = userRepository.saveAndFlush(user);
-		System.out.println("User created -> " + user.toString());
-
 		Trigger trigger = Trigger.builder()
 				.name("Level Error em Produção")
 				.environment(LogEnvironment.PRODUCTION)
 				.level(LogLevel.ERROR)
 				.active(true)
-				.user(user)
 				.build();
 
 		System.out.println("Trigger created -> " + trigger.toString());
@@ -77,7 +66,6 @@ public class LogStackApplication implements CommandLineRunner {
 					.application(application)
 					.detail(detail)
 					.archived(false)
-					.user(user)
 					.build();
 			logs.add(log);
 		}

@@ -26,4 +26,6 @@ public class LogDTO {
 
     private UserDTO createdBy;
 
+    private UserDTO lastModifiedBy;
+
 }

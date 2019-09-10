@@ -8,7 +8,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Embedded;
 import javax.persistence.EntityListeners;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -25,6 +27,7 @@ public abstract class Auditable<U> {
 
     @NotNull
     @CreatedBy
+    @ManyToOne(optional = false)
     private U createdBy;
 
     @NotNull
@@ -33,6 +36,7 @@ public abstract class Auditable<U> {
 
     @NotNull
     @LastModifiedBy
+    @ManyToOne(optional = false)
     private U lastModifiedBy;
 
 }

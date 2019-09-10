@@ -20,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Trigger extends Auditable<UUID> {
+public class Trigger extends Auditable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,8 +41,5 @@ public class Trigger extends Auditable<UUID> {
 
     @NotNull
     private Boolean active;
-
-    @ManyToOne(optional = false)
-    private User user;
 
 }
