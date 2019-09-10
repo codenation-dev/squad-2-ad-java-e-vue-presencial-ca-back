@@ -35,7 +35,7 @@ public class LogStackApplication implements CommandLineRunner {
 
 
 	public static void main(String[] args) {
-        SpringApplication.run(LogStackApplication.class, args);
+		SpringApplication.run(LogStackApplication.class, args);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class LogStackApplication implements CommandLineRunner {
 				.name("central-api-rest")
 				.ip("127.0.0.1")
 				.host("java-client-test")
-                .environment(LogEnvironment.DEVELOPMENT)
+				.environment(LogEnvironment.DEVELOPMENT)
 				.build();
 
 		List<Log> logs = new ArrayList<Log>();

@@ -22,6 +22,4 @@ public class TriggerTest {
         assertFalse(trigger.getActive());
     }
 
-
-
 }
