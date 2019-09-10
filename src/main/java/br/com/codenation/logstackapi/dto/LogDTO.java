@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "title", "application", "level", "level", "timestamp", "archived", "createdBy", "lastModifiedBy"})
+@JsonPropertyOrder({"id", "title", "application", "level", "timestamp", "archived"})
 public class LogDTO {
 
     @ApiModelProperty(value = "Identificador do gatilho", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
@@ -32,11 +32,5 @@ public class LogDTO {
 
     @ApiModelProperty(value = "Log arquivado?", position = 6, example = "false")
     private Boolean archived;
-
-    @ApiModelProperty(value = "Usuário criador", position = 7)
-    private UserDTO createdBy;
-
-    @ApiModelProperty(value = "Último usuário a atualizar os dados", position = 7)
-    private UserDTO lastModifiedBy;
 
 }
