@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "name", "filters", "isActive"})
+@JsonPropertyOrder({"id", "name", "createdBy", "isActive", "filters"})
 public class TriggerDTO {
 
     @ApiModelProperty(value = "Identificador do gatilho", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
@@ -19,10 +19,13 @@ public class TriggerDTO {
     @ApiModelProperty(value = "Nome do gatilho", position = 2, example = "Level Erro em produção da API LogStack")
     private String name;
 
-    @ApiModelProperty(value = "Filtros do gatilho", position = 3)
-    private List<TriggerFilterDTO> filters;
+    @ApiModelProperty(value = "Usuário criador", position = 3)
+    private UserDTO createdBy;
 
     @ApiModelProperty(value = "Status do gatilho", position = 4)
     private Boolean isActive;
+
+    @ApiModelProperty(value = "Filtros do gatilho", position = 5)
+    private List<TriggerFilterDTO> filters;
 
 }
