@@ -35,4 +35,7 @@ public class Log extends Auditable<UUID> {
     @NotNull
     private Boolean archived;
 
+    @ManyToOne(optional = false)
+    private User user;
+
 }
