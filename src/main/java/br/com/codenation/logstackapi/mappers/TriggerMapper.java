@@ -13,22 +13,20 @@ import java.util.List;
 public interface TriggerMapper {
 
     @Mappings({
-            @Mapping(source = "name", target = "name"),
-            @Mapping(source = "appName", target = "appName"),
-            @Mapping(source = "environment", target = "environment"),
-            @Mapping(source = "level", target = "level"),
-    })
-    Trigger map(TriggerCreateDTO dto);
-
-    @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name"),
-            @Mapping(source = "appName", target = "appName"),
-            @Mapping(source = "environment", target = "environment"),
-            @Mapping(source = "level", target = "level"),
+            @Mapping(source = "createdBy", target = "createdBy"),
+            @Mapping(source = "active", target = "isActive"),
+            @Mapping(source = "filters", target = "filters"),
     })
-    TriggerDTO map(Trigger dto);
+    TriggerDTO map(Trigger trigger);
 
-    List<TriggerDTO> map(List<Trigger> triggers);
+    List<TriggerDTO> map(List<Trigger> trigger);
+
+    @Mappings({
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "filters", target = "filters"),
+    })
+    Trigger map(TriggerCreateDTO dto);
 
 }
