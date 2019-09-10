@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
@@ -26,13 +27,22 @@ public class Trigger extends Auditable<String> {
     private UUID id;
 
     @NotNull
+    @Column(length = 99)
     private String name;
 
+    @Column(length = 99)
     private String appName;
+
+    @Enumerated(EnumType.STRING)
     private LogEnvironment environment;
+
+    @Enumerated(EnumType.STRING)
     private LogLevel level;
 
     @NotNull
     private Boolean active;
+
+    @ManyToOne(optional = false)
+    private User user;
 
 }
