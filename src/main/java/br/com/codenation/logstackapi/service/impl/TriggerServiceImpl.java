@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
+import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.model.entity.TriggerFilter;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,9 +39,9 @@ public class TriggerServiceImpl implements TriggerService {
         return triggerRepository.findAll();
     }
 
-    @Override
-    public Optional<Trigger> findById(UUID id) {
-        return Optional.empty();
+    public Trigger findById(UUID id) {
+        return triggerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
     }
 
 }
