@@ -3,7 +3,9 @@ package br.com.codenation.logstackapi;
 import br.com.codenation.logstackapi.model.entity.*;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
+import br.com.codenation.logstackapi.model.enums.TriggerFilterField;
 import br.com.codenation.logstackapi.repository.LogRepository;
+import br.com.codenation.logstackapi.repository.TriggerFilterRepository;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootApplication
 public class LogStackApplication implements CommandLineRunner {
@@ -29,6 +30,10 @@ public class LogStackApplication implements CommandLineRunner {
 	@Autowired
 	private TriggerRepository triggerRepository;
 
+	@Autowired
+	private TriggerFilterRepository triggerFilterRepository;
+
+
 	public static void main(String[] args) {
         SpringApplication.run(LogStackApplication.class, args);
 	}
@@ -36,14 +41,18 @@ public class LogStackApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 
-		Trigger trigger = Trigger.builder()
-				.name("Level Error em Produção")
-				.environment(LogEnvironment.PRODUCTION)
-				.level(LogLevel.ERROR)
-				.active(true)
-				.build();
-
+		Trigger trigger = Trigger.builder().name("Level Error em Produção").active(true).build();
+		trigger = triggerRepository.save(trigger);
 		System.out.println("Trigger created -> " + trigger.toString());
+
+		TriggerFilter filterApp = TriggerFilter.builder().field(TriggerFilterField.APP_NAME).value("logstack-api").trigger(trigger).build();
+		TriggerFilter filterLevel = TriggerFilter.builder().field(TriggerFilterField.LEVEL).value("ERROR").trigger(trigger).build();
+		TriggerFilter filterEnvironment = TriggerFilter.builder().field(TriggerFilterField.ENVIRONMENT).value("DEVELOPMENT").trigger(trigger).build();
+
+		List<TriggerFilter> filters = Arrays.asList(filterApp, filterLevel, filterEnvironment);
+		trigger.setFilters(filters);
+
+		filters = triggerFilterRepository.saveAll(Arrays.asList(filterApp, filterLevel, filterEnvironment));
 
 		LocalDateTime timestamp = LocalDateTime.now();
 
@@ -71,6 +80,5 @@ public class LogStackApplication implements CommandLineRunner {
 		}
 
 		logRepository.saveAll(logs);
-		triggerRepository.saveAll(Arrays.asList(trigger));
 	}
 }

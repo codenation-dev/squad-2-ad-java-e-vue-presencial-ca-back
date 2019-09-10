@@ -1,10 +1,9 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
 import br.com.codenation.logstackapi.dto.TriggerDTO;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
-import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.service.impl.TriggerServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,13 +30,13 @@ public class TriggerController {
             notes = "Método utilizado para criar um novo."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Gatilho criado", response = Trigger.class),
+            @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @PostMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Trigger save(@Valid @RequestBody TriggerCreateDTO dto) {
-        return service.save(dto);
+    private TriggerDTO save(@Valid @RequestBody TriggerCreateDTO dto) {
+        return mapper.map(service.save(dto));
     }
 
     @ApiOperation(
