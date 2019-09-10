@@ -36,5 +36,4 @@ public class Trigger extends Auditable<User> {
     @Builder.Default
     private Boolean active = true;
 
-
 }
