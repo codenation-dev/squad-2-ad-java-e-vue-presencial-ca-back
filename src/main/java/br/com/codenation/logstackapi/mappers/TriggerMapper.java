@@ -15,6 +15,7 @@ public interface TriggerMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name"),
+            @Mapping(source = "createdBy", target = "createdBy"),
             @Mapping(source = "active", target = "isActive"),
             @Mapping(source = "filters", target = "filters"),
     })
