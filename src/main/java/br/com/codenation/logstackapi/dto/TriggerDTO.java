@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -26,6 +25,6 @@ public class TriggerDTO {
     private Boolean isActive;
 
     @ApiModelProperty(value = "Filtros do gatilho", position = 5)
-    private List<TriggerFilterDTO> filters;
+    private TriggerFilterDTO filters;
 
 }
