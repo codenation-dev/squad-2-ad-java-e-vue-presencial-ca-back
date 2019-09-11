@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -24,11 +23,11 @@ public class TriggerCreateDTO {
 
     @ApiModelProperty(value = "Filtros do gatilho", position = 2, required = true)
     @NotNull
-    private List<TriggerFilterCreateDTO> filters;
+    private TriggerFilterCreateDTO filters;
 
     @JsonIgnore
     public boolean isNull() {
-        return Stream.of(filters).allMatch(Objects::isNull);
+        return Stream.of(filters.getAppName(), filters.getLevel(), filters.getEnvironment()).allMatch(Objects::isNull);
     }
 
 }

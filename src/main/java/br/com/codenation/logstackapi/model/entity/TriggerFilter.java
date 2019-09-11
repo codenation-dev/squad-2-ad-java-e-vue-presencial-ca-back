@@ -1,12 +1,14 @@
 package br.com.codenation.logstackapi.model.entity;
 
-import br.com.codenation.logstackapi.model.enums.TriggerFilterField;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
@@ -20,11 +22,15 @@ public class TriggerFilter {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    private TriggerFilterField field;
-    private String value;
+    @NotNull
+    private String appName;
 
-    @ManyToOne
-    Trigger trigger;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private LogEnvironment environment;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private LogLevel level;
 
 }
