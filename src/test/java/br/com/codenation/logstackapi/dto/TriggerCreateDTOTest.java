@@ -1,5 +1,8 @@
 package br.com.codenation.logstackapi.dto;
 
+import br.com.codenation.logstackapi.model.entity.LogApplication;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.model.enums.TriggerFilterField;
 import org.junit.Test;
 
@@ -16,7 +19,11 @@ public class TriggerCreateDTOTest {
     @Test
     public void deveRetornarDTOPreenchido() {
         TriggerCreateDTO dto = new TriggerCreateDTO();
-        TriggerFilterDTO filter = TriggerFilterDTO.builder().field(TriggerFilterField.APP_NAME).value("logstack-api").build();
+        TriggerFilterDTO filter = TriggerFilterDTO.builder()
+                .appName("logstack-api")
+                .level(LogLevel.ERROR)
+                .environment(LogEnvironment.PRODUCTION)
+                .build();
         assertThat(dto.isNull()).isFalse();
     }
 }
