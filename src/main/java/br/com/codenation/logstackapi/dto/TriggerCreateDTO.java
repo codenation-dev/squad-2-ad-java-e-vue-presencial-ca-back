@@ -3,6 +3,8 @@ package br.com.codenation.logstackapi.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +29,7 @@ public class TriggerCreateDTO {
 
     @JsonIgnore
     public boolean isNull() {
-        return Stream.of(filters.getAppName(), filters.getLevel(), filters.getEnvironment()).allMatch(Objects::isNull);
+        return Stream.of(name, filters).allMatch(Objects::isNull);
     }
 
 }
