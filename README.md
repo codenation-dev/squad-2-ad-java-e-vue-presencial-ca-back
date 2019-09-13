@@ -80,17 +80,15 @@ Logs          | /api/v1/logs/:id             | GET              | Return log by 
 Logs          | /api/v1/logs/:id             | DELETE           | Delete log
 Logs          | /api/v1/logs/:id/archive     | PUT              | Archive log by ID
 Logs          | /api/v1/logs/:id/archive     | DELETE           | Unarchive log by ID
---------------|----------------------------- | ---------------- | -------------------------
 Triggers      | /api/v1/triggers             | POST             | Add Triggers
 Triggers      | /api/v1/triggers             | GET              | Return all triggers
 Triggers      | /api/v1/triggers/:id         | GET              | Return trigger by ID
 Triggers      | /api/v1/triggers/:id         | PUT              | Update trigger by ID
 Triggers      | /api/v1/triggers/:id/active  | PUT              | Active trigger by ID
 Triggers      | /api/v1/triggers/:id/active  | DELETE           | Desactive trigger by ID
---------------|----------------------------- | ---------------- | -------------------------
 Users         | /api/v1/users                | POST             | Add user
 Users         | /api/v1/users                | GET              | Return all users
 Users         | /api/v1/users/self           | GET              | Return user authenticated
---------------|----------------------------- | ---------------- | -------------------------
+
 
 You can test them using postman or any other rest client.
