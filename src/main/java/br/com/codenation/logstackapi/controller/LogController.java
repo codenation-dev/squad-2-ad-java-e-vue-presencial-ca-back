@@ -3,8 +3,11 @@ package br.com.codenation.logstackapi.controller;
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
 import br.com.codenation.logstackapi.dto.LogDTO;
 import br.com.codenation.logstackapi.dto.LogDetailDTO;
+import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.mappers.LogDetailMapper;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,16 +44,18 @@ public class LogController {
     private List<LogDTO> find(@RequestParam Optional<String> title,
                               @RequestParam Optional<String> ip,
                               @RequestParam Optional<String> appName,
-                              @RequestParam Optional<String> environment,
-                              @RequestParam Optional<String> level) {
+                              @RequestParam Optional<LogEnvironment> environment,
+                              @RequestParam Optional<LogLevel> level) {
 
-        if (title.isPresent()) return mapper.map(service.findByTitle(title.get()));
-        if (ip.isPresent()) return mapper.map(service.findByIp(ip.get()));
-        if (appName.isPresent()) return mapper.map(service.findByApplicationName(appName.get()));
-        if (environment.isPresent()) return mapper.map(service.findByEnvironment(environment.get()));
-        if (level.isPresent()) return mapper.map(service.findByLevel(level.get()));
+        LogSearchDTO search = LogSearchDTO.builder()
+                .title(title)
+                .ip(ip)
+                .appName(appName)
+                .environment(environment)
+                .level(level)
+                .build();
 
-        return mapper.map(service.findAll());
+        return mapper.map(service.find(search));
     }
 
     @ApiOperation(
