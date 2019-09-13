@@ -2,6 +2,7 @@ package br.com.codenation.logstackapi.dto;
 
 import br.com.codenation.logstackapi.model.entity.LogApplication;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,7 +28,8 @@ public class LogDTO {
     @ApiModelProperty(value = "Nível do log", position = 4, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR")
     private LogLevel level;
 
-    @ApiModelProperty(value = "Data e hora do acionamento do log", position = 5, example = "2019-09-10T14:40:18.55")
+    @ApiModelProperty(value = "Data e hora do acionamento do log", position = 5, example = "2019-09-10 14:40:01")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp;
 
     @ApiModelProperty(value = "Log arquivado?", position = 6, example = "false")
