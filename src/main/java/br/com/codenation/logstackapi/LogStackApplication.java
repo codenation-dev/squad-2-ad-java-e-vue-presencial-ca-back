@@ -42,6 +42,7 @@ public class LogStackApplication implements CommandLineRunner {
 
 		Trigger trigger = Trigger.builder()
 				.name("Level Error em Produção na Aplicação LOGSTACK-API")
+				.message("Verificar o erro em produção na API LOGSTACK")
 				.active(true)
 				.filters(filter)
 				.build();

@@ -22,6 +22,8 @@ public class TriggerCreateDTOTest {
                 .environment(LogEnvironment.PRODUCTION)
                 .build();
         TriggerCreateDTO dto = new TriggerCreateDTO();
+        dto.setName("Gatilho para verificar erro no logstack-api em produção");
+        dto.setMessage("Verificar o ambiente de produção do logstack-api");
         dto.setFilters(filter);
         assertThat(dto.isNull()).isFalse();
     }
