@@ -1,16 +1,11 @@
 package br.com.codenation.logstackapi.model.entity;
 
 import br.com.codenation.logstackapi.audit.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -18,6 +13,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @EntityListeners(AuditingEntityListener.class)
 public class Trigger extends Auditable<User> {
 
@@ -29,8 +25,13 @@ public class Trigger extends Auditable<User> {
     @Column(length = 99)
     private String name;
 
-    @OneToMany(mappedBy = "trigger")
-    private List<TriggerFilter> filters = new ArrayList<>();
+    @NotNull
+    @Column(length = 255)
+    private String message;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "trigger_filter_id")
+    private TriggerFilter filters;
 
     @NotNull
     @Builder.Default

@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.dto;
 
-import br.com.codenation.logstackapi.model.enums.TriggerFilterField;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,13 +13,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonPropertyOrder({"name", "filters"})
+@JsonPropertyOrder({"appName", "environment", "level"})
 public class TriggerFilterCreateDTO {
 
-    @ApiModelProperty(value = "Campo do filtro", position = 1, example = "APP_NAME", allowableValues = "APP_NAME, LEVEL, ENVIRONMENT", required = true)
-    private TriggerFilterField field;
+    @ApiModelProperty(value = "Nome da aplicação", position = 1, example = "logstack-api")
+    private String appName;
 
-    @ApiModelProperty(value = "Valor do Filtro", position = 2, example = "logstack-api", required = true)
-    private String value;
+    @ApiModelProperty(value = "Ambiente da aplicação", position = 2, example = "PRODUCTION", allowableValues = "DEVELOPMENT, TEST, PRODUCTION", required = true)
+    private LogEnvironment environment;
+
+    @ApiModelProperty(value = "Nível do log", position = 3, example = "ERROR", allowableValues = "DEBUG, LEVEL, ENVIRONMENT", required = true)
+    private LogLevel level;
 
 }
