@@ -25,6 +25,10 @@ public class Trigger extends Auditable<User> {
     @Column(length = 99)
     private String name;
 
+    @NotNull
+    @Column(length = 255)
+    private String message;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "trigger_filter_id")
     private TriggerFilter filters;
