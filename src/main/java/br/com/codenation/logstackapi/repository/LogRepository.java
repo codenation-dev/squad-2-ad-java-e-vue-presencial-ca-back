@@ -18,10 +18,10 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
 
     List<Log> findByApplicationNameIgnoreCaseContaining(String name);
 
-    @Query("select l from Log l where lower(environment) like %?1%")
+    @Query("select l from Log l where level like %?1%")
     List<Log> findByDetailLevelIgnoreCaseContaining(@Param("level") String level);
 
-    @Query("select l from Log l where lower(environment) like %?1%")
+    @Query("select l from Log l where app_environment like %?1%")
     List<Log> findByEnvironmentIgnoreCaseContaining(@Param("environment") String environment);
 
 }
