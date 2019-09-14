@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.LogCreateDTO;
 import br.com.codenation.logstackapi.dto.LogDTO;
 import br.com.codenation.logstackapi.dto.LogDetailDTO;
 import br.com.codenation.logstackapi.mappers.LogDetailMapper;
@@ -98,4 +99,8 @@ public class LogController {
         return mapper.map(service.unarchive(id));
     }
 
+    @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
+    private LogDTO save(LogCreateDTO dto){
+        return mapper.map(service.save(dto));
+    }
 }
