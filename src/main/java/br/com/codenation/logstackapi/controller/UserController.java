@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Api(value = "Users")
 @AllArgsConstructor
@@ -51,6 +52,24 @@ public class UserController {
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     private UserDTO save(@Valid @RequestBody UserCreateDTO dto) {
         return mapper.map(service.save(dto));
+    }
+
+    @ApiOperation(
+            value = "Recupera dados do usuário autenticado",
+            notes = "Método utilizado para recuperar dados do usuário autenticado."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+    })
+    @GetMapping(value = "/users/self", produces = MediaType.APPLICATION_JSON_VALUE)
+    private UserDTO self() {
+        UserDTO dto = new UserDTO();
+        dto.setId(UUID.randomUUID());
+        dto.setFullName("Administrador");
+        dto.setEmail("admin@example.com");
+        return dto;
     }
 
 }
