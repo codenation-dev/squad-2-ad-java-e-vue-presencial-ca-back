@@ -1,6 +1,10 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.*;
+import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.LogDTO;
+import br.com.codenation.logstackapi.dto.LogDetailDTO;
+import br.com.codenation.logstackapi.dto.LogSearchDTO;
+import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.mappers.LogDetailMapper;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
@@ -128,7 +132,7 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na apo", response = ErrorMessageDTO.class)
     })
     @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-    private LogDTO save(LogCreateDTO dto){
+    private LogDTO save(LogRequestDTO dto) {
         return mapper.map(service.save(dto));
     }
 }

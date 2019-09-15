@@ -1,6 +1,5 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.request;
 
-import br.com.codenation.logstackapi.dto.request.LogApplicationRequestDTO;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class LogCreateDTO {
+public class LogRequestDTO {
 
     @ApiModelProperty(value = "Title", example = "Null pointer exception", required = true)
     @Size(min = 2, max = 120)
@@ -28,8 +27,8 @@ public class LogCreateDTO {
     private LogLevel level;
 
     @ApiModelProperty(value = "Timestamp", example = "2000-11-21 17:21:00", required = true)
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @NotNull
     private LocalDateTime timestamp;
 
     @ApiModelProperty(value = "Detalhe do erro", example = "Fatal error on line 45", required = true)
