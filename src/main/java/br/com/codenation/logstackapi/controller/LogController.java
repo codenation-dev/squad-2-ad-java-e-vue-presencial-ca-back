@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
-import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.mappers.LogMapper;

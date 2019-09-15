@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.service;
 
-import br.com.codenation.logstackapi.dto.LogSearchDTO;
+import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;

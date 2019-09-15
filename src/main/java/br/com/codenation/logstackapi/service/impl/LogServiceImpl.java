@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
