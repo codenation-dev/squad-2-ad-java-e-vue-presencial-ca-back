@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"name", "message", "filters"})
-public class TriggerCreateDTO {
+public class TriggerRequestDTO {
 
     @ApiModelProperty(value = "Nome do gatilho", position = 1, example = "Level Erro em produção da API LogStack", required = true)
     @Size(min = 1, max = 255)
@@ -28,7 +28,7 @@ public class TriggerCreateDTO {
 
     @ApiModelProperty(value = "Filtros do gatilho", position = 3, required = true)
     @NotNull
-    private TriggerFilterCreateDTO filters;
+    private TriggerFilterRequestDTO filters;
 
     @JsonIgnore
     public boolean isNull() {

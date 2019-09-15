@@ -1,5 +1,6 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.response;
 
+import br.com.codenation.logstackapi.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "name", "message", "createdBy", "isActive", "filters"})
-public class TriggerDTO {
+public class TriggerResponseDTO {
 
     @ApiModelProperty(value = "Identificador do gatilho", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
     private UUID id;
@@ -28,6 +29,6 @@ public class TriggerDTO {
     private Boolean isActive;
 
     @ApiModelProperty(value = "Filtros do gatilho", position = 6)
-    private TriggerFilterDTO filters;
+    private TriggerFilterResponseDTO filters;
 
 }

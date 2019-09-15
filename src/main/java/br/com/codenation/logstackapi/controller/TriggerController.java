@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
-import br.com.codenation.logstackapi.dto.TriggerDTO;
+import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
+import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.service.impl.TriggerServiceImpl;
 import io.swagger.annotations.Api;
@@ -31,12 +31,12 @@ public class TriggerController {
             notes = "Método utilizado para criar um novo."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerDTO.class),
+            @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerResponseDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
-    private TriggerDTO save(@Valid @RequestBody TriggerCreateDTO dto) {
+    private TriggerResponseDTO save(@Valid @RequestBody TriggerRequestDTO dto) {
         return mapper.map(service.save(dto));
     }
 
@@ -45,12 +45,12 @@ public class TriggerController {
             notes = "Método utilizado para recuperar todos os Triggeras cadastrados."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = TriggerDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "OK", response = TriggerResponseDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<TriggerDTO> findAll() {
+    private List<TriggerResponseDTO> findAll() {
         return mapper.map(service.findAll());
     }
 
@@ -59,12 +59,12 @@ public class TriggerController {
             notes = "Método utilizado para recuperar um gatilho específico."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = TriggerDTO.class),
+            @ApiResponse(code = 200, message = "OK", response = TriggerResponseDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private TriggerDTO findById(@PathVariable UUID id) {
+    private TriggerResponseDTO findById(@PathVariable UUID id) {
         return mapper.map(service.findById(id));
     }
 

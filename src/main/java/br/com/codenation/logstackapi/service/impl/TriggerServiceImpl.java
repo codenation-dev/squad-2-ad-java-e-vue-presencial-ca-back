@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
+import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
@@ -19,7 +19,7 @@ public class TriggerServiceImpl implements TriggerService {
     private TriggerRepository triggerRepository;
     private TriggerMapper mapper;
 
-    public Trigger save(TriggerCreateDTO dto) {
+    public Trigger save(TriggerRequestDTO dto) {
         if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
 
         Trigger trigger = mapper.map(dto);
