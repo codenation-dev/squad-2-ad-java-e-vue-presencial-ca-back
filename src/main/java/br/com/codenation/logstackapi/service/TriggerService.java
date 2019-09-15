@@ -18,5 +18,9 @@ public interface TriggerService {
     Trigger unarchive(UUID id);
 
     Trigger archive(UUID id);
+  
+    public Trigger active(UUID id);
+
+    public Trigger inactive(UUID id);
 
 }

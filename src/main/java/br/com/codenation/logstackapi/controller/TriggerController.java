@@ -69,11 +69,41 @@ public class TriggerController {
     }
 
     @ApiOperation(
-            value = "Ativar um Gatilho específico.",
+            value = "Ativar um gatilho específico.",
             notes = "Método utilizado para ativar um gatilho específico."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Gatilho Arquivado", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 200, message = "Gatilho ativo", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })  
+    @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO active(@PathVariable UUID id){
+        return mapper.map(service.active(id));
+    }
+
+    @ApiOperation(
+            value = "Desativar um gatilho específico.",
+            notes = "Método utilizado para desativar um gatilho específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho desativado", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @DeleteMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO inactive(@PathVariable UUID id) {
+        return mapper.map(service.inactive(id));
+    }              
+
+    @ApiOperation(
+            value = "Arquivar um gatilho específico.",
+            notes = "Método utilizado para arquivar um gatilho específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho arquivado", response = TriggerResponseDTO.class),
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
             @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
@@ -82,10 +112,10 @@ public class TriggerController {
     private TriggerResponseDTO active(@PathVariable UUID id){
         return mapper.map(service.archive(id));
     }
-
+  
     @ApiOperation(
-            value = "Desativar um gatilho específico.",
-            notes = "Método utilizado para desativar um gatilho específico."
+            value = "Desarquivar um gatilho específico.",
+            notes = "Método utilizado para desarquivar um gatilho específico."
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Gatilho desarquivado", response = TriggerResponseDTO.class),
@@ -96,6 +126,6 @@ public class TriggerController {
     @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO inactive(@PathVariable UUID id) {
         return mapper.map(service.unarchive(id));
-    }
+    }  
 
 }
