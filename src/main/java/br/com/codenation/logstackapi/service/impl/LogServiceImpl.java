@@ -60,6 +60,8 @@ public class LogServiceImpl implements LogService {
                 search.getIp(),
                 search.getEnvironment(),
                 search.getLevel(),
+                search.getStartTimestamp(),
+                search.getEndTimestamp(),
                 pageRequest);
 
     }

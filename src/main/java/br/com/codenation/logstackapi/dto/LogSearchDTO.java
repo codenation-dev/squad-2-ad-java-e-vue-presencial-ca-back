@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Sort;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,6 +21,7 @@ public class LogSearchDTO {
     private String ip;
     private LogEnvironment environment;
     private LogLevel level;
-    private Sort sort;
+    private LocalDateTime startTimestamp;
+    private LocalDateTime endTimestamp;
 
 }
