@@ -1,20 +1,27 @@
 package br.com.codenation.logstackapi.dto.response;
 
-import br.com.codenation.logstackapi.dto.UserDTO;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "title", "application", "level", "timestamp", "archived", "content", "createdBy"})
-public class LogDetailResponseDTO extends LogResponseDTO {
+@JsonPropertyOrder({"timestamp", "level", "content"})
+public class LogDetailResponseDTO {
 
-    @ApiModelProperty(value = "Conteúdo do log", position = 7, example = "Initializing Spring DispatcherServlet 'dispatcherServlet'")
+    @ApiModelProperty(value = "Data e hora do acionamento do log", position = 1, example = "2019-09-10 14:40:01")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime timestamp;
+
+    @ApiModelProperty(value = "Nível do log", position = 2, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR")
+    private LogLevel level;
+
+    @ApiModelProperty(value = "Conteúdo do log", position = 3, example = "Initializing Spring DispatcherServlet 'dispatcherServlet'")
     private String content;
-
-    @ApiModelProperty(value = "Usuário criador", position = 8)
-    private UserDTO createdBy;
 
 }

@@ -19,9 +19,11 @@ public interface LogMapper {
             @Mapping(source = "application.environment", target = "application.environment"),
             @Mapping(source = "application.host", target = "application.host"),
             @Mapping(source = "application.ip", target = "application.ip"),
-            @Mapping(source = "detail.level", target = "level"),
-            @Mapping(source = "detail.timestamp", target = "timestamp"),
+            @Mapping(source = "detail.timestamp", target = "detail.timestamp"),
+            @Mapping(source = "detail.level", target = "detail.level"),
+            @Mapping(source = "detail.content", target = "detail.content"),
             @Mapping(source = "archived", target = "archived"),
+            @Mapping(source = "createdBy", target = "createdBy"),
     })
     LogResponseDTO map(Log log);
 

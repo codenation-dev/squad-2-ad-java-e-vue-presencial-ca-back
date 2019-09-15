@@ -5,7 +5,6 @@ import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
-import br.com.codenation.logstackapi.mappers.LogDetailMapper;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
@@ -36,7 +35,6 @@ public class LogController {
 
     private LogServiceImpl service;
     private LogMapper mapper;
-    private LogDetailMapper mapperDetail;
 
     @ApiOperation(
             value = "Recupera todos os logs cadastrados",
@@ -88,8 +86,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @GetMapping(value = "/logs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private LogDetailResponseDTO getById(@PathVariable UUID id) {
-        return mapperDetail.map(service.findById(id));
+    private LogResponseDTO getById(@PathVariable UUID id) {
+        return mapper.map(service.findById(id));
     }
 
     @ApiOperation(
