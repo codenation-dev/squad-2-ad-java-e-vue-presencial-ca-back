@@ -68,4 +68,34 @@ public class TriggerController {
         return mapper.map(service.findById(id));
     }
 
+    @ApiOperation(
+            value = "Ativar uma Gatilho específica.",
+            notes = "Método utilizado para ativar uma gatilho específica."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho Ativa", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO active(@PathVariable UUID id){
+        return mapper.map(service.active(id));
+    }
+
+    @ApiOperation(
+            value = "Desativar uma gatilho específica.",
+            notes = "Método utilizado para desativar uma gatilho específica."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho desativada", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @DeleteMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO inactive(@PathVariable UUID id) {
+        return mapper.map(service.inactive(id));
+    }
+
 }

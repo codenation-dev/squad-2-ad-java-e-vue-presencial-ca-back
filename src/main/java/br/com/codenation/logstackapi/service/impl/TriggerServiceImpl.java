@@ -37,4 +37,16 @@ public class TriggerServiceImpl implements TriggerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
     }
 
+    public Trigger inactive(UUID id) {
+        Trigger active = findById(id);
+        active.setActive(false);
+        return triggerRepository.save(active);
+    }
+
+    public Trigger active(UUID id) {
+        Trigger active = findById(id);
+        active.setActive(true);
+        return triggerRepository.save(active);
+    }
+
 }
