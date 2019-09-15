@@ -24,4 +24,10 @@ public class LogSearchDTO {
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
 
+    public void validateInputData() {
+        if (endTimestamp.isBefore(startTimestamp)) {
+            throw new IllegalArgumentException("Data de início deve anteceder a data final");
+        }
+    }
+
 }

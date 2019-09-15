@@ -51,6 +51,8 @@ public class LogServiceImpl implements LogService {
     
     public Page<Log> find(LogSearchDTO search, Integer page, Integer size, Sort sort) {
 
+        search.validateInputData();
+
         PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         return repository.find(
