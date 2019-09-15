@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
 import br.com.codenation.logstackapi.dto.UserCreateDTO;
 import br.com.codenation.logstackapi.dto.UserDTO;
+import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
@@ -32,8 +32,8 @@ private UserServiceImpl service;
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<UserDTO> findAll() {
@@ -46,8 +46,8 @@ private UserServiceImpl service;
     )
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Usuário criado", response = UserDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     private UserDTO save(@Valid @RequestBody UserCreateDTO dto) {
@@ -60,8 +60,8 @@ private UserServiceImpl service;
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/users/self", produces = MediaType.APPLICATION_JSON_VALUE)
     private UserDTO self() {
