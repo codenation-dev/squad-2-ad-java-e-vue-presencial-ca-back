@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.mappers;
 
-import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
-import br.com.codenation.logstackapi.dto.TriggerDTO;
+import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
+import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,15 +20,15 @@ public interface TriggerMapper {
             @Mapping(source = "active", target = "isActive"),
             @Mapping(source = "filters", target = "filters")
     })
-    TriggerDTO map(Trigger trigger);
+    TriggerResponseDTO map(Trigger trigger);
 
-    List<TriggerDTO> map(List<Trigger> trigger);
+    List<TriggerResponseDTO> map(List<Trigger> trigger);
 
     @Mappings({
             @Mapping(source = "name", target = "name"),
             @Mapping(source = "message", target = "message"),
             @Mapping(source = "filters", target = "filters")
     })
-    Trigger map(TriggerCreateDTO dto);
+    Trigger map(TriggerRequestDTO dto);
 
 }

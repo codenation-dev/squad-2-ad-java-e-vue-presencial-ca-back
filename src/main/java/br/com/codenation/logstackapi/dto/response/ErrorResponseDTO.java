@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonPropertyOrder({"timestamp", "status", "error", "messsage", "path"})
-public class ErrorMessageDTO implements Serializable {
+public class ErrorResponseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "Data atual", position = 1, example = "1568141529954")

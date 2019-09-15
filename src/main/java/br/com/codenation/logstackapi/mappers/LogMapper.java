@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.mappers;
 
-import br.com.codenation.logstackapi.dto.LogDTO;
+import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,12 +19,26 @@ public interface LogMapper {
             @Mapping(source = "application.environment", target = "application.environment"),
             @Mapping(source = "application.host", target = "application.host"),
             @Mapping(source = "application.ip", target = "application.ip"),
-            @Mapping(source = "detail.level", target = "level"),
-            @Mapping(source = "detail.timestamp", target = "timestamp"),
-            @Mapping(source = "archived", target = "archived"),
+            @Mapping(source = "detail.timestamp", target = "detail.timestamp"),
+            @Mapping(source = "detail.level", target = "detail.level"),
+            @Mapping(source = "detail.content", target = "detail.content"),
+            @Mapping(source = "createdBy", target = "createdBy"),
     })
-    LogDTO map(Log log);
+    LogResponseDTO map(Log log);
 
-    List<LogDTO> map(List<Log> logs);
+    List<LogResponseDTO> map(List<Log> logs);
+
+    @Mappings({
+            @Mapping(source = "application.name", target = "application.name"),
+            @Mapping(source = "application.environment", target = "application.environment"),
+            @Mapping(source = "application.host", target = "application.host"),
+            @Mapping(source = "title", target = "title"),
+            @Mapping(source = "level", target = "detail.level"),
+            @Mapping(source = "timestamp", target = "detail.timestamp"),
+            @Mapping(source = "detail", target = "detail.content"),
+    })
+    Log map(LogRequestDTO dto);
+
+
 
 }

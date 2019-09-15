@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
-import br.com.codenation.logstackapi.dto.UserCreateDTO;
-import br.com.codenation.logstackapi.dto.UserDTO;
+import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
+import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
+import br.com.codenation.logstackapi.dto.response.UserResponseDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1")
 public class UserController {
 
-    private UserServiceImpl service;
+private UserServiceImpl service;
     private UserMapper mapper;
 
     @ApiOperation(
@@ -31,12 +31,12 @@ public class UserController {
             notes = "Método utilizado para recuperar todos os usuários cadastrados."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 200, message = "OK", response = UserResponseDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    private List<UserDTO> findAll() {
+    private List<UserResponseDTO> findAll() {
         return mapper.map(service.findAll());
     }
 
@@ -45,12 +45,12 @@ public class UserController {
             notes = "Método utilizado para criar um novo usuário."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Usuário criado", response = UserDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 201, message = "Usuário criado", response = UserResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    private UserDTO save(@Valid @RequestBody UserCreateDTO dto) {
+    private UserResponseDTO save(@Valid @RequestBody UserRequestDTO dto) {
         return mapper.map(service.save(dto));
     }
 
@@ -59,13 +59,13 @@ public class UserController {
             notes = "Método utilizado para recuperar dados do usuário autenticado."
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorMessageDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
+            @ApiResponse(code = 200, message = "OK", response = UserResponseDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/users/self", produces = MediaType.APPLICATION_JSON_VALUE)
-    private UserDTO self() {
-        UserDTO dto = new UserDTO();
+    private UserResponseDTO self() {
+        UserResponseDTO dto = new UserResponseDTO();
         dto.setId(UUID.randomUUID());
         dto.setFullName("Administrador");
         dto.setEmail("admin@example.com");

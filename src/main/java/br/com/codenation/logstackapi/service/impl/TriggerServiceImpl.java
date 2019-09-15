@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.dto.TriggerCreateDTO;
+import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
@@ -19,7 +19,7 @@ public class TriggerServiceImpl implements TriggerService {
     private TriggerRepository triggerRepository;
     private TriggerMapper mapper;
 
-    public Trigger save(TriggerCreateDTO dto) {
+    public Trigger save(TriggerRequestDTO dto) {
         if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
 
         Trigger trigger = mapper.map(dto);
@@ -35,6 +35,30 @@ public class TriggerServiceImpl implements TriggerService {
     public Trigger findById(UUID id) {
         return triggerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
+    }
+
+    public Trigger archive(UUID id) {
+        Trigger archive = findById(id);
+        archive.setArchived(true);
+        return triggerRepository.save(archive);
+    }
+
+    public Trigger unarchive(UUID id) {
+        Trigger archive = findById(id);
+        archive.setArchived(false);
+        return triggerRepository.save(archive);
+    }
+
+    public Trigger inactive(UUID id) {
+        Trigger active = findById(id);
+        active.setActive(false);
+        return triggerRepository.save(active);
+    }
+
+    public Trigger active(UUID id) {
+        Trigger active = findById(id);
+        active.setActive(true);
+        return triggerRepository.save(active);
     }
 
 }

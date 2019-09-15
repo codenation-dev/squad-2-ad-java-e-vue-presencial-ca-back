@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.exception;
 
-import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 public class ControllerAdviceHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorMessageDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest r) {
+    public ResponseEntity<ErrorResponseDTO> resourceNotFound(ResourceNotFoundException e, HttpServletRequest r) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ErrorMessageDTO err = ErrorMessageDTO.builder()
+        ErrorResponseDTO err = ErrorResponseDTO.builder()
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())
@@ -26,10 +26,10 @@ public class ControllerAdviceHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorMessageDTO> illegalArgument(IllegalArgumentException e, HttpServletRequest r) {
+    public ResponseEntity<ErrorResponseDTO> illegalArgument(IllegalArgumentException e, HttpServletRequest r) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ErrorMessageDTO err = ErrorMessageDTO.builder()
+        ErrorResponseDTO err = ErrorResponseDTO.builder()
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())
@@ -40,10 +40,10 @@ public class ControllerAdviceHandler {
     }
 
     @ExceptionHandler(ResourceExistsException.class)
-    public ResponseEntity<ErrorMessageDTO> illegalArgument(ResourceExistsException e, HttpServletRequest r) {
+    public ResponseEntity<ErrorResponseDTO> resourceIsException(ResourceExistsException e, HttpServletRequest r) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        ErrorMessageDTO err = ErrorMessageDTO.builder()
+        ErrorResponseDTO err = ErrorResponseDTO.builder()
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())

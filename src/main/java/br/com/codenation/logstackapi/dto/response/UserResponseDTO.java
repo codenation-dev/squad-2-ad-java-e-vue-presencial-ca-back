@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "fullName", "email"})
-public class UserDTO {
+public class UserResponseDTO {
 
     @ApiModelProperty(value = "Identificador do usuário", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
     private UUID id;
