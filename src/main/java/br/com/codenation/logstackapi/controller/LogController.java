@@ -10,20 +10,27 @@ import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.UUID;
 
 @Api(value = "Logs")
 @AllArgsConstructor
 @RestController
-@RequestMapping(value="/api/v1")
+@RequestMapping(value = "/api/v1")
 public class LogController {
 
     private LogServiceImpl service;
@@ -41,22 +48,16 @@ public class LogController {
     })
     @GetMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
     private Page<LogDTO> find(
-            @ApiParam(value = "Título do log")
             @RequestParam(value = "title", required = false) Optional<String> title,
-            @ApiParam(value = "Nome da aplicação")
             @RequestParam(value = "app_name", required = false) Optional<String> appName,
-            @ApiParam(value = "Host da aplicação")
             @RequestParam(value = "host", required = false) Optional<String> host,
-            @ApiParam(value = "Ip da aplicação")
             @RequestParam(value = "ip", required = false) Optional<String> ip,
-            @ApiParam(value = "Ambiente da aplicação")
             @RequestParam(value = "environment", required = false) Optional<LogEnvironment> environment,
-            @ApiParam(value = "Nível do log")
             @RequestParam(value = "level", required = false) Optional<LogLevel> level,
-            @ApiParam(value = "Número da página atual")
-            @RequestParam(defaultValue = "0") Integer page,
-            @ApiParam(value = "Quantidade de registros")
-            @RequestParam(defaultValue = "20") Integer size) {
+            @RequestParam(value = "startTimestamp") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTimestamp,
+            @RequestParam(value = "endTimestamp") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTimestamp,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
@@ -67,8 +68,12 @@ public class LogController {
                 .ip(ip.map(String::toLowerCase).orElse(null))
                 .environment(environment.orElse(null))
                 .level(level.orElse(null))
-                .sort(sort)
+                .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
+                .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
                 .build();
+
+        System.out.println(search.getStartTimestamp());
+        System.out.println(search.getEndTimestamp());
 
         Page<Log> logs = service.find(search, page, size, sort);
         return logs.map(p -> mapper.map(p));
@@ -100,7 +105,7 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorMessageDTO.class)
     })
     @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
-    private LogDTO archive(@PathVariable UUID id){
+    private LogDTO archive(@PathVariable UUID id) {
         return mapper.map(service.archive(id));
     }
 

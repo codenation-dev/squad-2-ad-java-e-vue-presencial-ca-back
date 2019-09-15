@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Repository
@@ -22,6 +23,7 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
             "  and (:ip is null or lower(l.application.ip) like %:ip%) " +
             "  and (:environment is null or l.application.environment like :environment) " +
             "  and (:level is null or l.detail.level like :level) " +
+            "  and (l.detail.timestamp between :start and :end) " +
             "  and (archived is false)")
     Page<Log> find(@Param("title") String title,
                    @Param("appName") String appName,
@@ -29,6 +31,8 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
                    @Param("ip") String ip,
                    @Param("environment") LogEnvironment environment,
                    @Param("level") LogLevel level,
+                   @Param("start") LocalDateTime startTimestamp,
+                   @Param("end") LocalDateTime endTimestamp,
                    Pageable pageable);
 
 }
