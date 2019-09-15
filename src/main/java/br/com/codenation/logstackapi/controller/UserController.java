@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1")
 public class UserController {
 
-    private UserServiceImpl service;
+private UserServiceImpl service;
     private UserMapper mapper;
 
     @ApiOperation(

@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
+import br.com.codenation.logstackapi.dto.LogCreateDTO;
 import br.com.codenation.logstackapi.dto.LogDTO;
 import br.com.codenation.logstackapi.dto.LogDetailDTO;
 import br.com.codenation.logstackapi.dto.LogSearchDTO;
@@ -119,4 +120,17 @@ public class LogController {
         return mapper.map(service.unarchive(id));
     }
 
+    @ApiOperation(
+            value = "Cria um log",
+            notes = "Método utilizado para criar um log"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Log criado", response = LogDTO.class),
+            @ApiResponse(code = 400, message = "Requisão mal formatada", response = ErrorMessageDTO.class),
+            @ApiResponse(code = 500, message = "Erro na apo", response = ErrorMessageDTO.class)
+    })
+    @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
+    private LogDTO save(LogCreateDTO dto){
+        return mapper.map(service.save(dto));
+    }
 }
