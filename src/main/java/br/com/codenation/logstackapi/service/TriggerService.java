@@ -14,4 +14,8 @@ public interface TriggerService {
 
     Trigger findById(UUID id);
 
+    public Trigger active(UUID id);
+
+    public Trigger inactive(UUID id);
+
 }
