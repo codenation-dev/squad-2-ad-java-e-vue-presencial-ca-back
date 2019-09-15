@@ -1,7 +1,6 @@
 package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
-import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 
 import java.util.List;
@@ -18,9 +17,9 @@ public interface TriggerService {
     Trigger unarchive(UUID id);
 
     Trigger archive(UUID id);
-  
-    public Trigger active(UUID id);
 
-    public Trigger inactive(UUID id);
+    Trigger active(UUID id);
+
+    Trigger inactive(UUID id);
 
 }
