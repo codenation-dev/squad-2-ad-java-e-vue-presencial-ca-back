@@ -109,7 +109,7 @@ public class TriggerController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @PutMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
-    private TriggerResponseDTO active(@PathVariable UUID id){
+    private TriggerResponseDTO archive(@PathVariable UUID id) {
         return mapper.map(service.archive(id));
     }
   
@@ -124,7 +124,7 @@ public class TriggerController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
-    private TriggerResponseDTO inactive(@PathVariable UUID id) {
+    private TriggerResponseDTO unarchive(@PathVariable UUID id) {
         return mapper.map(service.unarchive(id));
     }  
 
