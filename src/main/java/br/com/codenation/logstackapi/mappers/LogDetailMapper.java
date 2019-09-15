@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.mappers;
 
-import br.com.codenation.logstackapi.dto.LogDetailDTO;
+import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,8 +24,8 @@ public interface LogDetailMapper {
             @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "createdBy", target = "createdBy"),
     })
-    LogDetailDTO map(Log log);
+    LogDetailResponseDTO map(Log log);
 
-    List<LogDetailDTO> map(List<Log> logs);
+    List<LogDetailResponseDTO> map(List<Log> logs);
 
 }

@@ -1,5 +1,6 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.response;
 
+import br.com.codenation.logstackapi.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "title", "application", "level", "timestamp", "archived", "content", "createdBy"})
-public class LogDetailDTO extends LogDTO {
+public class LogDetailResponseDTO extends LogResponseDTO {
 
     @ApiModelProperty(value = "Conteúdo do log", position = 7, example = "Initializing Spring DispatcherServlet 'dispatcherServlet'")
     private String content;

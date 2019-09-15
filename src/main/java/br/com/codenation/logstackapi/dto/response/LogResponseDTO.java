@@ -1,6 +1,5 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.response;
 
-import br.com.codenation.logstackapi.model.entity.LogApplication;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @JsonPropertyOrder({"id", "title", "application", "level", "timestamp", "archived"})
-public class LogDTO {
+public class LogResponseDTO {
 
     @ApiModelProperty(value = "Identificador do gatilho", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
     private UUID id;
@@ -23,7 +22,7 @@ public class LogDTO {
     private String title;
 
     @ApiModelProperty(value = "Dados da aplicação", position = 3)
-    private LogApplication application;
+    private LogApplicationResponseDTO application;
 
     @ApiModelProperty(value = "Nível do log", position = 4, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR")
     private LogLevel level;

@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.mappers;
 
-import br.com.codenation.logstackapi.dto.LogDTO;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,8 +23,9 @@ public interface LogMapper {
             @Mapping(source = "detail.timestamp", target = "timestamp"),
             @Mapping(source = "archived", target = "archived"),
     })
-    LogDTO map(Log log);
-    List<LogDTO> map(List<Log> logs);
+    LogResponseDTO map(Log log);
+
+    List<LogResponseDTO> map(List<Log> logs);
 
     @Mappings({
             @Mapping(source = "application.name", target = "application.name"),
