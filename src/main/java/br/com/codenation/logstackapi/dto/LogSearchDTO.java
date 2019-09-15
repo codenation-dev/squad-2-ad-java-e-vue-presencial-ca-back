@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
+import org.springframework.data.domain.Sort;
 
 @Data
 @Builder
@@ -15,10 +14,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class LogSearchDTO {
 
-    private Optional<String> title;
-    private Optional<String> ip;
-    private Optional<String> appName;
-    private Optional<LogLevel> level;
-    private Optional<LogEnvironment> environment;
+    private String title;
+    private String appName;
+    private String host;
+    private String ip;
+    private LogEnvironment environment;
+    private LogLevel level;
+    private Sort sort;
 
 }

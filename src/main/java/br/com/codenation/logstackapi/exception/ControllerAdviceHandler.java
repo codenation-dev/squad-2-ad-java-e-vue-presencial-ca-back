@@ -40,7 +40,7 @@ public class ControllerAdviceHandler {
     }
 
     @ExceptionHandler(ResourceExistsException.class)
-    public ResponseEntity<ErrorMessageDTO> illegalArgument(ResourceExistsException e, HttpServletRequest r) {
+    public ResponseEntity<ErrorMessageDTO> resourceIsException(ResourceExistsException e, HttpServletRequest r) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
         ErrorMessageDTO err = ErrorMessageDTO.builder()
