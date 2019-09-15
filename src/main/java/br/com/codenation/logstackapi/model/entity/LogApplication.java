@@ -22,23 +22,43 @@ public class LogApplication {
 
     @NotNull
     @Column(name = "app_name")
-    @ApiModelProperty(value = "Nome da aplicação", position = 1, example = "logstack-api")
+    @ApiModelProperty(
+            value = "Nome da aplicação",
+            position = 1,
+            example = "logstack-api",
+            required = true
+    )
     private String name;
 
     @NotNull
     @Column(name = "app_host")
-    @ApiModelProperty(value = "Hostname da aplicação", position = 2, example = "logstack-api.herokuapp.com")
+    @ApiModelProperty(
+            value = "Hostname da aplicação",
+            position = 2,
+            example = "logstack-api.herokuapp.com",
+            required = true
+    )
     private String host;
 
     @NotNull
     @Column(name = "app_ip")
-    @ApiModelProperty(value = "Ip da aplicação", position = 3, example = "184.456.41.11")
+    @ApiModelProperty(
+            value = "Ip da aplicação",
+            position = 3,
+            example = "184.456.41.11",
+            required = true
+    )
     private String ip;
 
     @NotNull
     @Column(name = "app_environment")
     @Enumerated(value = EnumType.STRING)
-    @ApiModelProperty(value = "Ambiente da aplicação", position = 4, example = "PRODUCTION", allowableValues = "DEVELOPMENT, TEST, PRODUCTION")
+    @ApiModelProperty(
+            value = "Ambiente da aplicação",
+            position = 4, example = "PRODUCTION",
+            allowableValues = "DEVELOPMENT, TEST, PRODUCTION",
+            required = true
+    )
     private LogEnvironment environment;
 
 }
