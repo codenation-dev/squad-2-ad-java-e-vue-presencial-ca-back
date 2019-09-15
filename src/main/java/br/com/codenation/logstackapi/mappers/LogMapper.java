@@ -22,7 +22,6 @@ public interface LogMapper {
             @Mapping(source = "detail.timestamp", target = "detail.timestamp"),
             @Mapping(source = "detail.level", target = "detail.level"),
             @Mapping(source = "detail.content", target = "detail.content"),
-            @Mapping(source = "archived", target = "archived"),
             @Mapping(source = "createdBy", target = "createdBy"),
     })
     LogResponseDTO map(Log log);

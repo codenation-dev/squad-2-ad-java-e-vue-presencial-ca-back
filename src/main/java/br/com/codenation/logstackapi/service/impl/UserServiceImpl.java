@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.dto.UserCreateDTO;
+import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceExistsException;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.User;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         return repository.findAll();
     }
 
-    public User save(UserCreateDTO dto) {
+    public User save(UserRequestDTO dto) {
         if (findByEmail(dto.getEmail()).isPresent()) {
             throw new ResourceExistsException("Email já cadastrado");
         }

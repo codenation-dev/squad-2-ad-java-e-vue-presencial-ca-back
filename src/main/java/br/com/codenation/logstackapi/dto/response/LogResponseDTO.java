@@ -1,6 +1,5 @@
 package br.com.codenation.logstackapi.dto.response;
 
-import br.com.codenation.logstackapi.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,10 +24,7 @@ public class LogResponseDTO {
     @ApiModelProperty(value = "Dados da aplicação", position = 4)
     private LogDetailResponseDTO detail;
 
-    @ApiModelProperty(value = "Log arquivado?", position = 5, example = "false")
-    private Boolean archived;
-
     @ApiModelProperty(value = "Usuário criador", position = 6)
-    private UserDTO createdBy;
+    private UserResponseDTO createdBy;
 
 }

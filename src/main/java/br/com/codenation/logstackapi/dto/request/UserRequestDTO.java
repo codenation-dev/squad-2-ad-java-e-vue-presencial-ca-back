@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.dto;
+package br.com.codenation.logstackapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
-public class UserCreateDTO {
+public class UserRequestDTO {
 
     @ApiModelProperty(value = "Nome do usuário", example = "João da Codenation", required = true)
     @Size(min = 1, max = 120)
