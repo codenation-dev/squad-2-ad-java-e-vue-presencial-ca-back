@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -22,10 +21,6 @@ public class LogServiceImpl implements LogService {
 
     private LogRepository repository;
     private LogMapper mapper;
-
-    public List<Log> findAll() {
-        return repository.findAll();
-    }
 
     public Log findById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
