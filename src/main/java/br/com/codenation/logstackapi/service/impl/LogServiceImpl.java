@@ -1,12 +1,16 @@
 package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.dto.LogCreateDTO;
+import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.service.LogService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,26 +31,6 @@ public class LogServiceImpl implements LogService {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
     }
 
-    public List<Log> findByTitle(String title) {
-        return repository.findByTitleIgnoreCaseContaining(title);
-    }
-
-    public List<Log> findByIp(String ip) {
-        return repository.findByApplicationIpContaining(ip);
-    }
-
-    public List<Log> findByLevel(String level) {
-        return repository.findByDetailLevelIgnoreCaseContaining(level);
-    }
-
-    public List<Log> findByApplicationName(String name) {
-        return repository.findByApplicationNameIgnoreCaseContaining(name);
-    }
-
-    public List<Log> findByEnvironment(String environment) {
-        return repository.findByEnvironmentIgnoreCaseContaining(environment);
-    }
-
     public Log unarchive(UUID id) {
         Log error = findById(id);
         error.setArchived(false);
@@ -63,5 +47,20 @@ public class LogServiceImpl implements LogService {
         Log log = mapper.map(dto);
         log.setArchived(false);
         return repository.save(log);
+    }
+    
+    public Page<Log> find(LogSearchDTO search, Integer page, Integer size, Sort sort) {
+
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+
+        return repository.find(
+                search.getTitle(),
+                search.getAppName(),
+                search.getHost(),
+                search.getIp(),
+                search.getEnvironment(),
+                search.getLevel(),
+                pageRequest);
+
     }
 }

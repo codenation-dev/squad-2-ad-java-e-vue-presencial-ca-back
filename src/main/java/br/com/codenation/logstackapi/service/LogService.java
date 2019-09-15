@@ -1,6 +1,9 @@
 package br.com.codenation.logstackapi.service;
 
+import br.com.codenation.logstackapi.dto.LogSearchDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,17 +12,9 @@ public interface LogService {
 
     List<Log> findAll();
 
+    Page<Log> find(LogSearchDTO search, Integer page, Integer size, Sort sort);
+
     Log findById(UUID id);
-
-    List<Log> findByTitle(String title);
-
-    List<Log> findByIp(String ip);
-
-    List<Log> findByLevel(String level);
-
-    List<Log> findByApplicationName(String name);
-
-    List<Log> findByEnvironment(String environment);
 
     Log unarchive(UUID id);
 
