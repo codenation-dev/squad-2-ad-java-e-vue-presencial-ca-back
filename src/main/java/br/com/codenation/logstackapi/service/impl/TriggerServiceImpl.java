@@ -37,4 +37,15 @@ public class TriggerServiceImpl implements TriggerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
     }
 
+    public Trigger archive(UUID id) {
+        Trigger archive = findById(id);
+        archive.setArchived(true);
+        return triggerRepository.save(archive);
+    }
+
+    public Trigger unarchive(UUID id) {
+        Trigger archive = findById(id);
+        archive.setArchived(false);
+        return triggerRepository.save(archive);
+    }
 }
