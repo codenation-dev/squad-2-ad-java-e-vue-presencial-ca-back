@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.dto;
 
-import br.com.codenation.logstackapi.model.entity.LogApplication;
+import br.com.codenation.logstackapi.dto.request.LogApplicationRequestDTO;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class LogCreateDTO {
     private String title;
 
     @ApiModelProperty(value = "Dados da aplicação")
-    private LogApplication application;
+    private LogApplicationRequestDTO application;
 
     @ApiModelProperty(value = "Nível do log", position = 4, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR")
     @NotNull
