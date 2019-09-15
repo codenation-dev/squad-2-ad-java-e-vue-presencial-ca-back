@@ -1,10 +1,6 @@
 package br.com.codenation.logstackapi.controller;
 
-import br.com.codenation.logstackapi.dto.ErrorMessageDTO;
-import br.com.codenation.logstackapi.dto.LogCreateDTO;
-import br.com.codenation.logstackapi.dto.LogDTO;
-import br.com.codenation.logstackapi.dto.LogDetailDTO;
-import br.com.codenation.logstackapi.dto.LogSearchDTO;
+import br.com.codenation.logstackapi.dto.*;
 import br.com.codenation.logstackapi.mappers.LogDetailMapper;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
@@ -72,9 +68,6 @@ public class LogController {
                 .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
                 .build();
-
-        System.out.println(search.getStartTimestamp());
-        System.out.println(search.getEndTimestamp());
 
         Page<Log> logs = service.find(search, page, size, sort);
         return logs.map(p -> mapper.map(p));
