@@ -77,7 +77,7 @@ public class TriggerController {
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
             @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
-    })
+    })  
     @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO active(@PathVariable UUID id){
         return mapper.map(service.active(id));
@@ -96,6 +96,36 @@ public class TriggerController {
     @DeleteMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO inactive(@PathVariable UUID id) {
         return mapper.map(service.inactive(id));
+    }              
+
+    @ApiOperation(
+            value = "Arquivar um gatilho específico.",
+            notes = "Método utilizado para arquivar um gatilho específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho arquivado", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @PutMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO active(@PathVariable UUID id){
+        return mapper.map(service.archive(id));
     }
+  
+    @ApiOperation(
+            value = "Desarquivar um gatilho específico.",
+            notes = "Método utilizado para desarquivar um gatilho específico."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Gatilho desarquivado", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO inactive(@PathVariable UUID id) {
+        return mapper.map(service.unarchive(id));
+    }  
 
 }
