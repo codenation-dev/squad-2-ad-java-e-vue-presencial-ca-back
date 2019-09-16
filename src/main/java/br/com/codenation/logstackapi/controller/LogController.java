@@ -54,8 +54,10 @@ public class LogController {
             @RequestParam(value = "ip", required = false) Optional<String> ip,
             @RequestParam(value = "environment", required = false) Optional<LogEnvironment> environment,
             @RequestParam(value = "level", required = false) Optional<LogLevel> level,
-            @RequestParam(value = "startTimestamp") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startTimestamp,
-            @RequestParam(value = "endTimestamp") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endTimestamp,
+            @RequestParam(value = "startTimestamp", required = false, defaultValue = "2019-09-01")
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTimestamp,
+            @RequestParam(value = "endTimestamp", required = false, defaultValue = "2019-09-30")
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endTimestamp,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size) {
 
