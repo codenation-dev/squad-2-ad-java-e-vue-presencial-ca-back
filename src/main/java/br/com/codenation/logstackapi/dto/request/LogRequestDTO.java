@@ -1,10 +1,10 @@
 package br.com.codenation.logstackapi.dto.request;
 
 import br.com.codenation.logstackapi.model.enums.LogLevel;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +27,7 @@ public class LogRequestDTO {
     private LogLevel level;
 
     @ApiModelProperty(value = "Timestamp", example = "2000-11-21 17:21:00", required = true)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @NotNull
     private LocalDateTime timestamp;
 
