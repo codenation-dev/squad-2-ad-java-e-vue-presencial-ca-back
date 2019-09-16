@@ -17,10 +17,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "Users")
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Users"}, description = "Endpoint para gerenciamento dos usuários")
 public class UserController {
 
 private UserServiceImpl service;

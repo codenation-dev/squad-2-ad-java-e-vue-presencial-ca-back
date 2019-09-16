@@ -28,10 +28,10 @@ import java.time.LocalTime;
 import java.util.Optional;
 import java.util.UUID;
 
-@Api(value = "Logs")
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Logs"}, description = "Endpoint para gerenciamento dos logs")
 public class LogController {
 
     private LogServiceImpl service;

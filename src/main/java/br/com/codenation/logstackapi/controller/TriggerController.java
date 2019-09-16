@@ -17,10 +17,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "Triggers")
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Triggers"}, description = "Endpoint para gerenciamento dos gatilhos")
 public class TriggerController {
 
     private TriggerServiceImpl service;
