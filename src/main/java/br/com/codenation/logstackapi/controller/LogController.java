@@ -21,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -130,7 +131,7 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na apo", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-    private LogResponseDTO save(LogRequestDTO dto) {
+    private LogResponseDTO save(@Valid @RequestBody LogRequestDTO dto) {
         return mapper.map(service.save(dto));
     }
 }
