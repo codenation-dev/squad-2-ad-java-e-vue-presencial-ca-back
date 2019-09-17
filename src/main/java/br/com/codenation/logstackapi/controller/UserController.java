@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,7 @@ private UserServiceImpl service;
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(code = HttpStatus.CREATED)
     private UserResponseDTO save(@Valid @RequestBody UserRequestDTO dto) {
         return mapper.map(service.save(dto));
     }
