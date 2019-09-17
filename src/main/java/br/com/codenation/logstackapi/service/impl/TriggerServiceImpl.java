@@ -60,5 +60,12 @@ public class TriggerServiceImpl implements TriggerService {
         active.setActive(true);
         return triggerRepository.save(active);
     }
+    public Trigger update(UUID id, TriggerRequestDTO dto) {
 
+        if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
+        Trigger trigger=findById(id);
+        trigger= mapper.map(dto);
+        return triggerRepository.save(trigger);
+
+    }
 }
