@@ -17,10 +17,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "Triggers")
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
+@Api(tags = {"Triggers"}, description = "Endpoint para gerenciamento dos gatilhos")
 public class TriggerController {
 
     private TriggerServiceImpl service;
@@ -126,6 +126,19 @@ public class TriggerController {
     @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO unarchive(@PathVariable UUID id) {
         return mapper.map(service.unarchive(id));
-    }  
+    }
 
+    @ApiOperation(
+            value = "Atualiza dados do gatilho por Id",
+            notes = "Método utilizado para atualizar o Trigger cadastrados."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerResponseDTO.class),
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+    })
+    @PutMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    private TriggerResponseDTO update(@PathVariable UUID id, @RequestBody TriggerRequestDTO dto) {
+        return mapper.map(service.update(id, dto));
+    }
 }

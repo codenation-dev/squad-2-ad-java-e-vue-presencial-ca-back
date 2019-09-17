@@ -11,12 +11,21 @@ public class TriggerBuilder {
     private TriggerBuilder() {
     }
 
-    public static TriggerBuilder umGatilho() {
+    public static TriggerBuilder gatilho1() {
         TriggerBuilder builder = new TriggerBuilder();
-        builder.trigger = Trigger.builder()
-                .id(UUID.randomUUID())
-                .name("Triggera de demonstração")
-                .build();
+        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 1 de demonstração").build();
+        return builder;
+    }
+
+    public static TriggerBuilder gatilho2() {
+        TriggerBuilder builder = new TriggerBuilder();
+        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 2 de demonstração").build();
+        return builder;
+    }
+
+    public static TriggerBuilder gatilho3() {
+        TriggerBuilder builder = new TriggerBuilder();
+        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 3 de demonstração").build();
         return builder;
     }
 

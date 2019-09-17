@@ -21,7 +21,7 @@ public class TriggerRequestDTO {
     @NotNull
     private String name;
 
-    @ApiModelProperty(value = "Mensagem para descrever o gatilho", position = 2, example = "Verificar com URGÊNCIA o serviço da aplicação")
+    @ApiModelProperty(value = "Mensagem para descrever o gatilho", position = 2, example = "Verificar com URGÊNCIA o serviço da aplicação", required = true)
     @Size(min = 1, max = 255)
     @NotNull
     private String message;
