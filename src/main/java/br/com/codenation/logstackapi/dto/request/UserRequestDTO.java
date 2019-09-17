@@ -2,6 +2,8 @@ package br.com.codenation.logstackapi.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +13,10 @@ import javax.validation.constraints.Size;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+@Builder
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserRequestDTO {
 
     @ApiModelProperty(value = "Nome do usuário", example = "João da Codenation", required = true)
