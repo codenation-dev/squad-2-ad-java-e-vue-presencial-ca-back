@@ -30,8 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
     private static String URI = "/api/v1/users";
+
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     private UserServiceImpl userService;
 
@@ -53,7 +55,7 @@ public class UserControllerTest {
 
     @Test
     @Transactional
-    public void dadoUsuariosDoisExistentes_quandoBuscarTodos_entaoDeveRetornarDoisUsuarios() throws Exception {
+    public void dadoDoisUsuariosExistentes_quandoBuscarTodos_entaoDeveRetornarDoisUsuarios() throws Exception {
 
         this.userService.save(UserResquestBuilder.usuarioAdmin().build());
         this.userService.save(UserResquestBuilder.usuarioComum().build());
