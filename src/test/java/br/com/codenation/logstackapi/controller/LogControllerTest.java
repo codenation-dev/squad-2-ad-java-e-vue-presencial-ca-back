@@ -49,4 +49,22 @@ public class LogControllerTest {
                 .andExpect(jsonPath("$.content", hasSize(0)));
     }
 
+    @Test
+    public void dadoLogInexistente_quandoArquivarPorId_entaoRetornaNaoEncontrado() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(MockMvcRequestBuilders.put(URI + id.toString() + "/archive"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void dadoLogInexistente_quandoDesarquivarPorId_entaoRetornaNaoEncontrado() throws Exception {
+
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(MockMvcRequestBuilders.delete(URI + id.toString() + "/archive"))
+                .andExpect(status().isNotFound());
+    }
+
 }
