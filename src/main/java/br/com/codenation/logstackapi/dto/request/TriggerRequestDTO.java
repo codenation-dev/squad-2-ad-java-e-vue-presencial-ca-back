@@ -34,7 +34,6 @@ public class TriggerRequestDTO {
     @NotNull
     private TriggerFilterRequestDTO filters;
 
-
     @JsonIgnore
     public boolean isNull() {
         return Stream.of(name, message, filters).allMatch(Objects::isNull);
