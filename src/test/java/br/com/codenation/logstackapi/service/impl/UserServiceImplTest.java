@@ -2,6 +2,9 @@ package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.LogStackApplication;
 import br.com.codenation.logstackapi.builders.UserBuilder;
+import br.com.codenation.logstackapi.builders.UserResquestBuilder;
+import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
+import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.UserService;
@@ -29,6 +32,10 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 public class UserServiceImplTest {
+
+    @Autowired
+    private UserMapper mapper;
+
     @Autowired
     private UserService userService;
 
@@ -71,5 +78,17 @@ public class UserServiceImplTest {
         assertThat(retornoListaUsuario.stream().filter(c -> c.getEmail().equals("codenation@hotmail.com")).count(), Matchers.equalTo(1L));
         assertThat(retornoListaUsuario.stream().filter(c -> c.getEmail().equals("error@hotmail.com")).count(), Matchers.equalTo(0L));
         assertThat(retornoListaUsuario.stream().filter(c -> c.getEmail().equals("codenation@hotmail.com")).findFirst().map(c -> c.getEmail()).orElse(null), Matchers.equalTo("codenation@hotmail.com"));
+    }
+
+    @Test
+    public void dadoUsuarioRequestDTO_quandoSalvar_entaoDeveRetornarUsuarioSalvo(){
+        UserRequestDTO userRequestDTO = UserResquestBuilder.usuarioAdmin().build();
+        User user = mapper.map(userRequestDTO);
+        Mockito.when(repository.save(user)).thenReturn(user);
+
+        User userSave = userService.save(userRequestDTO);
+
+        Assert.assertThat(userSave, Matchers.notNullValue());
+        Assert.assertThat(userSave.getFullName().toString(), Matchers.equalTo(userRequestDTO.getFullName()));
     }
 }
