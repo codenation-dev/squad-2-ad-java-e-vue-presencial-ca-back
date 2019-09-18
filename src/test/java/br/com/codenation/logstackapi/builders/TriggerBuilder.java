@@ -29,6 +29,17 @@ public class TriggerBuilder {
         return builder;
     }
 
+    public static TriggerBuilder gatilho4() {
+        TriggerBuilder builder = new TriggerBuilder();
+        builder.trigger = Trigger.builder().id(UUID.randomUUID())
+                .name("Trigger 4 de demonstração")
+                .message("Message 4")
+                .active(true)
+                .archived(true)
+                .build();
+        return builder;
+    }
+
     public TriggerBuilder ativo() {
         trigger.setActive(true);
         return this;
