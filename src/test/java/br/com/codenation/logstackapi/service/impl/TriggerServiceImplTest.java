@@ -11,6 +11,7 @@ import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
+import br.com.codenation.logstackapi.service.TriggerService;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class TriggerServiceImplTest {
     private TriggerMapper mapper;
 
     @Autowired
-    private TriggerServiceImpl triggerService;
+    private TriggerService triggerService;
 
     @MockBean
     private TriggerRepository repository;
