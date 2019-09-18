@@ -39,6 +39,16 @@ public class TriggerBuilder {
         return this;
     }
 
+    public TriggerBuilder arquivado() {
+        trigger.setArchived(true);
+        return this;
+    }
+
+    public TriggerBuilder desarquivado() {
+        trigger.setArchived(false);
+        return this;
+    }
+
     public Trigger build() {
         return trigger;
     }

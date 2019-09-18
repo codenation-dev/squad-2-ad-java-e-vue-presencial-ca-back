@@ -3,6 +3,8 @@ package br.com.codenation.logstackapi.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +14,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonPropertyOrder({"name", "message", "filters"})
 public class TriggerRequestDTO {
 
@@ -29,6 +33,7 @@ public class TriggerRequestDTO {
     @ApiModelProperty(value = "Filtros do gatilho", position = 3, required = true)
     @NotNull
     private TriggerFilterRequestDTO filters;
+
 
     @JsonIgnore
     public boolean isNull() {
