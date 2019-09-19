@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -36,6 +37,9 @@ public class Trigger extends Auditable<User> {
     @NotNull
     @Builder.Default
     private Boolean active = true;
+
+    @OneToMany(mappedBy = "id")
+    List<Alerts> alerts;
 
     @NotNull
     @Builder.Default
