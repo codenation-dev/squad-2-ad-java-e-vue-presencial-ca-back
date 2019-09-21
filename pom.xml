@@ -93,7 +93,13 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.sendgrid</groupId>
+            <artifactId>sendgrid-java</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
