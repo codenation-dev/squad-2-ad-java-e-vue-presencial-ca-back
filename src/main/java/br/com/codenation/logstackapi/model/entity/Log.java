@@ -34,7 +34,7 @@ public class Log extends Auditable<User> {
     private LogDetail detail;
 
     @OneToMany(mappedBy = "id")
-    List<Alerts> alerts;
+    List<Alert> alerts;
 
     @NotNull
     private Boolean archived;

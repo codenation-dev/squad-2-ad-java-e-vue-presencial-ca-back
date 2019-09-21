@@ -39,7 +39,7 @@ public class Trigger extends Auditable<User> {
     private Boolean active = true;
 
     @OneToMany(mappedBy = "id")
-    List<Alerts> alerts;
+    List<Alert> alerts;
 
     @NotNull
     @Builder.Default
