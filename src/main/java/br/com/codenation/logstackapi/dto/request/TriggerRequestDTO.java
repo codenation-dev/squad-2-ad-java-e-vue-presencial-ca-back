@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"name", "message", "filters"})
+@JsonPropertyOrder({"name", "message", "email", "filters"})
 public class TriggerRequestDTO {
 
     @ApiModelProperty(value = "Nome do gatilho", position = 1, example = "Level Erro em produção da API LogStack", required = true)
@@ -30,7 +31,13 @@ public class TriggerRequestDTO {
     @NotNull
     private String message;
 
-    @ApiModelProperty(value = "Filtros do gatilho", position = 3, required = true)
+    @ApiModelProperty(value = "Email para ser enviado o alerta do gatilho acionado", position = 3, example = "admin@example.com", required = true)
+    @Size(min = 1, max = 255)
+    @Email
+    @NotNull
+    private String email;
+
+    @ApiModelProperty(value = "Filtros do gatilho", position = 4, required = true)
     @NotNull
     private TriggerFilterRequestDTO filters;
 
