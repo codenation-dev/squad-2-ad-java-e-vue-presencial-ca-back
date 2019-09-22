@@ -1,6 +1,5 @@
 package br.com.codenation.logstackapi.config.security;
 
-import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -58,23 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManagerBean();
-    }
-
-    @Autowired
-    @Transactional
-    public void authenticationManager(AuthenticationManagerBuilder builder, UserRepository userRepository)
-            throws Exception {
-        User user = User.builder()
-                .email("admin@example.com")
-                .fullName("Administrador")
-                .password("admin")
-                .build();
-
-        userRepository.save(user);
-
-        builder.userDetailsService(userRepository::findOneByEmail).passwordEncoder(passwordEncoder());
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
 
     @Bean
