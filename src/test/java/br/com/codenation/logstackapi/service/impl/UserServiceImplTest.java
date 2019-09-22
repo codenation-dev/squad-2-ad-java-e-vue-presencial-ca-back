@@ -1,6 +1,5 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.LogStackApplication;
 import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.builders.UserResquestBuilder;
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
@@ -14,13 +13,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +47,13 @@ public class UserServiceImplTest {
 
         assertThat(userValidationEmail, Matchers.notNullValue());
         assertThat(userValidationEmail.getFullName(), Matchers.equalTo("Admin"));
-        assertThat(userValidationEmail.getEmail(), Matchers.equalTo("admin@hotmail.com"));
+        assertThat(userValidationEmail.getEmail(), Matchers.equalTo("admin@admin.com"));
     }
 
     @Test
     public void dadoUsuarioNaoExistente_quandoPesquisarPorEmail_entaoNaoDeveEncontrarUsuario(){
         User user = UserBuilder.admin().build();
-        Mockito.when(repository.findByEmail("admin@hotmail.com")).thenReturn(Optional.of(user));
+        Mockito.when(repository.findByEmail("admin@admin.com")).thenReturn(Optional.of(user));
 
         User userValidationEmailNotFound = userService.findByEmail("error@hotmail.com").orElse(null);
 

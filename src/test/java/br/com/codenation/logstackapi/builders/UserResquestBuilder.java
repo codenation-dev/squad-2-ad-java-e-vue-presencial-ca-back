@@ -13,8 +13,8 @@ public class UserResquestBuilder {
         UserResquestBuilder builder = new UserResquestBuilder();
         builder.user = new UserRequestDTO();
         builder.user.setFullName("Usuário Administrador");
-        builder.user.setEmail("admin@example.com");
-        builder.user.setPassword("1234");
+        builder.user.setEmail("admin@admin.com");
+        builder.user.setPassword("admin");
         return builder;
     }
 

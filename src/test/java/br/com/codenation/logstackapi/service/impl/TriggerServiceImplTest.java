@@ -1,17 +1,12 @@
 package br.com.codenation.logstackapi.service.impl;
 
 
-import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.TriggerBuilder;
 import br.com.codenation.logstackapi.builders.TriggerRequestDTOBuilder;
-import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
-import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.Trigger;
-import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.TriggerService;
 import org.hamcrest.Matchers;

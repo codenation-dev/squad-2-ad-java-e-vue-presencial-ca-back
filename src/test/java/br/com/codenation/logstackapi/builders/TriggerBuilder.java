@@ -13,19 +13,34 @@ public class TriggerBuilder {
 
     public static TriggerBuilder gatilho1() {
         TriggerBuilder builder = new TriggerBuilder();
-        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 1 de demonstração").message("Trigger 1").build();
+        builder.trigger = Trigger.builder()
+                .id(UUID.randomUUID())
+                .name("Trigger 1 de demonstração")
+                .message("Trigger 1")
+                .email("email@example1.com")
+                .build();
         return builder;
     }
 
     public static TriggerBuilder gatilho2() {
         TriggerBuilder builder = new TriggerBuilder();
-        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 2 de demonstração").message("Trigger 2").build();
+        builder.trigger = Trigger.builder()
+                .id(UUID.randomUUID())
+                .name("Trigger 2 de demonstração")
+                .message("Trigger 2")
+                .email("email@example2.com")
+                .build();
         return builder;
     }
 
     public static TriggerBuilder gatilho3() {
         TriggerBuilder builder = new TriggerBuilder();
-        builder.trigger = Trigger.builder().id(UUID.randomUUID()).name("Trigger 3 de demonstração").message("Trigger 3").build();
+        builder.trigger = Trigger.builder()
+                .id(UUID.randomUUID())
+                .name("Trigger 3 de demonstração")
+                .message("Trigger 3")
+                .email("email@example3.com")
+                .build();
         return builder;
     }
 
@@ -34,6 +49,7 @@ public class TriggerBuilder {
         builder.trigger = Trigger.builder().id(UUID.randomUUID())
                 .name("Trigger 4 de demonstração")
                 .message("Message 4")
+                .email("email@example4.com")
                 .active(true)
                 .archived(true)
                 .build();
