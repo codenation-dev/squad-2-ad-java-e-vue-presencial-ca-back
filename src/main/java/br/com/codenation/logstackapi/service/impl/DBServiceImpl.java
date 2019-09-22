@@ -37,6 +37,7 @@ public class DBServiceImpl implements DBService {
 
         Trigger trigger = Trigger.builder()
                 .name("Level Error em Produção na Aplicação LOGSTACK-API")
+                .email("example@teste2.com")
                 .message("Verificar o erro em produção na API LOGSTACK")
                 .active(true)
                 .filters(filter)

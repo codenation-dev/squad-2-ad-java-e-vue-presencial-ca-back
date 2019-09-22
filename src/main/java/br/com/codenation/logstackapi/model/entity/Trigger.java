@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +30,11 @@ public class Trigger extends Auditable<User> {
     @NotNull
     @Column(length = 255)
     private String message;
+
+    @NotNull
+    @Column(length = 255)
+    @Email
+    private String email;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "trigger_filter_id")
