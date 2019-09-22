@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi;
+package br.com.codenation.logstackapi.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
