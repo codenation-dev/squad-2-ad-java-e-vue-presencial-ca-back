@@ -25,9 +25,33 @@ public class DBServiceImpl implements DBService {
     private UserRepository userRepository;
 
     @Autowired
+    private SecurityServiceImpl securityService;
+
+    @Autowired
     private TriggerRepository triggerRepository;
 
     public void instantiateTestDatabase() throws ParseException {
+
+        User user = User.builder()
+                .email("admin@admin.com")
+                .fullName("Administrador")
+                .password("admin")
+                .build();
+
+        userRepository.save(user);
+    }
+
+    public void instantiateDevDatabase() throws ParseException {
+
+        User user = User.builder()
+                .email("admin@admin.com")
+                .fullName("Administrador")
+                .password("admin")
+                .build();
+
+        userRepository.save(user);
+
+        securityService.autoLogin(user.getEmail(), user.getPassword());
 
         TriggerFilter filter = TriggerFilter.builder()
                 .appName("logstack-api")
