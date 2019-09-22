@@ -15,7 +15,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
-            "/api/v1/logs/**"
+            "/api/v1/logs"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
