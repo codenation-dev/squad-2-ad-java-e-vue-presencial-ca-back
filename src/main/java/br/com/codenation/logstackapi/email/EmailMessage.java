@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.model.entity;
+package br.com.codenation.logstackapi.email;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EmailMessage {
 
+    private String from;
     private String to;
     private String subject;
     private String body;
