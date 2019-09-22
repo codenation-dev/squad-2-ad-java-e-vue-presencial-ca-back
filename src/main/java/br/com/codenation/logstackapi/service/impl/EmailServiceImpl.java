@@ -15,7 +15,7 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
 
     @Autowired
-    public EmailServiceImpl(EmailTransportFactory transportFactory, @Value("${app.sendgrid.sender}") String sender) {
+    public EmailServiceImpl(EmailTransportFactory transportFactory, @Value("${app.sendgrid.sender:no-reply@gmail.com}") String sender) {
         this.emailTransport = transportFactory.build();
         this.sender = sender;
     }
