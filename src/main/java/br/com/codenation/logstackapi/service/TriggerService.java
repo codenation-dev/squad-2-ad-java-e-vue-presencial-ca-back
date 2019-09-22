@@ -22,4 +22,6 @@ public interface TriggerService {
 
     Trigger inactive(UUID id);
 
+    Trigger update(UUID id, TriggerRequestDTO dto);
+
 }

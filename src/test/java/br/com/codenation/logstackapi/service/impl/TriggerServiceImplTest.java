@@ -4,11 +4,13 @@ package br.com.codenation.logstackapi.service.impl;
 import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.TriggerBuilder;
 import br.com.codenation.logstackapi.builders.TriggerRequestDTOBuilder;
+import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.TriggerService;
@@ -23,7 +25,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import static org.junit.Assert.assertThat;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -117,6 +123,34 @@ public class TriggerServiceImplTest {
         Trigger triggerSave = triggerService.save(triggerRequestDTO);
 
         Assert.assertThat(triggerSave, Matchers.notNullValue());
-        Assert.assertThat(trigger.getFilters().getAppName(), Matchers.equalTo(triggerRequestDTO.getFilters().getAppName()));
+        Assert.assertThat(triggerSave.getFilters().getAppName(), Matchers.equalTo(triggerRequestDTO.getFilters().getAppName()));
+    }
+
+    @Test
+    public void dadoTriggersExistentes_quandoBuscarTodasTriggers_entaoDeveRetornarTodasTriggers(){
+        List<Trigger> listaTrigger = new ArrayList<>();
+        listaTrigger.add(TriggerBuilder.gatilho1().arquivado().build());
+        listaTrigger.add(TriggerBuilder.gatilho2().arquivado().build());
+        listaTrigger.add(TriggerBuilder.gatilho4().arquivado().build());
+        Mockito.when(repository.findAll()).thenReturn(listaTrigger);
+
+        List<Trigger> retornoListaTrigger = triggerService.findAll();
+
+        assertThat(retornoListaTrigger.stream().count(), Matchers.equalTo(3L));
+        assertThat(retornoListaTrigger.stream().filter(c -> c.getName().equals("Trigger 4 de demonstração")).count(), Matchers.equalTo(1L));
+        assertThat(retornoListaTrigger.stream().filter(c -> c.getMessage().equals("Message 4")).findFirst().map(c -> c.getMessage()).orElse(null), Matchers.equalTo("Message 4"));
+    }
+
+    @Test
+    public void dadoTriggersExistentes_quandoAtualizarPorId_entaoDeveRetornarTriggerAtualizada(){
+        TriggerRequestDTO triggerRequestDTO = TriggerRequestDTOBuilder.gatilho1().build();
+        Trigger trigger = mapper.map(triggerRequestDTO);
+        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+
+        Trigger triggerAtualizada = triggerService.update(trigger.getId(), triggerRequestDTO);
+
+        Assert.assertThat(triggerAtualizada, Matchers.notNullValue());
+        Assert.assertThat(triggerAtualizada.getFilters().getAppName(), Matchers.equalTo(triggerRequestDTO.getFilters().getAppName()));
     }
 }
