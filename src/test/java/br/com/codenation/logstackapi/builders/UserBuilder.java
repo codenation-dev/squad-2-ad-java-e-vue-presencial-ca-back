@@ -11,9 +11,9 @@ public class UserBuilder {
         UserBuilder builder = new UserBuilder();
         builder.user = User.builder()
                 .id(UUID.randomUUID())
-                .email("admin@hotmail.com")
+                .email("admin@admin.com")
                 .fullName("Admin")
-                .password("adminadmin")
+                .password("admin")
                 .build();
         return builder;
     }

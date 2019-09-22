@@ -101,7 +101,7 @@ public class LogControllerTest {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("username", "admin@example.com");
+        params.add("username", "admin@admin.com");
         params.add("password", "admin");
 
         ResultActions login = mvc.perform(

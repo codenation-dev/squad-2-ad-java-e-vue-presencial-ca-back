@@ -1,6 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.TriggerBuilder;
+import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
+import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.TriggerService;
@@ -8,11 +10,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,6 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonBytes;
@@ -42,6 +49,9 @@ public class TriggerControllerTest {
 
     private static String URI = "/api/v1/triggers";
 
+    @MockBean
+    private TriggerRepository repository;
+
     @Autowired
     private MockMvc mvc;
 
@@ -49,7 +59,7 @@ public class TriggerControllerTest {
     private TriggerService service;
 
     @Autowired
-    private TriggerRepository repository;
+    private TriggerMapper mapper;
 
     @Value("${security.oauth2.client.client-id}")
     private String client;
@@ -110,13 +120,17 @@ public class TriggerControllerTest {
     @Test
     @Transactional
     public void dadoTriggerExistente_quandoBuscarTodasTriggerPorId_deveRetornarTrigger() throws Exception {
-        Trigger trigger = TriggerBuilder.gatilho4().ativo().build();
 
-        this.repository.save(trigger);
+        Trigger t4 = TriggerBuilder.gatilho4().ativo().build();
+        List<Trigger> list = Arrays.asList(t4);
+        Mockito.when(repository.findAll()).thenReturn(list);
+
+        List<TriggerResponseDTO> response = new ArrayList<>();
+        response.add(mapper.map(t4));
 
         ResultActions perform = mvc.perform(get(URI)
                 .header("Authorization", token)
-                .content(convertObjectToJsonBytes(trigger))
+                .content(convertObjectToJsonBytes(response))
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
@@ -129,7 +143,7 @@ public class TriggerControllerTest {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("username", "admin@example.com");
+        params.add("username", "admin@admin.com");
         params.add("password", "admin");
 
         ResultActions login = mvc.perform(

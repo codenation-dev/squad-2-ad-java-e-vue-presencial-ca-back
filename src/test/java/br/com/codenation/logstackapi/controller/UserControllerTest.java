@@ -87,7 +87,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
 
-        perform.andExpect(jsonPath("$[0].email", is("admin@example.com")));
+        perform.andExpect(jsonPath("$[0].email", is("admin@admin.com")));
         perform.andExpect(jsonPath("$[0].fullName", is("Administrador")));
 
         perform.andExpect(jsonPath("$[1].email", is("comum@example.com")));
@@ -112,7 +112,7 @@ public class UserControllerTest {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("username", "admin@example.com");
+        params.add("username", "admin@admin.com");
         params.add("password", "admin");
 
         ResultActions login = mvc.perform(
