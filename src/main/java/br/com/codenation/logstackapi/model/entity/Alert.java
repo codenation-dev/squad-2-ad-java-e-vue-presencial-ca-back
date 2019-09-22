@@ -18,12 +18,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Alert extends Auditable<User> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     @NotNull
-    @ManyToOne
+    @OneToOne
     private Log log;
 
     @NotNull

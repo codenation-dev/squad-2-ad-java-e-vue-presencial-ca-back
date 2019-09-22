@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,9 +31,6 @@ public class Log extends Auditable<User> {
 
     @Embedded
     private LogDetail detail;
-
-    @OneToMany(mappedBy = "id")
-    List<Alert> alerts;
 
     @NotNull
     private Boolean archived;
