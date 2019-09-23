@@ -7,6 +7,8 @@ import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.TriggerService;
 import org.hamcrest.Matchers;
@@ -21,6 +23,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +44,7 @@ public class TriggerServiceImplTest {
     private TriggerRepository repository;
 
     @Test
-    public void dadoTriggerExistente_quandoPesquisarPorId_entaoDeveEncontrarTrigger(){
+    public void dadoTriggerExistente_quandoPesquisarPorId_entaoDeveEncontrarTrigger() {
         Trigger trigger = TriggerBuilder.gatilho1().build();
         UUID triggerId = trigger.getId();
         Mockito.when(repository.findById(triggerId)).thenReturn(java.util.Optional.of(trigger));
@@ -53,7 +56,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void dadoTriggerNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarTrigger(){
+    public void dadoTriggerNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarTrigger() {
         Trigger trigger = TriggerBuilder.gatilho1().build();
         UUID triggerId = trigger.getId();
         Mockito.when(repository.findById(UUID.randomUUID())).thenReturn(java.util.Optional.of(trigger));
@@ -62,7 +65,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggerNaoArquivado_quandoAtivar_entaoDeveRetornarTriggerArquivado(){
+    public void dadoTriggerNaoArquivado_quandoAtivar_entaoDeveRetornarTriggerArquivado() {
         Trigger trigger = TriggerBuilder.gatilho1().desarquivado().build();
         Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -74,7 +77,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggerArquivado_quandoDesarquivar_entaoDeveRetornarTriggerNaoArquivado(){
+    public void dadoTriggerArquivado_quandoDesarquivar_entaoDeveRetornarTriggerNaoArquivado() {
         Trigger trigger = TriggerBuilder.gatilho1().arquivado().build();
         Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -86,7 +89,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggerAtiva_quandoDesativar_entaoDeveRetornarTriggerInativo(){
+    public void dadoTriggerAtiva_quandoDesativar_entaoDeveRetornarTriggerInativo() {
         Trigger trigger = TriggerBuilder.gatilho1().ativo().build();
         Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -98,7 +101,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggerInativa_quandoAtivar_entaoDeveRetornarTriggerAtiva(){
+    public void dadoTriggerInativa_quandoAtivar_entaoDeveRetornarTriggerAtiva() {
         Trigger trigger = TriggerBuilder.gatilho1().inativo().build();
         Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -110,7 +113,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggerRequestDTO_quandoSalvar_entaoDeveRetornarTriggerSalva(){
+    public void dadoTriggerRequestDTO_quandoSalvar_entaoDeveRetornarTriggerSalva() {
         TriggerRequestDTO triggerRequestDTO = TriggerRequestDTOBuilder.gatilho1().build();
         Trigger trigger = mapper.map(triggerRequestDTO);
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -122,7 +125,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggersExistentes_quandoBuscarTodasTriggers_entaoDeveRetornarTodasTriggers(){
+    public void dadoTriggersExistentes_quandoBuscarTodasTriggers_entaoDeveRetornarTodasTriggers() {
         List<Trigger> listaTrigger = new ArrayList<>();
         listaTrigger.add(TriggerBuilder.gatilho1().arquivado().build());
         listaTrigger.add(TriggerBuilder.gatilho2().arquivado().build());
@@ -137,7 +140,7 @@ public class TriggerServiceImplTest {
     }
 
     @Test
-    public void dadoTriggersExistentes_quandoAtualizarPorId_entaoDeveRetornarTriggerAtualizada(){
+    public void dadoTriggersExistentes_quandoAtualizarPorId_entaoDeveRetornarTriggerAtualizada() {
         TriggerRequestDTO triggerRequestDTO = TriggerRequestDTOBuilder.gatilho1().build();
         Trigger trigger = mapper.map(triggerRequestDTO);
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
@@ -148,4 +151,31 @@ public class TriggerServiceImplTest {
         Assert.assertThat(triggerAtualizada, Matchers.notNullValue());
         Assert.assertThat(triggerAtualizada.getFilters().getAppName(), Matchers.equalTo(triggerRequestDTO.getFilters().getAppName()));
     }
+
+    @Test
+    public void dadoTriggersExistentes_quandoPesquisaPorDadosDoLog_entaoDeveRetornarTriggersCadastradas() {
+
+        String appName = "logstack-api";
+        LogEnvironment environment = LogEnvironment.PRODUCTION;
+        LogLevel level = LogLevel.ERROR;
+
+        List<Trigger> triggers = Arrays.asList(
+                TriggerBuilder.gatilho1().ativo().build(),
+                TriggerBuilder.gatilho1().ativo().build(),
+                TriggerBuilder.gatilho1().ativo().build(),
+                TriggerBuilder.gatilho1().ativo().build(),
+                TriggerBuilder.gatilho1().ativo().build());
+
+        Mockito.when(repository.findByFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndActiveTrue(
+                appName, environment, level
+        )).thenReturn(triggers);
+
+        List<Trigger> result = triggerService.findByLog(appName, environment, level);
+
+        Assert.assertThat(result, Matchers.notNullValue());
+        Assert.assertThat(result.get(0).getFilters().getAppName(), Matchers.equalTo(appName));
+        Assert.assertThat(result.get(0).getFilters().getEnvironment(), Matchers.equalTo(environment));
+        Assert.assertThat(result.get(0).getFilters().getLevel(), Matchers.equalTo(level));
+    }
+
 }

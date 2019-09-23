@@ -6,19 +6,28 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class SendGridEmailTransport implements EmailTransport {
 
     private SendGrid sendGrid;
+    private Boolean sendMailActive;
 
-    public SendGridEmailTransport(String apiKey) {
-        sendGrid = new SendGrid(apiKey);
+    public SendGridEmailTransport(String apiKey, Boolean sendMailActive) {
+        this.sendMailActive = sendMailActive;
+        this.sendGrid = new SendGrid(apiKey);
     }
 
     @Override
     public void send(EmailMessage emailMessage) {
+
+        if (!sendMailActive) {
+            log.info("Email não enviado. Envio de email desativado...");
+            return;
+        }
 
         Content content = new Content("text/html", emailMessage.getBody());
         Email from = new Email(emailMessage.getFrom());
@@ -33,9 +42,9 @@ public class SendGridEmailTransport implements EmailTransport {
         try {
             request.setBody(mail.build());
             sendGrid.api(request);
-            System.out.println("Email enviado com sucesso.");
+            log.info("Email enviado com sucesso.");
         } catch (IOException ex) {
-            System.out.println("Não foi possível enviar o email.");
+            log.error("Não foi possível enviar o email.");
         }
 
         System.out.println("Message: " + emailMessage.toString());

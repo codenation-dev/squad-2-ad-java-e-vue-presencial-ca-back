@@ -1,6 +1,9 @@
 package br.com.codenation.logstackapi.builders;
 
 import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.entity.TriggerFilter;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 
 import java.util.UUID;
 
@@ -12,12 +15,20 @@ public class TriggerBuilder {
     }
 
     public static TriggerBuilder gatilho1() {
+
+        TriggerFilter filter = TriggerFilter.builder()
+                .appName("logstack-api")
+                .environment(LogEnvironment.PRODUCTION)
+                .level(LogLevel.ERROR)
+                .build();
+
         TriggerBuilder builder = new TriggerBuilder();
         builder.trigger = Trigger.builder()
                 .id(UUID.randomUUID())
                 .name("Trigger 1 de demonstração")
                 .message("Trigger 1")
                 .email("email@example1.com")
+                .filters(filter)
                 .build();
         return builder;
     }
