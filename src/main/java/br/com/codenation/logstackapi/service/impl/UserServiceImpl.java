@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository repository;
     private UserMapper mapper;
+    private BCryptPasswordEncoder bCrypt;
 
     public List<User> findAll() {
         return repository.findAll();
@@ -28,8 +29,8 @@ public class UserServiceImpl implements UserService {
         if (findByEmail(dto.getEmail()).isPresent()) {
             throw new ResourceExistsException("Email já cadastrado");
         }
-        dto.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         User user = mapper.map(dto);
+        user.setPassword(bCrypt.encode(dto.getPassword()));
         return repository.save(user);
     }
 
