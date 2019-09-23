@@ -7,6 +7,7 @@ import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
         if (findByEmail(dto.getEmail()).isPresent()) {
             throw new ResourceExistsException("Email já cadastrado");
         }
+        dto.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         User user = mapper.map(dto);
         return repository.save(user);
     }

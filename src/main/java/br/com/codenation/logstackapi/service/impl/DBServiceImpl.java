@@ -1,17 +1,16 @@
 package br.com.codenation.logstackapi.service.impl;
 
+import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
 import br.com.codenation.logstackapi.model.entity.*;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
-import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.DBService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,7 @@ public class DBServiceImpl implements DBService {
     private LogRepository logRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
     @Autowired
     private SecurityServiceImpl securityService;
@@ -32,21 +31,33 @@ public class DBServiceImpl implements DBService {
     @Autowired
     private TriggerRepository triggerRepository;
 
-    public void instantiateTestDatabase() throws ParseException {
+    public void instantiateTestDatabase() {
         log.info("Started database environment dev");
-        User user = User.builder().email("admin@admin.com").fullName("Administrador").password("admin").build();
-        user = userRepository.save(user);
+
+        String fullName = "Administrador";
+        String username = "admin@admin.com";
+        String password = "admin";
+
+        UserRequestDTO dto = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
+        User user = userService.save(dto);
         log.info("User created: " + user);
+        log.info("Finished database");
+
     }
 
-    public void instantiateDevDatabase() throws ParseException {
+    public void instantiateDevDatabase() {
 
         log.info("Started database environment dev");
 
-        User user = User.builder().email("admin@admin.com").fullName("Administrador").password("admin").build();
-        userRepository.save(user);
+        String fullName = "Administrador";
+        String username = "admin@admin.com";
+        String password = "admin";
 
-        securityService.autoLogin(user.getEmail(), user.getPassword());
+        UserRequestDTO dto = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
+        User user = userService.save(dto);
+        log.info("User created: " + user);
+
+        securityService.autoLogin(username, password);
 
         TriggerFilter filter = TriggerFilter.builder()
                 .appName("logstack-api")
