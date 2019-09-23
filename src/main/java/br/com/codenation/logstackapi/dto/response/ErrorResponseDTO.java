@@ -28,7 +28,7 @@ public class ErrorResponseDTO implements Serializable {
     private String error;
 
     @ApiModelProperty(value = "Mensagem do erro", position = 4, example = "Log not found with the specified id")
-    private String messsage;
+    private String message;
 
     @ApiModelProperty(value = "Caminho da requisição", position = 5, example = "/api/v1/logs/7eec8504-1383-443f-85fe-724272034a61")
     private String path;

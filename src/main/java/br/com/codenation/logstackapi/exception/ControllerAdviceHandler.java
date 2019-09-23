@@ -19,7 +19,7 @@ public class ControllerAdviceHandler {
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())
-                .messsage(e.getMessage())
+                .message(e.getMessage())
                 .path(r.getRequestURI())
                 .build();
         return ResponseEntity.status(status).body(err);
@@ -33,7 +33,7 @@ public class ControllerAdviceHandler {
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())
-                .messsage(e.getMessage())
+                .message(e.getMessage())
                 .path(r.getRequestURI())
                 .build();
         return ResponseEntity.status(status).body(err);
@@ -47,7 +47,7 @@ public class ControllerAdviceHandler {
                 .timestamp(System.currentTimeMillis())
                 .status(status.value())
                 .error(status.getReasonPhrase())
-                .messsage(e.getMessage())
+                .message(e.getMessage())
                 .path(r.getRequestURI())
                 .build();
         return ResponseEntity.status(status).body(err);
