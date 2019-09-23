@@ -4,6 +4,8 @@ import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.enums.LogEnvironment;
+import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.TriggerService;
 import lombok.AllArgsConstructor;
@@ -37,10 +39,16 @@ public class TriggerServiceImpl implements TriggerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
     }
 
+    @Override
+    public List<Trigger> findByLog(String appName, LogEnvironment environment, LogLevel level) {
+        return triggerRepository.findByFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndActiveTrue(appName, environment, level);
+    }
+
     public Trigger archive(UUID id) {
-        Trigger archive = findById(id);
-        archive.setArchived(true);
-        return triggerRepository.save(archive);
+        Trigger trigger = findById(id);
+        trigger.setArchived(true);
+        trigger.setActive(false);
+        return triggerRepository.save(trigger);
     }
 
     public Trigger unarchive(UUID id) {

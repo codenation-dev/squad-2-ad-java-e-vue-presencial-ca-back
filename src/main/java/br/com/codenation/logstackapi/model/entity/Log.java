@@ -33,6 +33,9 @@ public class Log extends Auditable<User> {
     private LogDetail detail;
 
     @NotNull
+    private Boolean checkAlert;
+
+    @NotNull
     private Boolean archived;
 
 }

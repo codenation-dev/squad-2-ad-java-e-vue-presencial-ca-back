@@ -18,10 +18,13 @@ public class EmailTransportFactory {
 
     public EmailTransport build() {
 
+        Boolean sendMailActive = Optional.ofNullable(Boolean.valueOf(environment.getProperty("app.sendgrid.active")))
+                .orElse(false);
+
         String sendGridKey = Optional.ofNullable(environment.getProperty("app.sendgrid.key"))
                 .orElseThrow(() -> new RuntimeException("Can't send email: SendGrid API key not configured."));
 
-        return new SendGridEmailTransport(sendGridKey);
+        return new SendGridEmailTransport(sendGridKey, sendMailActive);
     }
 
 }

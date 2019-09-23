@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,14 +42,12 @@ public class Trigger extends Auditable<User> {
     private TriggerFilter filters;
 
     @NotNull
-    @Builder.Default
-    private Boolean active = true;
+    private Boolean active;
 
-    @OneToMany(mappedBy = "id")
-    List<Alert> alerts;
+    @OneToMany(mappedBy = "trigger")
+    private List<Alert> alerts = new ArrayList<>();
 
     @NotNull
-    @Builder.Default
-    private Boolean archived = true;
+    private Boolean archived;
 
 }

@@ -22,11 +22,11 @@ public class NotificationAlertServiceImpl implements NotificationAlertService {
     private String getBody(Alert alert) {
         StringBuilder body = new StringBuilder();
         body.append("============================================ <br>");
-        body.append("[ NEW ALERT ]");
+        body.append("[ NEW ALERT ] <br>");
         body.append("============================================ <br>");
         body.append(">>> Message: " + alert.getTrigger().getMessage() + "<br>");
         body.append("============================================ <br>");
-        body.append("<br><br>");
+        body.append("<br>");
         body.append(">>> Log: " + alert.getLog().getTitle() + "<br>");
         body.append(">>> Application: " + alert.getLog().getApplication().getName() + "<br>");
         body.append(">>> Ip: " + alert.getLog().getApplication().getIp() + "<br>");
