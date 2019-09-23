@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -37,6 +38,9 @@ public class UserServiceImplTest {
 
     @MockBean
     private UserRepository repository;
+
+    @MockBean
+    private BCryptPasswordEncoder bCrypt;
 
     @Test
     public void dadoUsuarioExistente_quandoPesquisarPorEmail_entaoDeveEncontrarUsuario() {
@@ -80,6 +84,9 @@ public class UserServiceImplTest {
     public void dadoUsuarioRequestDTO_quandoSalvar_entaoDeveRetornarUsuarioSalvo(){
         UserRequestDTO userRequestDTO = UserResquestBuilder.usuarioAdmin().build();
         User user = mapper.map(userRequestDTO);
+        String passwordCrypt = bCrypt.encode(userRequestDTO.getPassword());
+        user.setPassword(passwordCrypt);
+        Mockito.when(bCrypt.encode(userRequestDTO.getPassword())).thenReturn(passwordCrypt);
         Mockito.when(repository.save(user)).thenReturn(user);
 
         User userSave = userService.save(userRequestDTO);
