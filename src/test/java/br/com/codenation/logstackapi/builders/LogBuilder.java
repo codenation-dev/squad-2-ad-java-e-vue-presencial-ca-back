@@ -19,8 +19,24 @@ public class LogBuilder {
                 .id(UUID.randomUUID())
                 .title("Título")
                 .archived(false)
+                .checkAlert(false)
                 .build();
         return builder;
+    }
+
+    public LogBuilder id(UUID id) {
+        log.setId(id);
+        return this;
+    }
+
+    public LogBuilder checkAlert() {
+        log.setCheckAlert(true);
+        return this;
+    }
+
+    public LogBuilder notCheckAlert() {
+        log.setCheckAlert(false);
+        return this;
     }
 
     public LogBuilder arquivado() {

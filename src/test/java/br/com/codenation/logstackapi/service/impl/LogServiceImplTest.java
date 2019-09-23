@@ -1,26 +1,28 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.LogStackApplication;
 import br.com.codenation.logstackapi.builders.LogBuilder;
+import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
+import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
+import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.repository.LogRepository;
-import br.com.codenation.logstackapi.service.LogService;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+
+import static org.junit.Assert.assertThat;
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,6 +31,9 @@ public class LogServiceImplTest {
 
     @Autowired
     private LogServiceImpl logService;
+
+    @Autowired
+    private LogMapper mapper;
 
     @MockBean
     private LogRepository repository;
@@ -41,9 +46,9 @@ public class LogServiceImplTest {
 
         Log logValidationId = logService.findById(idLog);
 
-        Assert.assertThat(logValidationId, Matchers.notNullValue());
-        Assert.assertThat(logValidationId.getTitle(), Matchers.equalTo("Título"));
-        Assert.assertThat(logValidationId.getArchived(), Matchers.equalTo(Boolean.FALSE));
+        assertThat(logValidationId, Matchers.notNullValue());
+        assertThat(logValidationId.getTitle(), Matchers.equalTo("Título"));
+        assertThat(logValidationId.getArchived(), Matchers.equalTo(Boolean.FALSE));
     }
 
     @Test(expected = ResourceNotFoundException.class)
@@ -54,7 +59,6 @@ public class LogServiceImplTest {
         logService.findById(UUID.randomUUID());
     }
 
-
     @Test
     public void dadoLogNaoArquivado_quandoPesquisarPorId_entaoDeveRetornarLogArquivado(){
         Log log = LogBuilder.umLog().build();
@@ -63,8 +67,8 @@ public class LogServiceImplTest {
 
         Log logArquivado = logService.archive(log.getId());
 
-        Assert.assertThat(logArquivado, Matchers.notNullValue());
-        Assert.assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.TRUE));
+        assertThat(logArquivado, Matchers.notNullValue());
+        assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.TRUE));
     }
 
     @Test
@@ -75,7 +79,47 @@ public class LogServiceImplTest {
 
         Log logArquivado = logService.unarchive(log.getId());
 
-        Assert.assertThat(logArquivado, Matchers.notNullValue());
-        Assert.assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.FALSE));
+        assertThat(logArquivado, Matchers.notNullValue());
+        assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.FALSE));
     }
+
+    @Test
+    public void dadoLogNaoVerificadoAlerta_quandoPesquisarLogsNaoVerificados_entaoDeveRetornarLogNaoVerificados() {
+
+        Integer size = 5;
+
+        List<Log> logs = Arrays.asList(
+                LogBuilder.umLog().build(),
+                LogBuilder.umLog().build(),
+                LogBuilder.umLog().build(),
+                LogBuilder.umLog().build(),
+                LogBuilder.umLog().build());
+
+        Mockito.when(repository.findByCheckAlert(false)).thenReturn(logs);
+        List<Log> result = logService.findByCheckAlertNotVerified(size);
+
+        assertThat(result, Matchers.notNullValue());
+        assertThat(result.stream().count(), Matchers.equalTo(5L));
+        assertThat(result.get(0).getCheckAlert(), Matchers.equalTo(Boolean.FALSE));
+
+    }
+
+    @Test
+    public void dadoLog_quandoSalvar_entaoDeveRetornarLogSalvo() {
+
+        UUID id = UUID.randomUUID();
+        LogRequestDTO dto = LogRequestDTOBuilder.umLog().build();
+
+        Log log = mapper.map(dto);
+        log.setArchived(false);
+        log.setCheckAlert(false);
+        Mockito.when(repository.save(log)).thenReturn(log);
+
+        Log result = logService.save(dto);
+
+        Assert.assertThat(result, Matchers.notNullValue());
+        Assert.assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.FALSE));
+        Assert.assertThat(result.getArchived(), Matchers.equalTo(Boolean.FALSE));
+    }
+
 }

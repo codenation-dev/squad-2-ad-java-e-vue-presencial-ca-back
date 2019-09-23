@@ -1,14 +1,12 @@
 package br.com.codenation.logstackapi.model.entity;
 
-import br.com.codenation.logstackapi.audit.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,18 +14,24 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @EntityListeners(AuditingEntityListener.class)
-public class Alert extends Auditable<User> {
+public class Alert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @NotNull
     @OneToOne
     private Log log;
 
-    @NotNull
     @ManyToOne
     private Trigger trigger;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
 }

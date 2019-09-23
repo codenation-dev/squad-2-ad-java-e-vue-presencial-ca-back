@@ -11,14 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AlertServiceImpl implements AlertService {
-    AlertRepository repository;
+
+    private AlertRepository repository;
 
     @Override
     public Page<Alert> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
-    public Alert save(Alert alert){
+    @Override
+    public Alert save(Alert alert) {
         return repository.save(alert);
     }
 }
