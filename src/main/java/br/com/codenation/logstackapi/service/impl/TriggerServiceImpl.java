@@ -25,6 +25,7 @@ public class TriggerServiceImpl implements TriggerService {
         if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
 
         Trigger trigger = mapper.map(dto);
+        trigger.setArchived(false);
         trigger = triggerRepository.save(trigger);
 
         return trigger;

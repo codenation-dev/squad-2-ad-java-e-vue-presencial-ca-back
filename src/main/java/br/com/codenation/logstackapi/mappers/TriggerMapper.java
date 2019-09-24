@@ -29,7 +29,8 @@ public interface TriggerMapper {
             @Mapping(source = "name", target = "name"),
             @Mapping(source = "message", target = "message"),
             @Mapping(source = "email", target = "email"),
-            @Mapping(source = "filters", target = "filters")
+            @Mapping(source = "filters", target = "filters"),
+            @Mapping(source = "isActive", target = "active")
     })
     Trigger map(TriggerRequestDTO dto);
 
