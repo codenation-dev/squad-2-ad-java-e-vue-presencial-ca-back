@@ -29,13 +29,8 @@ public class LogBuilder {
         return this;
     }
 
-    public LogBuilder checkAlert() {
-        log.setCheckAlert(true);
-        return this;
-    }
-
-    public LogBuilder notCheckAlert() {
-        log.setCheckAlert(false);
+    public LogBuilder checkAlert(Boolean checkAlert) {
+        log.setCheckAlert(checkAlert);
         return this;
     }
 
