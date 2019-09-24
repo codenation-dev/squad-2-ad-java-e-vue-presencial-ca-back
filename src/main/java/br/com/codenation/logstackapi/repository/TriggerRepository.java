@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface TriggerRepository extends JpaRepository<Trigger, UUID> {
 
-    List<Trigger> findByFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndActiveTrue(
+    List<Trigger> findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevel(
             String appName, LogEnvironment environment, LogLevel level);
 }
 
