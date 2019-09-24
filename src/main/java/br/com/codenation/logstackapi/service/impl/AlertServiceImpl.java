@@ -5,7 +5,7 @@ import br.com.codenation.logstackapi.repository.AlertRepository;
 import br.com.codenation.logstackapi.service.AlertService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,8 +15,9 @@ public class AlertServiceImpl implements AlertService {
     private AlertRepository repository;
 
     @Override
-    public Page<Alert> findAll(Pageable pageable) {
-        return repository.findAll(pageable);
+    public Page<Alert> find(Integer page, Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return repository.findAll(pageRequest);
     }
 
     @Override
