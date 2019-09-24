@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonPropertyOrder({"name", "message", "email", "filters"})
+@JsonPropertyOrder({"name", "message", "email", "filters", "active"})
 public class TriggerRequestDTO {
 
     @ApiModelProperty(value = "Nome do gatilho", position = 1, example = "Level Erro em produção da API LogStack", required = true)
@@ -40,6 +40,10 @@ public class TriggerRequestDTO {
     @ApiModelProperty(value = "Filtros do gatilho", position = 4, required = true)
     @NotNull
     private TriggerFilterRequestDTO filters;
+
+    @ApiModelProperty(value = "Gatilho ativado/desativado", position = 5, example = "true", allowableValues = "false, true", required = true)
+    @NotNull
+    private Boolean isActive;
 
     @JsonIgnore
     public boolean isNull() {
