@@ -15,6 +15,7 @@ public class TriggerRequestDTOBuilder {
                 .filters(TriggerFilterRequestDTOBuilder.gatilho1().build())
                 .message("message")
                 .email("email@example.com")
+                .isActive(true)
                 .name("Name").build();
         return builder;
     }

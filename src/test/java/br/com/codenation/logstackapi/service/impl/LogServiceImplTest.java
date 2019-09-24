@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertThat;
@@ -42,7 +43,7 @@ public class LogServiceImplTest {
     public void dadoLogExistente_quandoPesquisarPorId_entaoDeveEncontrarLog(){
         Log log = LogBuilder.umLog().build();
         UUID idLog = log.getId();
-        Mockito.when(repository.findById(idLog)).thenReturn(java.util.Optional.of(log));
+        Mockito.when(repository.findById(idLog)).thenReturn(Optional.of(log));
 
         Log logValidationId = logService.findById(idLog);
 
@@ -54,7 +55,7 @@ public class LogServiceImplTest {
     @Test(expected = ResourceNotFoundException.class)
     public void dadoLogNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarLog(){
         Log log = LogBuilder.umLog().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(java.util.Optional.of(log));
+        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
 
         logService.findById(UUID.randomUUID());
     }
@@ -62,7 +63,7 @@ public class LogServiceImplTest {
     @Test
     public void dadoLogNaoArquivado_quandoPesquisarPorId_entaoDeveRetornarLogArquivado(){
         Log log = LogBuilder.umLog().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(java.util.Optional.of(log));
+        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
         Mockito.when(repository.save(log)).thenReturn(log);
 
         Log logArquivado = logService.archive(log.getId());
@@ -74,7 +75,7 @@ public class LogServiceImplTest {
     @Test
     public void dadoLogArquivado_quandoPesquisarPorId_entaoDeveRetornarLogDesarquivado(){
         Log log = LogBuilder.umLog().arquivado().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(java.util.Optional.of(log));
+        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
         Mockito.when(repository.save(log)).thenReturn(log);
 
         Log logArquivado = logService.unarchive(log.getId());
@@ -120,6 +121,22 @@ public class LogServiceImplTest {
         Assert.assertThat(result, Matchers.notNullValue());
         Assert.assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.FALSE));
         Assert.assertThat(result.getArchived(), Matchers.equalTo(Boolean.FALSE));
+    }
+
+    @Test
+    public void dadoLogPendenteDeVerificacao_quandoVerificar_entaoDeveRetornarLogAtualizado() {
+
+        UUID id = UUID.randomUUID();
+        Log logCheckAlertTrue = LogBuilder.umLog().id(id).checkAlert(true).arquivado().build();
+        Log logCheckAlertFalse = LogBuilder.umLog().id(id).checkAlert(false).arquivado().build();
+        Mockito.when(repository.findById(logCheckAlertFalse.getId())).thenReturn(Optional.of(logCheckAlertFalse));
+        Mockito.when(repository.save(logCheckAlertTrue)).thenReturn(logCheckAlertTrue);
+
+        Log result = logService.checkAlert(id, true);
+
+        assertThat(result, Matchers.notNullValue());
+        assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.TRUE));
+
     }
 
 }

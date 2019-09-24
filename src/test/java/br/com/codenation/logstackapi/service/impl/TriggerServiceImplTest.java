@@ -114,14 +114,17 @@ public class TriggerServiceImplTest {
 
     @Test
     public void dadoTriggerRequestDTO_quandoSalvar_entaoDeveRetornarTriggerSalva() {
-        TriggerRequestDTO triggerRequestDTO = TriggerRequestDTOBuilder.gatilho1().build();
-        Trigger trigger = mapper.map(triggerRequestDTO);
+        TriggerRequestDTO dto = TriggerRequestDTOBuilder.gatilho1().build();
+        Trigger trigger = mapper.map(dto);
+        trigger.setArchived(false);
         Mockito.when(repository.save(trigger)).thenReturn(trigger);
 
-        Trigger triggerSave = triggerService.save(triggerRequestDTO);
+        Trigger result = triggerService.save(dto);
 
-        Assert.assertThat(triggerSave, Matchers.notNullValue());
-        Assert.assertThat(triggerSave.getFilters().getAppName(), Matchers.equalTo(triggerRequestDTO.getFilters().getAppName()));
+        Assert.assertThat(result, Matchers.notNullValue());
+        Assert.assertThat(result.getFilters().getAppName(), Matchers.equalTo(dto.getFilters().getAppName()));
+        Assert.assertThat(result.getActive(), Matchers.equalTo(dto.getIsActive()));
+        Assert.assertThat(result.getArchived(), Matchers.equalTo(Boolean.FALSE));
     }
 
     @Test
