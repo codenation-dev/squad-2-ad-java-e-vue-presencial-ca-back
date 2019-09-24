@@ -169,7 +169,7 @@ public class TriggerServiceImplTest {
                 TriggerBuilder.gatilho1().ativo().build(),
                 TriggerBuilder.gatilho1().ativo().build());
 
-        Mockito.when(repository.findByFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndActiveTrue(
+        Mockito.when(repository.findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevel(
                 appName, environment, level
         )).thenReturn(triggers);
 

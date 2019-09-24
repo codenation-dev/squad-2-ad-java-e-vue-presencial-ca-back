@@ -42,7 +42,7 @@ public class TriggerServiceImpl implements TriggerService {
 
     @Override
     public List<Trigger> findByLog(String appName, LogEnvironment environment, LogLevel level) {
-        return triggerRepository.findByFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndActiveTrue(appName, environment, level);
+        return triggerRepository.findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevel(appName, environment, level);
     }
 
     public Trigger archive(UUID id) {
