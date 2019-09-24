@@ -31,13 +31,12 @@ public class LogAlertMonitor {
     private void verifyAlertLog() {
         log.info("### Alert Monitor ###");
         logService.findByCheckAlertNotVerified(ITEMS_PER_CYCLE).forEach(l -> {
-            log.info("Log: " + l.toString());
             triggerService.findByLog(l.getApplication().getName(), l.getApplication().getEnvironment(), l.getDetail().getLevel()).forEach(t -> {
                 Alert alert = Alert.builder().log(l).trigger(t).build();
                 alert = alertService.save(alert);
                 notificationAlert.sendEmail(alert);
-                logService.checkAlert(l.getId(), true);
             });
+            logService.checkAlert(l.getId(), true);
         });
     }
 
