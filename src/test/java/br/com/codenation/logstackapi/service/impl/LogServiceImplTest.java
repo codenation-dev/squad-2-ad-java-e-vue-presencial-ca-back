@@ -2,26 +2,31 @@ package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
+import br.com.codenation.logstackapi.builders.LogSearchBuilder;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertThat;
 
@@ -40,7 +45,7 @@ public class LogServiceImplTest {
     private LogRepository repository;
 
     @Test
-    public void dadoLogExistente_quandoPesquisarPorId_entaoDeveEncontrarLog(){
+    public void dadoLogExistente_quandoPesquisarPorId_entaoDeveEncontrarLog() {
         Log log = LogBuilder.umLog().build();
         UUID idLog = log.getId();
         Mockito.when(repository.findById(idLog)).thenReturn(Optional.of(log));
@@ -53,7 +58,7 @@ public class LogServiceImplTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void dadoLogNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarLog(){
+    public void dadoLogNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarLog() {
         Log log = LogBuilder.umLog().build();
         Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
 
@@ -61,7 +66,7 @@ public class LogServiceImplTest {
     }
 
     @Test
-    public void dadoLogNaoArquivado_quandoPesquisarPorId_entaoDeveRetornarLogArquivado(){
+    public void dadoLogNaoArquivado_quandoPesquisarPorId_entaoDeveRetornarLogArquivado() {
         Log log = LogBuilder.umLog().build();
         Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
         Mockito.when(repository.save(log)).thenReturn(log);
@@ -73,7 +78,7 @@ public class LogServiceImplTest {
     }
 
     @Test
-    public void dadoLogArquivado_quandoPesquisarPorId_entaoDeveRetornarLogDesarquivado(){
+    public void dadoLogArquivado_quandoPesquisarPorId_entaoDeveRetornarLogDesarquivado() {
         Log log = LogBuilder.umLog().arquivado().build();
         Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
         Mockito.when(repository.save(log)).thenReturn(log);
@@ -136,7 +141,22 @@ public class LogServiceImplTest {
 
         assertThat(result, Matchers.notNullValue());
         assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.TRUE));
-
     }
 
+    @Test
+    public void dadoLogSearch_quandoPesquisarTodosOsLogs_entaoLog() {
+        LogSearchDTO logSearchDTO = LogSearchBuilder.umLog().build();
+        List<Log> listaLogs = new ArrayList<>();
+        listaLogs.add(LogBuilder.umLog().emTeste().arquivado().build());
+        listaLogs.add(LogBuilder.umLog().comLevelDebug().emDesenvolvimento().build());
+        Page<Log> page = new PageImpl<>(listaLogs);
+
+        Mockito.when(logService.find(logSearchDTO, 1, 2, Sort.by(Sort.Order.desc("title")))).thenReturn(page);
+
+        Page<Log> pageResponse = logService.find(logSearchDTO, 1, 2,Sort.by(Sort.Order.desc("title")));
+
+        assertThat(pageResponse, Matchers.notNullValue());
+        assertThat(pageResponse.getTotalElements(), Matchers.equalTo(2L));
+        assertThat(pageResponse.stream().filter(c -> c.getTitle().equals("Título")).count(), Matchers.equalTo(2L));
+    }
 }
