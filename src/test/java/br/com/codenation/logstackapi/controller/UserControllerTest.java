@@ -2,16 +2,20 @@ package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.UserResquestBuilder;
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
+import br.com.codenation.logstackapi.mappers.UserMapper;
+import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -105,7 +109,34 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(convertObjectToJsonBytes(user)))
                 .andExpect(status().isBadRequest());
+    }
 
+    @Test
+    @Transactional
+    public void dadoUsuarioLogado_quandoPesquisarDadosDeUsuarioLogado_entaoDeveRetornarUsuario() throws Exception {
+
+        ResultActions perform = mvc.perform(get(URI + "/self")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.email", is("admin@admin.com")));
+    }
+
+    @Test
+    public void dadoUsuarioNaoLogado_quandoPesquisarDadosDeUsuarioLogado_entaoDeveErro() throws Exception {
+
+        ResultActions perform = mvc.perform(get(URI + "/self")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoDoisUsuariosExistentes_quandoBuscarTodosSemAutenticacao_entaoDeveRetornarErro() throws Exception {
+
+        ResultActions perform = mvc.perform(get(URI)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(401));
     }
 
     private String generateToken() throws Exception {
