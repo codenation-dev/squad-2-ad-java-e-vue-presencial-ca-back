@@ -6,7 +6,6 @@ import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.mappers.LogMapper;
-import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
@@ -74,8 +73,7 @@ public class LogController {
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
                 .build();
 
-        Page<Log> logs = service.find(search, page, size, sort);
-        return logs.map(p -> mapper.map(p));
+        return service.find(search, page, size, sort).map(mapper::map);
     }
 
     @ApiOperation(

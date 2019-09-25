@@ -25,7 +25,7 @@ public class SendGridEmailTransport implements EmailTransport {
     public void send(EmailMessage emailMessage) {
 
         if (!sendMailActive) {
-            log.info("Email não enviado. Envio de email desativado...");
+            log.info("Envio de email desativado: + " + emailMessage.toString());
             return;
         }
 
@@ -42,12 +42,10 @@ public class SendGridEmailTransport implements EmailTransport {
         try {
             request.setBody(mail.build());
             sendGrid.api(request);
-            log.info("Email enviado com sucesso.");
+            log.info("Email enviado com sucesso: " + emailMessage.toString());
         } catch (IOException ex) {
-            log.error("Não foi possível enviar o email.");
+            log.error("Não foi possível enviar o email: " + ex);
         }
-
-        System.out.println("Message: " + emailMessage.toString());
 
     }
 }
