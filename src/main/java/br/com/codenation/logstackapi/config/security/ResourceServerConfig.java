@@ -15,7 +15,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_GET = {
-            "/api/v1/logs"
+            "/actuator/**"
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
@@ -28,7 +28,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin();
     }
 
 }
