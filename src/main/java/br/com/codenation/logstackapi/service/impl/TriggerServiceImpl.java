@@ -80,6 +80,8 @@ public class TriggerServiceImpl implements TriggerService {
     private void updateTrigger(Trigger trigger, TriggerRequestDTO dto) {
         trigger.setName(dto.getName());
         trigger.setMessage(dto.getMessage());
+        trigger.setEmail(dto.getEmail());
+        trigger.setActive(dto.getIsActive());
         trigger.getFilters().setAppName(dto.getFilters().getAppName());
         trigger.getFilters().setEnvironment(dto.getFilters().getEnvironment());
         trigger.getFilters().setLevel(dto.getFilters().getLevel());
