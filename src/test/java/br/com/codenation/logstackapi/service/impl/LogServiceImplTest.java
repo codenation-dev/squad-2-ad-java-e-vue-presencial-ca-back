@@ -144,7 +144,7 @@ public class LogServiceImplTest {
     }
 
     @Test
-    public void dadoLogSearch_quandoPesquisarTodosOsLogs_entaoLog() {
+    public void dadoLogSearch_quandoPesquisarTodosOsLogs_entaoDeveRetornarLog() {
         LogSearchDTO logSearchDTO = LogSearchBuilder.umLog().build();
         List<Log> listaLogs = new ArrayList<>();
         listaLogs.add(LogBuilder.umLog().emTeste().arquivado().build());
