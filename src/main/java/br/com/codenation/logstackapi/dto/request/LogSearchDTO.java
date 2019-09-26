@@ -20,6 +20,7 @@ public class LogSearchDTO {
     private String host;
     private String ip;
     private LogEnvironment environment;
+    private String content;
     private LogLevel level;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
