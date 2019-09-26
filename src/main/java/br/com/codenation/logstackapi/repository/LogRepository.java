@@ -23,6 +23,7 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
             "  and (:host is null or lower(l.application.host) like %:host%) " +
             "  and (:ip is null or lower(l.application.ip) like %:ip%) " +
             "  and (:environment is null or l.application.environment like :environment) " +
+            "  and (:content is null or l.detail.content like :level) " +
             "  and (:level is null or l.detail.level like :level) " +
             "  and (l.detail.timestamp between :start and :end) " +
             "  and (archived is false)")
@@ -31,6 +32,7 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
                    @Param("host") String host,
                    @Param("ip") String ip,
                    @Param("environment") LogEnvironment environment,
+                   @Param("content") String content,
                    @Param("level") LogLevel level,
                    @Param("start") LocalDateTime startTimestamp,
                    @Param("end") LocalDateTime endTimestamp,
