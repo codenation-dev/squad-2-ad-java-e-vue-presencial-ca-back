@@ -4,6 +4,7 @@ import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.builders.UserResquestBuilder;
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
+import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.UserService;
@@ -38,6 +39,9 @@ public class UserServiceImplTest {
 
     @MockBean
     private UserRepository repository;
+
+    @MockBean
+    private CustomerServiceImpl customerService;
 
     @MockBean
     private BCryptPasswordEncoder bCrypt;
@@ -86,12 +90,17 @@ public class UserServiceImplTest {
         User user = mapper.map(userRequestDTO);
         String passwordCrypt = bCrypt.encode(userRequestDTO.getPassword());
         user.setPassword(passwordCrypt);
+
+
+        Customer customer = Customer.builder().user(user).build();
+
         Mockito.when(bCrypt.encode(userRequestDTO.getPassword())).thenReturn(passwordCrypt);
-        Mockito.when(repository.save(user)).thenReturn(user);
+        Mockito.when(repository.saveAndFlush(user)).thenReturn(user);
+        Mockito.when(customerService.save(user)).thenReturn(customer);
 
-        User userSave = userService.save(userRequestDTO);
+        User result = userService.save(userRequestDTO);
 
-        Assert.assertThat(userSave, Matchers.notNullValue());
-        Assert.assertThat(userSave.getFullName().toString(), Matchers.equalTo(userRequestDTO.getFullName()));
+        Assert.assertThat(result, Matchers.notNullValue());
+        Assert.assertThat(result.getFullName().toString(), Matchers.equalTo(userRequestDTO.getFullName()));
     }
 }
