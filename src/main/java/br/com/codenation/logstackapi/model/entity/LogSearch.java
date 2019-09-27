@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.dto.request;
+package br.com.codenation.logstackapi.model.entity;
 
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogSearchDTO {
+public class LogSearch {
 
     private String title;
     private String appName;

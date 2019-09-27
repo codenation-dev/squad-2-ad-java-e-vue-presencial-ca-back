@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
@@ -13,7 +13,7 @@ public interface LogService {
 
     List<Log> findByCheckAlertNotVerified(Integer size);
 
-    Page<Log> find(LogSearchDTO search, Integer page, Integer size, Sort sort);
+    Page<Log> find(LogSearch search, Integer page, Integer size, Sort sort);
 
     Log findById(UUID id);
 

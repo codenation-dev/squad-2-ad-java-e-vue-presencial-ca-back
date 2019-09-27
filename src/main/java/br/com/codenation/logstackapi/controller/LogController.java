@@ -1,12 +1,12 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
@@ -73,7 +73,7 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
-        LogSearchDTO search = LogSearchDTO.builder()
+        LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
                 .host(host.map(String::toLowerCase).orElse(null))
@@ -130,7 +130,7 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
-        LogSearchDTO search = LogSearchDTO.builder()
+        LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
                 .host(host.map(String::toLowerCase).orElse(null))
