@@ -1,6 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.TriggerBuilder;
+import br.com.codenation.logstackapi.builders.TriggerRequestDTOBuilder;
+import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
@@ -36,8 +38,7 @@ import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonByt
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -120,23 +121,161 @@ public class TriggerControllerTest {
     @Test
     @Transactional
     public void dadoTriggerExistente_quandoBuscarTodasTriggerPorId_deveRetornarTrigger() throws Exception {
-
         Trigger t4 = TriggerBuilder.gatilho4().ativo().build();
         List<Trigger> list = Arrays.asList(t4);
         Mockito.when(repository.findAll()).thenReturn(list);
 
-        List<TriggerResponseDTO> response = new ArrayList<>();
-        response.add(mapper.map(t4));
-
         ResultActions perform = mvc.perform(get(URI)
                 .header("Authorization", token)
-                .content(convertObjectToJsonBytes(response))
+                .content(convertObjectToJsonBytes(list))
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)));
 
         perform.andExpect(jsonPath("$[0].name", is("Trigger 4 de demonstração")));
         perform.andExpect(jsonPath("$[0].message", is("Message 4")));
+    }
+
+    @Test
+    public void dadoTriggerInativo_quandoAtivaTrigger_deveRetornarTriggerAtiva() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().inativo().desarquivado().build();
+        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+
+        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/active")
+                .header("Authorization", token))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.name", is("Trigger 1 de demonstração")));
+        perform.andExpect(jsonPath("$.isActive", is(true)));
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerAtivo_quandoInativaTrigger_deveRetornarTriggerInativa() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
+        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+
+        ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/active")
+                .header("Authorization", token))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.name", is("Trigger 1 de demonstração")));
+        perform.andExpect(jsonPath("$.isActive", is(false)));
+
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerArquivado_quandoDesarquivarTrigger_deveRetornarTriggerDesarquivada() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
+        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+
+        ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/archive")
+                .header("Authorization", token))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.name", is("Trigger 1 de demonstração")));
+
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerDesarquivada_quandoArquivarTrigger_deveRetornarTriggerArquivada() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
+        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+
+
+        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/archive")
+                .header("Authorization", token))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.name", is("Trigger 1 de demonstração")));
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerExistente_quandoAtualizarTrigger_deveRetornarTriggerAtualizaada() throws Exception {
+        TriggerRequestDTO triggerRequest = TriggerRequestDTOBuilder.gatilho1().build();
+        Trigger primeiraTrigger = mapper.map(triggerRequest);
+        UUID id = UUID.randomUUID();
+        primeiraTrigger.setId(id);
+        Mockito.when(repository.save(primeiraTrigger)).thenReturn(primeiraTrigger);
+        Mockito.when(repository.findById(id)).thenReturn(java.util.Optional.of(primeiraTrigger));
+        triggerRequest.setMessage("teste");
+
+        ResultActions perform = mvc.perform(put(URI + "/" + id.toString())
+                .header("Authorization", token)
+                .content(convertObjectToJsonBytes(triggerRequest))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.name", is("Name")));
+        perform.andExpect(jsonPath("$.message", is("teste")));
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerNãoExistente_quandoAtualizarTrigger_deveRetornarErro() throws Exception {
+        TriggerRequestDTO triggerRequestAtualiza = TriggerRequestDTOBuilder.gatilho2().build();
+
+        mvc.perform(put(URI + "/" + UUID.randomUUID())
+                .header("Authorization", token)
+                .content(convertObjectToJsonBytes(triggerRequestAtualiza))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void dadoTriggerSemAutenticacao_quandoAtualizarTrigger_deveRetornarErro() throws Exception {
+        TriggerRequestDTO triggerRequestAtualiza = TriggerRequestDTOBuilder.gatilho2().build();
+
+        mvc.perform(put(URI + "/" + UUID.randomUUID())
+                .content(convertObjectToJsonBytes(triggerRequestAtualiza))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerSemAutenticacao_quandoBuscarTodasTriggerPorId_deveRetornarErro() throws Exception {
+        Trigger t4 = TriggerBuilder.gatilho4().ativo().build();
+        List<Trigger> list = Arrays.asList(t4);
+
+        ResultActions perform = mvc.perform(get(URI)
+                .content(convertObjectToJsonBytes(list))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerInativoSemAutenticacao_quandoAtivaTrigger_deveRetornarErro() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().inativo().desarquivado().build();
+
+        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/active"))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerAtivoSemAutenticacao_quandoInativaTrigger_deveRetornarErro() throws Exception {
+        Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
+
+        ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/active"))
+                .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerSemAutenticacao_quandoSalvarTrigger_deveRetornarErro() throws Exception {
+        TriggerRequestDTO triggerRequest = TriggerRequestDTOBuilder.gatilho1().build();
+        Trigger trigger = mapper.map(triggerRequest);
+
+        ResultActions perform = mvc.perform(post(URI)
+                .content(convertObjectToJsonBytes(triggerRequest))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().is(401));
     }
 
     private String generateToken() throws Exception {

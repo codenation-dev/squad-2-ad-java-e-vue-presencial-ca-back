@@ -20,6 +20,17 @@ public class TriggerRequestDTOBuilder {
         return builder;
     }
 
+    public static TriggerRequestDTOBuilder gatilho2() {
+        TriggerRequestDTOBuilder builder = new TriggerRequestDTOBuilder();
+        builder.trigger = TriggerRequestDTO.builder()
+                .filters(TriggerFilterRequestDTOBuilder.gatilho1().build())
+                .message("message")
+                .email("email2@example.com")
+                .isActive(false)
+                .name("Name").build();
+        return builder;
+    }
+
     public TriggerRequestDTO build() {
         return trigger;
     }
