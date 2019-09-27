@@ -11,8 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,11 +25,13 @@ public class UserServiceImpl implements UserService {
     private UserMapper mapper;
     private BCryptPasswordEncoder bCrypt;
 
+    @Override
     public List<User> findAll() {
         return repository.findAll();
     }
 
     @Transactional
+    @Override
     public User save(UserRequestDTO dto) {
 
         validEmailExists(dto.getEmail());
@@ -42,6 +46,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public User findById(UUID id) {
+        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
     }
@@ -51,7 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private Boolean isEmailExists(String email) {
-        return findByEmail(email).isPresent() ? true : false;
+        return repository.findByEmail(email).isPresent() ? true : false;
     }
 
 }

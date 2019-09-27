@@ -5,6 +5,7 @@ import br.com.codenation.logstackapi.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
 
@@ -13,5 +14,7 @@ public interface UserService {
     Optional<User> findByEmail(String email);
 
     User save(UserRequestDTO dto);
+
+    User findById(UUID id);
 
 }
