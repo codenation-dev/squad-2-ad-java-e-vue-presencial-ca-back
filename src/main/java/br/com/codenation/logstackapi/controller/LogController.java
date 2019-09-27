@@ -63,6 +63,7 @@ public class LogController {
             @RequestParam(value = "host", required = false) Optional<String> host,
             @RequestParam(value = "ip", required = false) Optional<String> ip,
             @RequestParam(value = "environment", required = false) Optional<LogEnvironment> environment,
+            @RequestParam(value = "content", required = false) Optional<String> content,
             @RequestParam(value = "level", required = false) Optional<LogLevel> level,
             @RequestParam(value = "startTimestamp", required = false, defaultValue = "2019-09-01")
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTimestamp,
@@ -79,6 +80,7 @@ public class LogController {
                 .host(host.map(String::toLowerCase).orElse(null))
                 .ip(ip.map(String::toLowerCase).orElse(null))
                 .environment(environment.orElse(null))
+                .content(content.orElse(null))
                 .level(level.orElse(null))
                 .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
