@@ -25,7 +25,7 @@ public class LogRequestDTO {
     @ApiModelProperty(value = "Dados da aplicação")
     private LogApplicationRequestDTO application;
 
-    @ApiModelProperty(value = "Nível do log", position = 4, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR", required = true)
+    @ApiModelProperty(value = "Nível do log", position = 4, example = "ERROR", allowableValues = "INFO, DEBUG, WARNING, ERROR, FATAL", required = true)
     @NotNull
     private LogLevel level;
 
@@ -35,5 +35,5 @@ public class LogRequestDTO {
 
     @ApiModelProperty(value = "Detalhe do erro", example = "Fatal error on line 45", required = true)
     @NotNull
-    private String detail;
+    private String content;
 }

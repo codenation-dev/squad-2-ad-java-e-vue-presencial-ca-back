@@ -44,7 +44,7 @@ public class LogMapperTest {
         Log log = logMapper.map(logRequest);
 
         Assert.assertThat(log, Matchers.notNullValue());
-        Assert.assertNotEquals(log.getDetail(), Matchers.equalTo(logRequest.getDetail()));
+        Assert.assertNotEquals(log.getDetail().getContent(), Matchers.equalTo(logRequest.getContent()));
         Assert.assertThat(log.getTitle(), Matchers.equalTo(logRequest.getTitle()));
     }
 

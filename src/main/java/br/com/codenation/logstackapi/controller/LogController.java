@@ -1,12 +1,12 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogDetailResponseDTO;
 import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
@@ -63,6 +63,7 @@ public class LogController {
             @RequestParam(value = "host", required = false) Optional<String> host,
             @RequestParam(value = "ip", required = false) Optional<String> ip,
             @RequestParam(value = "environment", required = false) Optional<LogEnvironment> environment,
+            @RequestParam(value = "content", required = false) Optional<String> content,
             @RequestParam(value = "level", required = false) Optional<LogLevel> level,
             @RequestParam(value = "startTimestamp", required = false, defaultValue = "2019-09-01")
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startTimestamp,
@@ -73,12 +74,13 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
-        LogSearchDTO search = LogSearchDTO.builder()
+        LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
                 .host(host.map(String::toLowerCase).orElse(null))
                 .ip(ip.map(String::toLowerCase).orElse(null))
                 .environment(environment.orElse(null))
+                .content(content.orElse(null))
                 .level(level.orElse(null))
                 .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
@@ -130,7 +132,7 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
-        LogSearchDTO search = LogSearchDTO.builder()
+        LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
                 .host(host.map(String::toLowerCase).orElse(null))

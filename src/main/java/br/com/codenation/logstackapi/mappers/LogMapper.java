@@ -35,7 +35,7 @@ public interface LogMapper {
             @Mapping(source = "title", target = "title"),
             @Mapping(source = "level", target = "detail.level"),
             @Mapping(source = "timestamp", target = "detail.timestamp"),
-            @Mapping(source = "detail", target = "detail.content"),
+            @Mapping(source = "content", target = "detail.content"),
     })
     Log map(LogRequestDTO dto);
 

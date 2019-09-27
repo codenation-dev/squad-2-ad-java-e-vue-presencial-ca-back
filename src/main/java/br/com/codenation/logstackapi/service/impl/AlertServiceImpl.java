@@ -1,6 +1,7 @@
 package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.model.entity.Alert;
+import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.repository.AlertRepository;
 import br.com.codenation.logstackapi.service.AlertService;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,9 @@ public class AlertServiceImpl implements AlertService {
     private AlertRepository repository;
 
     @Override
-    public Page<Alert> find(Integer page, Integer size) {
+    public Page<Alert> find(AlertSearch search, Integer page, Integer size) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        return repository.findAll(pageRequest);
+        return repository.find(search.getLogId(), search.getTriggerId(), pageRequest);
     }
 
     @Override

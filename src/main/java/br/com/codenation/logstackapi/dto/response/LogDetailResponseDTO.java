@@ -16,7 +16,7 @@ public class LogDetailResponseDTO {
     @ApiModelProperty(value = "Data e hora do acionamento do log", position = 1, example = "2019-09-16T19:14:06.738Z")
     private LocalDateTime timestamp;
 
-    @ApiModelProperty(value = "Nível do log", position = 2, example = "ERROR", allowableValues = "DEBUG, WARNING, ERROR")
+    @ApiModelProperty(value = "Nível do log", position = 2, example = "ERROR", allowableValues = "INFO, DEBUG, WARNING, ERROR, FATAL")
     private LogLevel level;
 
     @ApiModelProperty(value = "Conteúdo do log", position = 3, example = "Initializing Spring DispatcherServlet 'dispatcherServlet'")

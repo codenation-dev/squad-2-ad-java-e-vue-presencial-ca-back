@@ -27,7 +27,7 @@ public class LogRequestDTOBuilder {
         builder.log = new LogRequestDTO();
         builder.log.setApplication(application);
         builder.log.setTitle("Título");
-        builder.log.setDetail("Descrição do log");
+        builder.log.setContent("Descrição do log");
         builder.log.setTimestamp(LocalDateTime.now());
         builder.log.setLevel(LogLevel.ERROR);
         return builder;

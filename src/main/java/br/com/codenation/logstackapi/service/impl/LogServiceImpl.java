@@ -1,10 +1,10 @@
 package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.service.LogService;
 import lombok.AllArgsConstructor;
@@ -59,7 +59,7 @@ public class LogServiceImpl implements LogService {
         return repository.findByCheckAlert(false).stream().limit(size).collect(Collectors.toList());
     }
 
-    public Page<Log> find(LogSearchDTO search, Integer page, Integer size, Sort sort) {
+    public Page<Log> find(LogSearch search, Integer page, Integer size, Sort sort) {
 
         search.validationValues();
 

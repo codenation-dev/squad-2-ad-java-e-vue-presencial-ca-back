@@ -4,24 +4,21 @@ import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
 import br.com.codenation.logstackapi.builders.LogSearchBuilder;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
-import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -145,15 +142,15 @@ public class LogServiceImplTest {
 
     @Test
     public void dadoLogSearch_quandoPesquisarTodosOsLogs_entaoDeveRetornarLog() {
-        LogSearchDTO logSearchDTO = LogSearchBuilder.umLog().build();
+        LogSearch logSearch = LogSearchBuilder.umLog().build();
         List<Log> listaLogs = new ArrayList<>();
         listaLogs.add(LogBuilder.umLog().emTeste().arquivado().build());
         listaLogs.add(LogBuilder.umLog().comLevelDebug().emDesenvolvimento().build());
         Page<Log> page = new PageImpl<>(listaLogs);
 
-        Mockito.when(logService.find(logSearchDTO, 1, 2, Sort.by(Sort.Order.desc("title")))).thenReturn(page);
+        Mockito.when(logService.find(logSearch, 1, 2, Sort.by(Sort.Order.desc("title")))).thenReturn(page);
 
-        Page<Log> pageResponse = logService.find(logSearchDTO, 1, 2,Sort.by(Sort.Order.desc("title")));
+        Page<Log> pageResponse = logService.find(logSearch, 1, 2, Sort.by(Sort.Order.desc("title")));
 
         assertThat(pageResponse, Matchers.notNullValue());
         assertThat(pageResponse.getTotalElements(), Matchers.equalTo(2L));

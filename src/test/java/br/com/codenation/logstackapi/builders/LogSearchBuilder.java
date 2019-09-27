@@ -1,23 +1,20 @@
 package br.com.codenation.logstackapi.builders;
 
-import br.com.codenation.logstackapi.dto.request.LogSearchDTO;
-import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class LogSearchBuilder {
-    private LogSearchDTO log;
+    private LogSearch log;
 
     private LogSearchBuilder() {
     }
 
     public static LogSearchBuilder umLog() {
         LogSearchBuilder builder = new LogSearchBuilder();
-        builder.log = LogSearchDTO.builder()
+        builder.log = LogSearch.builder()
                 .appName("App Name")
                 .environment(LogEnvironment.DEVELOPMENT)
                 .host("hostname")
@@ -30,7 +27,7 @@ public class LogSearchBuilder {
         return builder;
     }
 
-    public LogSearchDTO build() {
+    public LogSearch build() {
         return log;
     }
 
