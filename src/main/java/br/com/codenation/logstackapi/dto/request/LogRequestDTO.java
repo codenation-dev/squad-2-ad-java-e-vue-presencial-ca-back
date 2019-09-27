@@ -35,5 +35,5 @@ public class LogRequestDTO {
 
     @ApiModelProperty(value = "Detalhe do erro", example = "Fatal error on line 45", required = true)
     @NotNull
-    private String detail;
+    private String content;
 }
