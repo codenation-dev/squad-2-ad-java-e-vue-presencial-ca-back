@@ -25,8 +25,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -70,15 +69,14 @@ public class AlertControllerTest {
 
     @Test
     public void dadoParametrosDaPagina_quandoPesquisarAlertas_entaoDevePaginaDeAlerta() throws Exception {
-        List<Alert> alert = new ArrayList<>();
+
         Alert a1 = AlertBuilder.umAlert().build();
         Alert a2 = AlertBuilder.doisAlert().build();
-        alert.add(a1);
-        alert.add(a2);
-        PageRequest pageRequest = PageRequest.of(0,20);
-        Page<Alert> page = new PageImpl<>(alert);
 
-        Mockito.when(repository.findAll(pageRequest)).thenReturn(page);
+        PageRequest pageRequest = PageRequest.of(0,20);
+        Page<Alert> page = new PageImpl<>(Arrays.asList(a1, a2));
+
+        Mockito.when(repository.find(null, null, pageRequest)).thenReturn(page);
 
         ResultActions perform = mvc.perform(get(URI)
                 .header("Authorization", token))

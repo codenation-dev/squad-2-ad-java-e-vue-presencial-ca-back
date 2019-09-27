@@ -2,6 +2,7 @@ package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.builders.AlertBuilder;
 import br.com.codenation.logstackapi.model.entity.Alert;
+import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.repository.AlertRepository;
 import br.com.codenation.logstackapi.service.AlertService;
 import org.hamcrest.Matchers;
@@ -38,12 +39,15 @@ public class AlertServiceImplTest {
         List<Alert> alert = new ArrayList<>();
         alert.add(AlertBuilder.umAlert().build());
         alert.add(AlertBuilder.doisAlert().build());
+
+        AlertSearch search = AlertSearch.builder().build();
+
         PageRequest pageRequest = PageRequest.of(1,3);
         Page<Alert> page = new PageImpl<>(alert);
 
-        Mockito.when(repository.findAll(pageRequest)).thenReturn(page);
+        Mockito.when(repository.find(null, null, pageRequest)).thenReturn(page);
 
-        Page<Alert> pageResponse = service.find(1,3);
+        Page<Alert> pageResponse = service.find(search, 1, 3);
 
         assertThat(pageResponse, Matchers.notNullValue());
         assertThat(pageResponse.getTotalElements(), Matchers.equalTo(2L));

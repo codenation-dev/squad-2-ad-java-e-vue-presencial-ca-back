@@ -3,6 +3,7 @@ package br.com.codenation.logstackapi.controller;
 import br.com.codenation.logstackapi.dto.response.AlertResponseDTO;
 import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.mappers.AlertMapper;
+import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.service.impl.AlertServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -35,9 +39,17 @@ public class AlertController {
             @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
     })
     @GetMapping(value = "/alerts", produces = MediaType.APPLICATION_JSON_VALUE)
-    private Page<AlertResponseDTO> find(@RequestParam(value = "page", defaultValue = "0") Integer page,
+    private Page<AlertResponseDTO> find(@RequestParam(value = "triggerId", required = false) Optional<UUID> logId,
+                                        @RequestParam(value = "logId", required = false) Optional<UUID> triggerId,
+                                        @RequestParam(value = "page", defaultValue = "0") Integer page,
                                         @RequestParam(value = "size", defaultValue = "20") Integer size) {
-        return service.find(page, size).map(mapper::map);
+
+        AlertSearch search = AlertSearch.builder()
+                .logId(logId.orElse(null))
+                .triggerId(triggerId.orElse(null))
+                .build();
+
+        return service.find(search, page, size).map(mapper::map);
     }
 
 }
