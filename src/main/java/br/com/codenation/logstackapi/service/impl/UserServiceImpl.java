@@ -9,33 +9,59 @@ import br.com.codenation.logstackapi.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private CustomerServiceImpl customerService;
     private UserRepository repository;
     private UserMapper mapper;
     private BCryptPasswordEncoder bCrypt;
 
+    @Override
     public List<User> findAll() {
         return repository.findAll();
     }
 
+    @Transactional
+    @Override
     public User save(UserRequestDTO dto) {
-        if (findByEmail(dto.getEmail()).isPresent()) {
-            throw new ResourceExistsException("Email já cadastrado");
-        }
+
+        validEmailExists(dto.getEmail());
+
         User user = mapper.map(dto);
         user.setPassword(bCrypt.encode(dto.getPassword()));
-        return repository.save(user);
+        user = repository.saveAndFlush(user);
+
+        customerService.save(user);
+
+        return user;
+
     }
 
+    @Override
+    public User findById(UUID id) {
+        return repository.findById(id).orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    private void validEmailExists(String email) {
+        if (isEmailExists(email)) throw new ResourceExistsException("Email já cadastrado");
+    }
+
+    private Boolean isEmailExists(String email) {
+        return repository.findByEmail(email).isPresent() ? true : false;
     }
 
 }

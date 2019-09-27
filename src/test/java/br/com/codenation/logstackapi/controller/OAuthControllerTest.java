@@ -1,8 +1,10 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.UserResquestBuilder;
+import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
 import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.hamcrest.Matchers.hasSize;
+import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonBytes;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,9 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserControllerTest {
+public class OAuthControllerTest {
 
-    private static String URI = "/api/v1/users";
+    private static String URI = "/oauth";
 
     @Autowired
     private MockMvc mvc;
@@ -51,35 +53,60 @@ public class UserControllerTest {
     private JacksonJsonParser parser = new JacksonJsonParser();
     private String token = "";
 
+    @Before
+    public void beforeTests() throws Exception {
+        token = generateToken();
+    }
+
     @Test
     @Transactional
-    public void dadoDoisUsuariosExistentes_quandoBuscarTodos_entaoDeveRetornarDoisUsuarios() throws Exception {
-        generateToken();
-        this.userService.save(UserResquestBuilder.usuarioComum().build());
+    public void dadoNovoUsuario_quandoRegistrar_entaoDeveRetornarSucesso() throws Exception {
 
-        ResultActions perform = mvc.perform(get(URI)
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
+        UserRequestDTO user = UserResquestBuilder.usuarioComum().build();
 
-        perform.andExpect(jsonPath("$[0].email", is("admin@admin.com")));
-        perform.andExpect(jsonPath("$[0].fullName", is("Administrador")));
+        ResultActions perform = mvc.perform(post(URI + "/signup")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(convertObjectToJsonBytes(user)))
+                .andExpect(status().isCreated());
 
-        perform.andExpect(jsonPath("$[1].email", is("comum@example.com")));
-        perform.andExpect(jsonPath("$[1].fullName", is("Usuário Comum")));
+        perform.andExpect(jsonPath("$.email", is(user.getEmail())));
+        perform.andExpect(jsonPath("$.fullName", is(user.getFullName())));
 
     }
 
     @Test
-    public void dadoDoisUsuariosExistentes_quandoBuscarTodosSemAutenticacao_entaoDeveRetornarErro() throws Exception {
+    @Transactional
+    public void dadoUsuarioComEmailExistente_quandoRegistrar_entaoDeveRetornarErro() throws Exception {
 
-        ResultActions perform = mvc.perform(get(URI)
+        UserRequestDTO user = UserResquestBuilder.usuarioAdmin().build();
+
+        ResultActions perform = mvc.perform(post(URI + "/signup")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(convertObjectToJsonBytes(user)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Transactional
+    public void dadoUsuarioLogado_quandoPesquisarDadosDeUsuarioLogado_entaoDeveRetornarUsuario() throws Exception {
+
+        ResultActions perform = mvc.perform(get(URI + "/self")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk());
+
+        perform.andExpect(jsonPath("$.email", is("admin@admin.com")));
+    }
+
+    @Test
+    public void dadoUsuarioNaoLogado_quandoPesquisarDadosDeUsuarioLogado_entaoDeveErro() throws Exception {
+
+        ResultActions perform = mvc.perform(get(URI + "/self")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().is(401));
     }
 
-    private void generateToken() throws Exception {
+    private String generateToken() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
@@ -93,12 +120,12 @@ public class UserControllerTest {
                         .with(httpBasic(client, secret)))
                 .andExpect(status().isOk());
 
-        String access_token = parser.parseMap(login
+        String token = parser.parseMap(login
                 .andReturn()
                 .getResponse()
                 .getContentAsString()).get("access_token").toString();
 
-        this.token = String.format("Bearer %s", access_token);
+        return String.format("Bearer %s", token);
 
     }
 }
