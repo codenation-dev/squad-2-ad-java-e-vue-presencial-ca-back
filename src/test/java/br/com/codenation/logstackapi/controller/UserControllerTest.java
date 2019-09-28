@@ -112,7 +112,6 @@ public class UserControllerTest {
         generateToken();
         UserRequestDTO userRequest = UserResquestBuilder.usuarioComum().build();
 
-
         ResultActions perform = mvc.perform(put(URI + "/" + UUID.randomUUID())
                 .header("Authorization", token)
                 .content(convertObjectToJsonBytes(userRequest))
