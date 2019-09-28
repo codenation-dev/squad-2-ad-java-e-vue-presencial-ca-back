@@ -4,7 +4,6 @@ import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.LogApplication;
 import br.com.codenation.logstackapi.model.entity.LogDetail;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class LogBuilder {
@@ -22,8 +21,6 @@ public class LogBuilder {
                 .archived(false)
                 .checkAlert(false)
                 .customer(CustomerBuilder.codenation().build())
-                .createdDate(LocalDateTime.now())
-                .updatedDate(LocalDateTime.now())
                 .build();
         return builder;
     }
