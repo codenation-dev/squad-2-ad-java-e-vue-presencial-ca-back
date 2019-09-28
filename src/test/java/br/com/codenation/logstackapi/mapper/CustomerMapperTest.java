@@ -32,3 +32,4 @@ public class CustomerMapperTest {
         Assert.assertThat(customerResponseDTO.getApiKey(), Matchers.equalTo(customer.getApiKey()));
     }
 }
+
