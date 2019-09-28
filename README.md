@@ -77,7 +77,7 @@ Namespace     |   URL                        | HTTP Verb        | Result
 Logs          | /api/v1/logs                 | POST             | Add log
 Logs          | /api/v1/logs                 | GET              | Return all logs
 Logs          | /api/v1/logs/:id             | GET              | Return log by ID
-Logs          | /api/v1/logs/:id             | DELETE           | Delete log
+Logs          | /api/v1//logs/export         | GET              | Export logs to .csv
 Logs          | /api/v1/logs/:id/archive     | PUT              | Archive log by ID
 Logs          | /api/v1/logs/:id/archive     | DELETE           | Unarchive log by ID
 Triggers      | /api/v1/triggers             | POST             | Add Triggers
@@ -86,9 +86,13 @@ Triggers      | /api/v1/triggers/:id         | GET              | Return trigger
 Triggers      | /api/v1/triggers/:id         | PUT              | Update trigger by ID
 Triggers      | /api/v1/triggers/:id/active  | PUT              | Active trigger by ID
 Triggers      | /api/v1/triggers/:id/active  | DELETE           | Desactive trigger by ID
-Users         | /api/v1/users                | POST             | Add user
+Triggers      | /api/v1/triggers/:id/archive | PUT              | Archive trigger by ID
+Triggers      | /api/v1/triggers/:id/archive | DELETE           | Unarchive trigger by ID
 Users         | /api/v1/users                | GET              | Return all users
-Users         | /api/v1/users/self           | GET              | Return user authenticated
-
+Users         | /api/v1/users/:id            | GET              | Return user by id
+Alerts        | /api/v1/alerts               | GET              | Return alerts
+OAuth         | /oauth/signup                | POST             | Add user
+OAuth         | /oauth/self                  | GET              | Return user authenticated
+Customer      | /api/v1/customers/self       | GET              | Return customer authenticated
 
 You can test them using postman or any other rest client.
