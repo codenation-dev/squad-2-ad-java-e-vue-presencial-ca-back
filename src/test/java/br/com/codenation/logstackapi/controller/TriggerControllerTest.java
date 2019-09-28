@@ -278,6 +278,21 @@ public class TriggerControllerTest {
                 .andExpect(status().is(401));
     }
 
+    @Test
+    public void cadastrarUmTrigger() throws Exception{
+        Trigger trigger = TriggerBuilder.gatilho1().ativo().desarquivado().build();
+        TriggerRequestDTO triggerRequestDTOBuilder = TriggerRequestDTOBuilder.gatilho1().build();
+
+        ResultActions triggerSalvo = mvc.perform(post("/api/v1/triggers")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(convertObjectToJsonBytes(triggerRequestDTOBuilder)));
+
+        triggerSalvo.andExpect(status().isOk());
+
+
+    }
+
     private String generateToken() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
