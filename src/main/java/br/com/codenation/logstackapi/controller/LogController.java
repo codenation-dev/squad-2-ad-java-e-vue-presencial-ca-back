@@ -203,7 +203,8 @@ public class LogController {
             @ApiResponse(code = 500, message = "Erro na apo", response = ErrorResponseDTO.class)
     })
     @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-    private LogResponseDTO save(@Valid @RequestBody LogRequestDTO dto) {
-        return mapper.map(service.save(dto));
+    private LogResponseDTO save(@RequestParam(value = "apiKey") UUID apiKey,
+                                @Valid @RequestBody LogRequestDTO dto) {
+        return mapper.map(service.add(apiKey, dto));
     }
 }

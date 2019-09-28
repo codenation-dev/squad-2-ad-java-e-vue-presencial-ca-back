@@ -30,8 +30,10 @@ public class Customer {
     @NotNull
     private UUID apiKey;
 
+    @NotNull
     private LocalDateTime createdDate;
 
+    @NotNull
     private LocalDateTime updatedDate;
 
 }

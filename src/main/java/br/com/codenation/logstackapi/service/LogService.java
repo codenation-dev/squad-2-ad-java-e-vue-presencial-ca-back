@@ -17,12 +17,12 @@ public interface LogService {
 
     Log findById(UUID id);
 
-    Log save(LogRequestDTO dto);
+    Log add(UUID apiKey, LogRequestDTO dto);
 
     Log unarchive(UUID id);
 
     Log archive(UUID id);
 
-    Log checkAlert(UUID id, Boolean checkAlert);
+    Log checkAlert(UUID id);
 
 }

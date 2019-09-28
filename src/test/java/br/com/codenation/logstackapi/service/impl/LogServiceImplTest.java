@@ -1,16 +1,18 @@
 package br.com.codenation.logstackapi.service.impl;
 
+import br.com.codenation.logstackapi.builders.CustomerBuilder;
 import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
 import br.com.codenation.logstackapi.builders.LogSearchBuilder;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.LogSearch;
+import br.com.codenation.logstackapi.repository.CustomerRepository;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -25,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.*;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 @ActiveProfiles("test")
@@ -39,25 +42,28 @@ public class LogServiceImplTest {
     private LogMapper mapper;
 
     @MockBean
-    private LogRepository repository;
+    private LogRepository logRepository;
+
+    @MockBean
+    private CustomerRepository customerRepository;
 
     @Test
     public void dadoLogExistente_quandoPesquisarPorId_entaoDeveEncontrarLog() {
         Log log = LogBuilder.umLog().build();
         UUID idLog = log.getId();
-        Mockito.when(repository.findById(idLog)).thenReturn(Optional.of(log));
+        Mockito.when(logRepository.findById(idLog)).thenReturn(Optional.of(log));
 
         Log logValidationId = logService.findById(idLog);
 
         assertThat(logValidationId, Matchers.notNullValue());
-        assertThat(logValidationId.getTitle(), Matchers.equalTo("Título"));
-        assertThat(logValidationId.getArchived(), Matchers.equalTo(Boolean.FALSE));
+        assertThat(logValidationId.getTitle(), equalTo("Título"));
+        assertThat(logValidationId.getArchived(), equalTo(Boolean.FALSE));
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void dadoLogNaoExistente_quandoPesquisarPorId_entaoNaoDeveEncontrarLog() {
         Log log = LogBuilder.umLog().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
+        Mockito.when(logRepository.findById(log.getId())).thenReturn(Optional.of(log));
 
         logService.findById(UUID.randomUUID());
     }
@@ -65,25 +71,25 @@ public class LogServiceImplTest {
     @Test
     public void dadoLogNaoArquivado_quandoPesquisarPorId_entaoDeveRetornarLogArquivado() {
         Log log = LogBuilder.umLog().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
-        Mockito.when(repository.save(log)).thenReturn(log);
+        Mockito.when(logRepository.findById(log.getId())).thenReturn(Optional.of(log));
+        Mockito.when(logRepository.save(log)).thenReturn(log);
 
         Log logArquivado = logService.archive(log.getId());
 
         assertThat(logArquivado, Matchers.notNullValue());
-        assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.TRUE));
+        assertThat(logArquivado.getArchived(), equalTo(Boolean.TRUE));
     }
 
     @Test
     public void dadoLogArquivado_quandoPesquisarPorId_entaoDeveRetornarLogDesarquivado() {
         Log log = LogBuilder.umLog().arquivado().build();
-        Mockito.when(repository.findById(log.getId())).thenReturn(Optional.of(log));
-        Mockito.when(repository.save(log)).thenReturn(log);
+        Mockito.when(logRepository.findById(log.getId())).thenReturn(Optional.of(log));
+        Mockito.when(logRepository.save(log)).thenReturn(log);
 
         Log logArquivado = logService.unarchive(log.getId());
 
         assertThat(logArquivado, Matchers.notNullValue());
-        assertThat(logArquivado.getArchived(), Matchers.equalTo(Boolean.FALSE));
+        assertThat(logArquivado.getArchived(), equalTo(Boolean.FALSE));
     }
 
     @Test
@@ -98,46 +104,52 @@ public class LogServiceImplTest {
                 LogBuilder.umLog().build(),
                 LogBuilder.umLog().build());
 
-        Mockito.when(repository.findByCheckAlert(false)).thenReturn(logs);
+        Mockito.when(logRepository.findByCheckAlert(false)).thenReturn(logs);
         List<Log> result = logService.findByCheckAlertNotVerified(size);
 
         assertThat(result, Matchers.notNullValue());
-        assertThat(result.stream().count(), Matchers.equalTo(5L));
-        assertThat(result.get(0).getCheckAlert(), Matchers.equalTo(Boolean.FALSE));
+        assertThat(result.stream().count(), equalTo(5L));
+        assertThat(result.get(0).getCheckAlert(), equalTo(Boolean.FALSE));
 
     }
 
     @Test
     public void dadoLog_quandoSalvar_entaoDeveRetornarLogSalvo() {
 
-        UUID id = UUID.randomUUID();
-        LogRequestDTO dto = LogRequestDTOBuilder.umLog().build();
+        Customer customer = CustomerBuilder.codenation().build();
+        UUID apiKey = customer.getApiKey();
 
+        LogRequestDTO dto = LogRequestDTOBuilder.umLog().build();
         Log log = mapper.map(dto);
+        log.setCustomer(customer);
         log.setArchived(false);
         log.setCheckAlert(false);
-        Mockito.when(repository.save(log)).thenReturn(log);
 
-        Log result = logService.save(dto);
+        Mockito.when(customerRepository.findByApiKey(apiKey)).thenReturn(Optional.of(customer));
+        Mockito.when(logRepository.save(log)).thenReturn(log);
 
-        Assert.assertThat(result, Matchers.notNullValue());
-        Assert.assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.FALSE));
-        Assert.assertThat(result.getArchived(), Matchers.equalTo(Boolean.FALSE));
+        Log result = logService.add(apiKey, dto);
+
+        assertThat(result, Matchers.notNullValue());
+        assertThat(result.getArchived(), equalTo(Boolean.FALSE));
+        assertThat(result.getCheckAlert(), equalTo(Boolean.FALSE));
+
+
     }
 
     @Test
     public void dadoLogPendenteDeVerificacao_quandoVerificar_entaoDeveRetornarLogAtualizado() {
 
         UUID id = UUID.randomUUID();
-        Log logCheckAlertTrue = LogBuilder.umLog().id(id).checkAlert(true).arquivado().build();
-        Log logCheckAlertFalse = LogBuilder.umLog().id(id).checkAlert(false).arquivado().build();
-        Mockito.when(repository.findById(logCheckAlertFalse.getId())).thenReturn(Optional.of(logCheckAlertFalse));
-        Mockito.when(repository.save(logCheckAlertTrue)).thenReturn(logCheckAlertTrue);
+        Log log = LogBuilder.umLog().id(id).checkAlert(false).build();
 
-        Log result = logService.checkAlert(id, true);
+        Mockito.when(logRepository.findById(id)).thenReturn(Optional.of(log));
+        Mockito.when(logRepository.save(log)).thenReturn(log);
+
+        Log result = logService.checkAlert(id);
 
         assertThat(result, Matchers.notNullValue());
-        assertThat(result.getCheckAlert(), Matchers.equalTo(Boolean.TRUE));
+        assertThat(result.getCheckAlert(), equalTo(Boolean.TRUE));
     }
 
     @Test
@@ -153,7 +165,7 @@ public class LogServiceImplTest {
         Page<Log> pageResponse = logService.find(logSearch, 1, 2, Sort.by(Sort.Order.desc("title")));
 
         assertThat(pageResponse, Matchers.notNullValue());
-        assertThat(pageResponse.getTotalElements(), Matchers.equalTo(2L));
-        assertThat(pageResponse.stream().filter(c -> c.getTitle().equals("Título")).count(), Matchers.equalTo(2L));
+        assertThat(pageResponse.getTotalElements(), equalTo(2L));
+        assertThat(pageResponse.stream().filter(c -> c.getTitle().equals("Título")).count(), equalTo(2L));
     }
 }
