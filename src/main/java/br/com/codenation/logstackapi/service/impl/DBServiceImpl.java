@@ -72,7 +72,6 @@ public class DBServiceImpl implements DBService {
 
         securityService.autoLogin(username, password);
 
-
         TriggerFilterRequestDTO filter = TriggerFilterRequestDTO.builder()
                 .appName("logstack-api")
                 .environment(LogEnvironment.PRODUCTION)
@@ -102,16 +101,15 @@ public class DBServiceImpl implements DBService {
         List<Log> logs = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
             LocalDateTime timestamp = LocalDateTime.now();
-            LogRequestDTO log = LogRequestDTO.builder()
+            LogRequestDTO dto = LogRequestDTO.builder()
                     .title("Título do log " + i)
                     .timestamp(timestamp).level(LogLevel.ERROR).content("Detalhe do log " + i)
                     .application(applicationDTO)
                     .build();
 
-            logService.add(apiKey, log);
-
+            Log log = logService.add(apiKey, dto);
+            System.out.println(log);
         }
-
 
         log.info("Finished database");
 
