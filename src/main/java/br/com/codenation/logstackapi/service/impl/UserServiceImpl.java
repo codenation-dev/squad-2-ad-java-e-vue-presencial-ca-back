@@ -7,6 +7,7 @@ import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
 import br.com.codenation.logstackapi.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,4 +65,25 @@ public class UserServiceImpl implements UserService {
         return repository.findByEmail(email).isPresent() ? true : false;
     }
 
+    public User update(UUID id, UserRequestDTO dto) {
+        User user = findById(id);
+        User userAuth = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!user.getId().equals(userAuth.getId())) {
+            throw new IllegalArgumentException("Authenticated user is not the same as informed user");
+        }
+
+        if(!user.getEmail().equals(dto.getEmail())) {
+            validEmailExists(dto.getEmail());
+        }
+
+        updateUser(user, dto);
+        return repository.save(user);
+    }
+
+    private void updateUser(User user, UserRequestDTO dto) {
+        user.setFullName(dto.getFullName());
+        user.setEmail(dto.getEmail());
+        user.setPassword(bCrypt.encode(dto.getPassword()));
+    }
 }
