@@ -219,7 +219,7 @@ public class TriggerControllerTest {
 
     @Test
     @Transactional
-    public void dadoTriggerNãoExistente_quandoAtualizarTrigger_deveRetornarErro() throws Exception {
+    public void dadoTriggerNaoExistente_quandoAtualizarTrigger_deveRetornarErro() throws Exception {
         TriggerRequestDTO triggerRequestAtualiza = TriggerRequestDTOBuilder.gatilho2().build();
 
         mvc.perform(put(URI + "/" + UUID.randomUUID())
