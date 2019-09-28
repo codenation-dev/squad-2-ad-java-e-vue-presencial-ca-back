@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.response.CustomerResponseDTO;
-import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
+import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.CustomerMapper;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
@@ -32,8 +32,8 @@ public class CustomerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = Customer.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @GetMapping(value = "/customers/self", produces = MediaType.APPLICATION_JSON_VALUE)
     private CustomerResponseDTO self() {

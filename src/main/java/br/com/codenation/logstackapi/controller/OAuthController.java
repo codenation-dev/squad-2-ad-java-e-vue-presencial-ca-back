@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
-import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.dto.response.UserResponseDTO;
+import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
@@ -33,8 +33,8 @@ public class OAuthController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Usuário criado", response = UserResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @PostMapping(value = "/oauth/signup", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -48,8 +48,8 @@ public class OAuthController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @GetMapping(value = "/oauth/self", produces = MediaType.APPLICATION_JSON_VALUE)
     private UserResponseDTO self() {

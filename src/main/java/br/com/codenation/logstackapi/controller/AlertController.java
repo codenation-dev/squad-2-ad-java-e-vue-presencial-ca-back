@@ -1,7 +1,7 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.response.AlertResponseDTO;
-import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
+import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.AlertMapper;
 import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.service.impl.AlertServiceImpl;
@@ -35,8 +35,8 @@ public class AlertController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = AlertResponseDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @GetMapping(value = "/alerts", produces = MediaType.APPLICATION_JSON_VALUE)
     private Page<AlertResponseDTO> find(@RequestParam(value = "triggerId", required = false) Optional<UUID> logId,

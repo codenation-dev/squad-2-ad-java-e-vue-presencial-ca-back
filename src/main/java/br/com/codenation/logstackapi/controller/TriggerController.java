@@ -1,8 +1,8 @@
 package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
-import br.com.codenation.logstackapi.dto.response.ErrorResponseDTO;
 import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
+import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.service.impl.TriggerServiceImpl;
 import io.swagger.annotations.Api;
@@ -32,8 +32,8 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @PostMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO save(@Valid @RequestBody TriggerRequestDTO dto) {
@@ -46,8 +46,8 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TriggerResponseDTO.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @GetMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<TriggerResponseDTO> findAll() {
@@ -60,8 +60,8 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @GetMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO findById(@PathVariable UUID id) {
@@ -74,9 +74,9 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Gatilho ativo", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })  
     @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO active(@PathVariable UUID id){
@@ -89,9 +89,9 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Gatilho desativado", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @DeleteMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO inactive(@PathVariable UUID id) {
@@ -104,9 +104,9 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Gatilho arquivado", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @PutMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO archive(@PathVariable UUID id) {
@@ -119,9 +119,9 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Gatilho desarquivado", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO unarchive(@PathVariable UUID id) {
@@ -134,8 +134,8 @@ public class TriggerController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Gatilho criado", response = TriggerResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @PutMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO update(@PathVariable UUID id, @RequestBody TriggerRequestDTO dto) {
