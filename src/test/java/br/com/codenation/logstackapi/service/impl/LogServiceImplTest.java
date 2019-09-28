@@ -134,7 +134,6 @@ public class LogServiceImplTest {
         assertThat(result.getArchived(), equalTo(Boolean.FALSE));
         assertThat(result.getCheckAlert(), equalTo(Boolean.FALSE));
 
-
     }
 
     @Test
