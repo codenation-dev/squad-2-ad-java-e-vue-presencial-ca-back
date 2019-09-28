@@ -59,8 +59,8 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserResponseDTO.class),
-            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ErrorResponseDTO.class),
-            @ApiResponse(code = 500, message = "Erro na api", response = ErrorResponseDTO.class)
+            @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
+            @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
     @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private UserResponseDTO update(@PathVariable UUID id, @RequestBody UserRequestDTO dto) {
