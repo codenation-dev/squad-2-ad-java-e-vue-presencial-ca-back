@@ -36,7 +36,7 @@ public class LogAlertMonitor {
                 alert = alertService.save(alert);
                 notificationAlert.sendEmail(alert);
             });
-            logService.checkAlert(l.getId(), true);
+            logService.checkAlert(l.getId());
         });
     }
 

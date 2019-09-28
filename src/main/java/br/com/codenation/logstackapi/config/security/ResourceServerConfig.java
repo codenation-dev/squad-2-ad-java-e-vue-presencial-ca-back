@@ -19,7 +19,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/oauth/signup"
+            "/oauth/signup",
+            "/api/v1/logs"
     };
 
     @Override

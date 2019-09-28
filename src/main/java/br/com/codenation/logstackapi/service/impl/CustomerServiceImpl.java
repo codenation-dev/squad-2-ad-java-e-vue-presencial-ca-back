@@ -29,6 +29,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Optional<Customer> findByApiKey(UUID apiKey) {
+        return customerRepository.findByApiKey(apiKey);
+    }
+
+    @Override
     public Customer save(User user) {
         Customer customer = Customer.builder()
                 .user(user)

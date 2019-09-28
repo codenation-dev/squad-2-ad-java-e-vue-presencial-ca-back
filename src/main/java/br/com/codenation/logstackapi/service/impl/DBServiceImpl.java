@@ -1,11 +1,12 @@
 package br.com.codenation.logstackapi.service.impl;
 
-import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
-import br.com.codenation.logstackapi.model.entity.*;
+import br.com.codenation.logstackapi.dto.request.*;
+import br.com.codenation.logstackapi.model.entity.Customer;
+import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
-import br.com.codenation.logstackapi.repository.LogRepository;
-import br.com.codenation.logstackapi.repository.TriggerRepository;
 import br.com.codenation.logstackapi.service.DBService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,22 +15,27 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
 public class DBServiceImpl implements DBService {
 
     @Autowired
-    private LogRepository logRepository;
+    private LogServiceImpl logService;
 
     @Autowired
     private UserServiceImpl userService;
 
     @Autowired
-    private SecurityServiceImpl securityService;
+    private CustomerServiceImpl customerService;
 
     @Autowired
-    private TriggerRepository triggerRepository;
+    private TriggerServiceImpl triggerService;
+
+    @Autowired
+    private SecurityServiceImpl securityService;
 
     public void instantiateTestDatabase() {
         log.info("Started database environment dev");
@@ -38,9 +44,13 @@ public class DBServiceImpl implements DBService {
         String username = "admin@admin.com";
         String password = "admin";
 
-        UserRequestDTO dto = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
-        User user = userService.save(dto);
+        UserRequestDTO userDTO = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
+        User user = userService.save(userDTO);
         log.info("User created: " + user);
+
+        Optional<Customer> customer = customerService.findByUser(user);
+        log.info("Customer created: " + customer);
+
         log.info("Finished database");
 
     }
@@ -53,45 +63,55 @@ public class DBServiceImpl implements DBService {
         String username = "admin@admin.com";
         String password = "admin";
 
-        UserRequestDTO dto = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
-        User user = userService.save(dto);
+        UserRequestDTO userDTO = UserRequestDTO.builder().email(username).fullName(fullName).password(password).build();
+        User user = userService.save(userDTO);
         log.info("User created: " + user);
+
+        Optional<Customer> customer = customerService.findByUser(user);
+        log.info("Customer created: " + customer);
 
         securityService.autoLogin(username, password);
 
-        TriggerFilter filter = TriggerFilter.builder()
+
+        TriggerFilterRequestDTO filter = TriggerFilterRequestDTO.builder()
                 .appName("logstack-api")
                 .environment(LogEnvironment.PRODUCTION)
                 .level(LogLevel.ERROR)
                 .build();
 
-        Trigger trigger = Trigger.builder()
+        TriggerRequestDTO filterDTO = TriggerRequestDTO.builder()
                 .name("Level Error em Produção na Aplicação LOGSTACK-API")
                 .email("luannn@gmail.com")
                 .message("Verificar o erro em produção na API LOGSTACK")
-                .active(true)
-                .archived(false)
+                .isActive(true)
                 .filters(filter)
-                .alerts(new ArrayList<>())
                 .build();
 
-        triggerRepository.save(trigger);
+        Trigger trigger = triggerService.save(filterDTO);
+        log.info("Trigger created: " + trigger);
 
-        LocalDateTime timestamp = LocalDateTime.now();
+        UUID apiKey = customer.get().getApiKey();
 
-        LogApplication application = LogApplication.builder()
-                .name("logstack-api").ip("127.0.0.1").host("java-client-test").environment(LogEnvironment.PRODUCTION).build();
+        LogApplicationRequestDTO applicationDTO = LogApplicationRequestDTO.builder()
+                .name("logstack-api")
+                .ip("127.0.0.1")
+                .host("java-client-test")
+                .environment(LogEnvironment.PRODUCTION)
+                .build();
 
         List<Log> logs = new ArrayList<>();
         for (int i = 0; i < 25; i++) {
-            LogDetail detail = LogDetail.builder()
-                    .timestamp(timestamp).level(LogLevel.ERROR).content("Detalhe do log " + i).build();
-            Log log = Log.builder()
-                    .title("Título do log " + i).application(application).detail(detail).archived(false).checkAlert(false).build();
-            logs.add(log);
+            LocalDateTime timestamp = LocalDateTime.now();
+            LogRequestDTO log = LogRequestDTO.builder()
+                    .title("Título do log " + i)
+                    .timestamp(timestamp).level(LogLevel.ERROR).content("Detalhe do log " + i)
+                    .application(applicationDTO)
+                    .build();
+
+            logService.add(apiKey, log);
+
         }
 
-        logRepository.saveAll(logs);
 
         log.info("Finished database");
 

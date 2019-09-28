@@ -13,4 +13,6 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
     Optional<Customer> findByUser(User user);
 
+    Optional<Customer> findByApiKey(UUID apiKey);
+
 }

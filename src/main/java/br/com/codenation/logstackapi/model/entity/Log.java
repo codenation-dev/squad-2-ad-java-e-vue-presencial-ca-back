@@ -1,14 +1,13 @@
 package br.com.codenation.logstackapi.model.entity;
 
-import br.com.codenation.logstackapi.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -16,8 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
-public class Log extends Auditable<User> {
+public class Log {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,5 +35,16 @@ public class Log extends Auditable<User> {
 
     @NotNull
     private Boolean archived;
+
+    @NotNull
+    private LocalDateTime createdDate;
+
+    @NotNull
+    private LocalDateTime updatedDate;
+
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
 }

@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 @RequestMapping
-@Api(tags = {"OAuth"}, description = "Endpoint para gerenciamento dos usuários")
+@Api(tags = {"Authentication"}, description = "Endpoint para gerenciamento dos usuários")
 public class OAuthController {
 
     private UserServiceImpl service;

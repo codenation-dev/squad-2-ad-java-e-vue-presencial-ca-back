@@ -3,6 +3,7 @@ package br.com.codenation.logstackapi.service.impl;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.LogMapper;
+import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.repository.LogRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,44 +23,57 @@ import java.util.stream.Collectors;
 @Service
 public class LogServiceImpl implements LogService {
 
+    private CustomerServiceImpl customerService;
     private LogRepository repository;
     private LogMapper mapper;
 
+    @Override
     public Log findById(UUID id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
     }
 
+    @Override
     public Log unarchive(UUID id) {
         Log log = findById(id);
-        log.setArchived(false);
-        return repository.save(log);
+        log.setArchived(Boolean.FALSE);
+        return this.save(log);
     }
 
+    @Override
     public Log archive(UUID id) {
         Log log = findById(id);
-        log.setArchived(true);
-        return repository.save(log);
+        log.setArchived(Boolean.TRUE);
+        return this.save(log);
     }
 
-    public Log checkAlert(UUID id, Boolean checkAlert) {
+    @Override
+    public Log checkAlert(UUID id) {
         Log log = findById(id);
-        log.setCheckAlert(checkAlert);
-        return repository.save(log);
+        log.setCheckAlert(Boolean.TRUE);
+        return this.save(log);
     }
 
-    public Log save(LogRequestDTO dto) {
+    @Override
+    public Log add(UUID apiKey, LogRequestDTO dto) {
+
+        Customer customer = customerService.findByApiKey(apiKey)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid API Key"));
+
         Log log = mapper.map(dto);
+        log.setCustomer(customer);
         log.setArchived(false);
         log.setCheckAlert(false);
         return repository.save(log);
     }
 
+    @Override
     public List<Log> findByCheckAlertNotVerified(Integer size) {
         if (size < 1) size = 10;
         return repository.findByCheckAlert(false).stream().limit(size).collect(Collectors.toList());
     }
 
+    @Override
     public Page<Log> find(LogSearch search, Integer page, Integer size, Sort sort) {
 
         search.validationValues();
@@ -78,4 +93,10 @@ public class LogServiceImpl implements LogService {
                 pageRequest);
 
     }
+
+    private Log save(Log log) {
+        log.setUpdatedDate(LocalDateTime.now());
+        return repository.save(log);
+    }
+
 }
