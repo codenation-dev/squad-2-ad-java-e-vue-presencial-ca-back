@@ -17,4 +17,6 @@ public interface UserService {
 
     User findById(UUID id);
 
+    User update(UUID id, UserRequestDTO dto);
+
 }
