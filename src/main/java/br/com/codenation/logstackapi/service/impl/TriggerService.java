@@ -4,10 +4,9 @@ import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
-import br.com.codenation.logstackapi.model.enums.LogEnvironment;
-import br.com.codenation.logstackapi.model.enums.LogLevel;
+import br.com.codenation.logstackapi.model.entity.TriggerSearch;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
-import br.com.codenation.logstackapi.service.TriggerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +15,13 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class TriggerServiceImpl implements TriggerService {
+public class TriggerService {
 
     private TriggerRepository triggerRepository;
     private TriggerMapper mapper;
 
     public Trigger save(TriggerRequestDTO dto) {
         if (dto.isNull()) throw new IllegalArgumentException("Deve informar no mínimo uma das opções de filtro");
-
         Trigger trigger = mapper.map(dto);
         trigger.setArchived(false);
         trigger = triggerRepository.save(trigger);
@@ -35,14 +33,18 @@ public class TriggerServiceImpl implements TriggerService {
         return triggerRepository.findAll();
     }
 
+    public List<Trigger> findByCreatedBy(User user) {
+        return triggerRepository.findByCreatedById(user.getId());
+    }
+
     public Trigger findById(UUID id) {
         return triggerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Gatilho não encontrado"));
     }
 
-    @Override
-    public List<Trigger> findByLog(String appName, LogEnvironment environment, LogLevel level) {
-        return triggerRepository.findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevel(appName, environment, level);
+    public List<Trigger> findByLog(TriggerSearch search) {
+        return triggerRepository.findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndCreatedById(
+                search.getAppName(), search.getEnvironment(), search.getLevel(), search.getCreatedBy().getId());
     }
 
     public Trigger archive(UUID id) {

@@ -6,9 +6,11 @@ import br.com.codenation.logstackapi.dto.response.LogResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.LogMapper;
 import br.com.codenation.logstackapi.model.entity.LogSearch;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
-import br.com.codenation.logstackapi.service.impl.LogServiceImpl;
+import br.com.codenation.logstackapi.service.impl.LogService;
+import br.com.codenation.logstackapi.service.impl.SecurityService;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
@@ -42,7 +44,8 @@ import java.util.UUID;
 @Api(tags = {"Logs"}, description = "Endpoint para gerenciamento dos logs")
 public class LogController {
 
-    private LogServiceImpl service;
+    private SecurityService securityService;
+    private LogService logService;
     private LogMapper mapper;
 
     @ApiOperation(
@@ -73,6 +76,7 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
+        User user = securityService.getUserAuthenticated();
         LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
@@ -81,11 +85,12 @@ public class LogController {
                 .environment(environment.orElse(null))
                 .content(content.orElse(null))
                 .level(level.orElse(null))
+                .user(user)
                 .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
                 .build();
 
-        List<LogResponseDTO> logs = service.find(search, page, size, sort).map(mapper::map).getContent();
+        List<LogResponseDTO> logs = logService.find(search, page, size, sort).map(mapper::map).getContent();
 
         String filename = "logs.csv";
 
@@ -99,7 +104,6 @@ public class LogController {
                 .withOrderedResults(false)
                 .build();
 
-        //write all users to csv file
         writer.write(logs);
 
     }
@@ -131,6 +135,7 @@ public class LogController {
 
         Sort sort = Sort.by(Sort.Direction.DESC, "detail.timestamp");
 
+        User user = securityService.getUserAuthenticated();
         LogSearch search = LogSearch.builder()
                 .title(title.map(String::toLowerCase).orElse(null))
                 .appName(appName.map(String::toLowerCase).orElse(null))
@@ -139,11 +144,12 @@ public class LogController {
                 .environment(environment.orElse(null))
                 .content(content.orElse(null))
                 .level(level.orElse(null))
+                .user(user)
                 .startTimestamp(LocalDateTime.of(startTimestamp, LocalTime.of(0, 0, 0)))
                 .endTimestamp(LocalDateTime.of(endTimestamp, LocalTime.of(23, 59, 59)))
                 .build();
 
-        return service.find(search, page, size, sort).map(mapper::map);
+        return logService.find(search, page, size, sort).map(mapper::map);
     }
 
 
@@ -159,7 +165,7 @@ public class LogController {
     })
     @GetMapping(value = "/logs/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogResponseDTO getById(@PathVariable UUID id) {
-        return mapper.map(service.findById(id));
+        return mapper.map(logService.findById(id));
     }
 
     @ApiOperation(
@@ -174,7 +180,7 @@ public class LogController {
     })
     @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogResponseDTO archive(@PathVariable UUID id) {
-        return mapper.map(service.archive(id));
+        return mapper.map(logService.archive(id));
     }
 
     @ApiOperation(
@@ -189,7 +195,7 @@ public class LogController {
     })
     @DeleteMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogResponseDTO unarchive(@PathVariable UUID id) {
-        return mapper.map(service.unarchive(id));
+        return mapper.map(logService.unarchive(id));
     }
 
     @ApiOperation(
@@ -204,6 +210,6 @@ public class LogController {
     @PostMapping(value = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogResponseDTO save(@RequestParam(value = "apiKey") UUID apiKey,
                                 @Valid @RequestBody LogRequestDTO dto) {
-        return mapper.map(service.add(apiKey, dto));
+        return mapper.map(logService.add(apiKey, dto));
     }
 }

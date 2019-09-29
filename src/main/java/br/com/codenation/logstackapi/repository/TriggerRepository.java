@@ -14,5 +14,10 @@ public interface TriggerRepository extends JpaRepository<Trigger, UUID> {
 
     List<Trigger> findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevel(
             String appName, LogEnvironment environment, LogLevel level);
+
+    List<Trigger> findByActiveTrueAndArchivedFalseAndFiltersAppNameAndFiltersEnvironmentAndFiltersLevelAndCreatedById(
+            String appName, LogEnvironment environment, LogLevel level, UUID userId);
+
+    List<Trigger> findByCreatedById(UUID userId);
 }
 

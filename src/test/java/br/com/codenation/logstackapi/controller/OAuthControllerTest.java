@@ -2,7 +2,7 @@ package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.UserResquestBuilder;
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
-import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
+import br.com.codenation.logstackapi.service.impl.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class OAuthControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Value("${security.oauth2.client.client-id}")
     private String client;

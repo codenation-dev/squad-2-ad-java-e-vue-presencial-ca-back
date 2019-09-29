@@ -2,6 +2,7 @@ package br.com.codenation.logstackapi.builders;
 
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.model.entity.TriggerFilter;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
 
@@ -84,6 +85,11 @@ public class TriggerBuilder {
 
     public TriggerBuilder desarquivado() {
         trigger.setArchived(false);
+        return this;
+    }
+
+    public TriggerBuilder createdBy(User user) {
+        trigger.setCreatedBy(user);
         return this;
     }
 
