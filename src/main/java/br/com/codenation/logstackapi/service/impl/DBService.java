@@ -7,7 +7,6 @@ import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
-import br.com.codenation.logstackapi.service.DBService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,22 +19,22 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-public class DBServiceImpl implements DBService {
+public class DBService {
 
     @Autowired
-    private LogServiceImpl logService;
+    private LogService logService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
-    private CustomerServiceImpl customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private TriggerServiceImpl triggerService;
+    private TriggerService triggerService;
 
     @Autowired
-    private SecurityServiceImpl securityService;
+    private SecurityService securityService;
 
     public void instantiateTestDatabase() {
         log.info("Started database environment dev");

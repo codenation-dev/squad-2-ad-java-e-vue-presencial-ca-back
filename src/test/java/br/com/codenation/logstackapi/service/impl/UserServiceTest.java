@@ -7,7 +7,6 @@ import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.UserRepository;
-import br.com.codenation.logstackapi.service.UserService;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +28,7 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class UserServiceImplTest {
+public class UserServiceTest {
 
     @Autowired
     private UserMapper mapper;
@@ -41,7 +40,7 @@ public class UserServiceImplTest {
     private UserRepository repository;
 
     @MockBean
-    private CustomerServiceImpl customerService;
+    private CustomerService customerService;
 
     @MockBean
     private BCryptPasswordEncoder bCrypt;
@@ -101,6 +100,6 @@ public class UserServiceImplTest {
         User result = userService.save(userRequestDTO);
 
         Assert.assertThat(result, Matchers.notNullValue());
-        Assert.assertThat(result.getFullName().toString(), Matchers.equalTo(userRequestDTO.getFullName()));
+        Assert.assertThat(result.getFullName(), Matchers.equalTo(userRequestDTO.getFullName()));
     }
 }

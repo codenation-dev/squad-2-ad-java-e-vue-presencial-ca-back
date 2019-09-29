@@ -1,15 +1,24 @@
 package br.com.codenation.logstackapi.controller;
 
 
+import br.com.codenation.logstackapi.builders.CustomerBuilder;
+import br.com.codenation.logstackapi.builders.LogBuilder;
+import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
+import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
+import br.com.codenation.logstackapi.model.entity.Customer;
+import br.com.codenation.logstackapi.model.entity.Log;
+import br.com.codenation.logstackapi.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,8 +29,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Optional;
 import java.util.UUID;
 
+import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonBytes;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,6 +48,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LogControllerTest {
 
     private static String URI = "/api/v1/logs";
+
+    @MockBean
+    private CustomerRepository customerRepository;
 
     @Autowired
     private MockMvc mvc;
@@ -95,6 +109,24 @@ public class LogControllerTest {
         mvc.perform(MockMvcRequestBuilders.delete(URI + "/" + id.toString() + "/archive")
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void cadastrarUmLogComSucesso() throws Exception {
+        Log log = LogBuilder.umLog().build();
+        LogRequestDTO logRequestDTO = LogRequestDTOBuilder.umLog().build();
+
+        Customer customer = CustomerBuilder.codenation().build();
+        Mockito.when(customerRepository.save(customer)).thenReturn(customer);
+        Mockito.when(customerRepository.findByApiKey(customer.getApiKey())).thenReturn(Optional.of(customer));
+
+        ResultActions logSalvo = mvc.perform(post("/api/v1/logs")
+                .header("Authorization", token)
+                .param("apiKey", String.valueOf(customer.getApiKey()))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(convertObjectToJsonBytes(logRequestDTO)));
+
+        logSalvo.andExpect(status().isOk());
     }
 
     private String generateToken() throws Exception {

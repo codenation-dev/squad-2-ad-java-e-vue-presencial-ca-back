@@ -4,7 +4,9 @@ import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
 import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
-import br.com.codenation.logstackapi.service.impl.TriggerServiceImpl;
+import br.com.codenation.logstackapi.model.entity.User;
+import br.com.codenation.logstackapi.service.impl.SecurityService;
+import br.com.codenation.logstackapi.service.impl.TriggerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,7 +25,8 @@ import java.util.UUID;
 @Api(tags = {"Triggers"}, description = "Endpoint para gerenciamento dos gatilhos")
 public class TriggerController {
 
-    private TriggerServiceImpl service;
+    private SecurityService securityService;
+    private TriggerService triggerService;
     private TriggerMapper mapper;
 
     @ApiOperation(
@@ -37,7 +40,7 @@ public class TriggerController {
     })
     @PostMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO save(@Valid @RequestBody TriggerRequestDTO dto) {
-        return mapper.map(service.save(dto));
+        return mapper.map(triggerService.save(dto));
     }
 
     @ApiOperation(
@@ -51,7 +54,8 @@ public class TriggerController {
     })
     @GetMapping(value = "/triggers", produces = MediaType.APPLICATION_JSON_VALUE)
     private List<TriggerResponseDTO> findAll() {
-        return mapper.map(service.findAll());
+        User user = securityService.getUserAuthenticated();
+        return mapper.map(triggerService.findByCreatedBy(user));
     }
 
     @ApiOperation(
@@ -65,7 +69,7 @@ public class TriggerController {
     })
     @GetMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO findById(@PathVariable UUID id) {
-        return mapper.map(service.findById(id));
+        return mapper.map(triggerService.findById(id));
     }
 
     @ApiOperation(
@@ -80,7 +84,7 @@ public class TriggerController {
     })  
     @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO active(@PathVariable UUID id){
-        return mapper.map(service.active(id));
+        return mapper.map(triggerService.active(id));
     }
 
     @ApiOperation(
@@ -95,7 +99,7 @@ public class TriggerController {
     })
     @DeleteMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO inactive(@PathVariable UUID id) {
-        return mapper.map(service.inactive(id));
+        return mapper.map(triggerService.inactive(id));
     }              
 
     @ApiOperation(
@@ -110,7 +114,7 @@ public class TriggerController {
     })
     @PutMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO archive(@PathVariable UUID id) {
-        return mapper.map(service.archive(id));
+        return mapper.map(triggerService.archive(id));
     }
   
     @ApiOperation(
@@ -125,7 +129,7 @@ public class TriggerController {
     })
     @DeleteMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO unarchive(@PathVariable UUID id) {
-        return mapper.map(service.unarchive(id));
+        return mapper.map(triggerService.unarchive(id));
     }
 
     @ApiOperation(
@@ -139,6 +143,6 @@ public class TriggerController {
     })
     @PutMapping(value = "/triggers/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO update(@PathVariable UUID id, @RequestBody TriggerRequestDTO dto) {
-        return mapper.map(service.update(id, dto));
+        return mapper.map(triggerService.update(id, dto));
     }
 }

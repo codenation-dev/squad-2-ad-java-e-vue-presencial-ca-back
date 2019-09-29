@@ -1,6 +1,10 @@
 package br.com.codenation.logstackapi.builders;
 
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class TriggerRequestDTOBuilder {
 
@@ -15,7 +19,7 @@ public class TriggerRequestDTOBuilder {
                 .filters(TriggerFilterRequestDTOBuilder.gatilho1().build())
                 .message("message")
                 .email("email@example.com")
-                .isActive(true)
+                .isActive(false)
                 .name("Name").build();
         return builder;
     }
