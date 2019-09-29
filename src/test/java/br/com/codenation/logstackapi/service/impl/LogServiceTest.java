@@ -25,7 +25,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -33,13 +36,16 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class LogServiceImplTest {
+public class LogServiceTest {
 
     @Autowired
-    private LogServiceImpl logService;
+    private LogService logService;
 
     @Autowired
     private LogMapper mapper;
+
+    @MockBean
+    private SecurityService securityService;
 
     @MockBean
     private LogRepository logRepository;
@@ -153,15 +159,18 @@ public class LogServiceImplTest {
 
     @Test
     public void dadoLogSearch_quandoPesquisarTodosOsLogs_entaoDeveRetornarLog() {
-        LogSearch logSearch = LogSearchBuilder.umLog().build();
-        List<Log> listaLogs = new ArrayList<>();
-        listaLogs.add(LogBuilder.umLog().emTeste().arquivado().build());
-        listaLogs.add(LogBuilder.umLog().comLevelDebug().emDesenvolvimento().build());
-        Page<Log> page = new PageImpl<>(listaLogs);
 
-        Mockito.when(logService.find(logSearch, 1, 2, Sort.by(Sort.Order.desc("title")))).thenReturn(page);
+        LogSearch search = LogSearchBuilder.umLog().build();
 
-        Page<Log> pageResponse = logService.find(logSearch, 1, 2, Sort.by(Sort.Order.desc("title")));
+        Log l1 = LogBuilder.umLog().emTeste().arquivado().build();
+        Log l2 = LogBuilder.umLog().comLevelDebug().emDesenvolvimento().build();
+        List<Log> logs = Arrays.asList(l1, l2);
+
+        Page<Log> page = new PageImpl<>(logs);
+
+        Mockito.when(logService.find(search, 1, 2, Sort.by(Sort.Order.desc("title")))).thenReturn(page);
+
+        Page<Log> pageResponse = logService.find(search, 1, 2, Sort.by(Sort.Order.desc("title")));
 
         assertThat(pageResponse, Matchers.notNullValue());
         assertThat(pageResponse.getTotalElements(), equalTo(2L));

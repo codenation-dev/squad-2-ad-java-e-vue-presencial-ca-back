@@ -4,7 +4,6 @@ import br.com.codenation.logstackapi.builders.AlertBuilder;
 import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.repository.AlertRepository;
-import br.com.codenation.logstackapi.service.AlertService;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +25,10 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class AlertServiceImplTest {
+public class AlertServiceTest {
 
     @Autowired
-    private AlertService service;
+    private AlertService alertService;
 
     @MockBean
     private AlertRepository repository;
@@ -47,7 +46,7 @@ public class AlertServiceImplTest {
 
         Mockito.when(repository.find(null, null, pageRequest)).thenReturn(page);
 
-        Page<Alert> pageResponse = service.find(search, 1, 3);
+        Page<Alert> pageResponse = alertService.find(search, 1, 3);
 
         assertThat(pageResponse, Matchers.notNullValue());
         assertThat(pageResponse.getTotalElements(), Matchers.equalTo(2L));
@@ -60,7 +59,7 @@ public class AlertServiceImplTest {
 
         Mockito.when(repository.save(alert)).thenReturn(alert);
 
-        Alert alertResponse = service.save(alert);
+        Alert alertResponse = alertService.save(alert);
 
         assertThat(alertResponse, Matchers.notNullValue());
         assertThat(alertResponse.getId(), Matchers.equalTo(alert.getId()));

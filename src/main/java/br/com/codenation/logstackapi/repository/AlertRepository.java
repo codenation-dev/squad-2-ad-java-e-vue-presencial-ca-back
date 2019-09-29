@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -22,4 +23,12 @@ public interface AlertRepository extends JpaRepository<Alert, UUID> {
                      @Param("triggerId") UUID triggerId,
                      Pageable pageable);
 
+    @Query("select a from Alert a " +
+            "where (:logId is null or a.log.id = :logId) " +
+            "  and (:triggerId is null or a.trigger.id = :triggerId) ")
+    Page<Alert> findByCreatedBy(@Param("logId") UUID logId,
+                                @Param("triggerId") UUID triggerId,
+                                Pageable pageable);
+
+    List<Alert> findByTriggerCreatedById(UUID id);
 }

@@ -5,7 +5,7 @@ import br.com.codenation.logstackapi.dto.response.UserResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
+import br.com.codenation.logstackapi.service.impl.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @Api(tags = {"Authentication"}, description = "Endpoint para gerenciamento dos usuários")
 public class OAuthController {
 
-    private UserServiceImpl service;
+    private UserService service;
     private UserMapper mapper;
 
     @ApiOperation(

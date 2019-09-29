@@ -2,12 +2,14 @@ package br.com.codenation.logstackapi.controller;
 
 import br.com.codenation.logstackapi.builders.TriggerBuilder;
 import br.com.codenation.logstackapi.builders.TriggerRequestDTOBuilder;
+import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.dto.request.TriggerRequestDTO;
-import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
-import br.com.codenation.logstackapi.service.TriggerService;
+import br.com.codenation.logstackapi.service.impl.SecurityService;
+import br.com.codenation.logstackapi.service.impl.TriggerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +53,10 @@ public class TriggerControllerTest {
     private static String URI = "/api/v1/triggers";
 
     @MockBean
-    private TriggerRepository repository;
+    private TriggerRepository triggerRepository;
+
+    @MockBean
+    private SecurityService securityService;
 
     @Autowired
     private MockMvc mvc;
@@ -91,6 +96,10 @@ public class TriggerControllerTest {
     @Transactional
     public void dadoNenhumaTriggerExistente_quandoBuscarTodasTrigger_deveRetornarNenhumaTrigger() throws Exception {
 
+        User user = UserBuilder.codenation().build();
+        Mockito.when(securityService.getUserAuthenticated()).thenReturn(user);
+        Mockito.when(triggerRepository.findByCreatedById(user.getId())).thenReturn(new ArrayList<>());
+
         mvc.perform(get(URI)
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -123,7 +132,11 @@ public class TriggerControllerTest {
     public void dadoTriggerExistente_quandoBuscarTodasTriggerPorId_deveRetornarTrigger() throws Exception {
         Trigger t4 = TriggerBuilder.gatilho4().ativo().build();
         List<Trigger> list = Arrays.asList(t4);
-        Mockito.when(repository.findAll()).thenReturn(list);
+
+        User user = UserBuilder.codenation().build();
+
+        Mockito.when(securityService.getUserAuthenticated()).thenReturn(user);
+        Mockito.when(triggerRepository.findByCreatedById(user.getId())).thenReturn(list);
 
         ResultActions perform = mvc.perform(get(URI)
                 .header("Authorization", token)
@@ -139,8 +152,8 @@ public class TriggerControllerTest {
     @Test
     public void dadoTriggerInativo_quandoAtivaTrigger_deveRetornarTriggerAtiva() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().inativo().desarquivado().build();
-        Mockito.when(repository.save(trigger)).thenReturn(trigger);
-        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+        Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
+        Mockito.when(triggerRepository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
 
         ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/active")
                 .header("Authorization", token))
@@ -154,8 +167,8 @@ public class TriggerControllerTest {
     @Transactional
     public void dadoTriggerAtivo_quandoInativaTrigger_deveRetornarTriggerInativa() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
-        Mockito.when(repository.save(trigger)).thenReturn(trigger);
-        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+        Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
+        Mockito.when(triggerRepository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
 
         ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/active")
                 .header("Authorization", token))
@@ -170,8 +183,8 @@ public class TriggerControllerTest {
     @Transactional
     public void dadoTriggerArquivado_quandoDesarquivarTrigger_deveRetornarTriggerDesarquivada() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
-        Mockito.when(repository.save(trigger)).thenReturn(trigger);
-        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+        Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
+        Mockito.when(triggerRepository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
 
         ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/archive")
                 .header("Authorization", token))
@@ -185,8 +198,8 @@ public class TriggerControllerTest {
     @Transactional
     public void dadoTriggerDesarquivada_quandoArquivarTrigger_deveRetornarTriggerArquivada() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
-        Mockito.when(repository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
-        Mockito.when(repository.save(trigger)).thenReturn(trigger);
+        Mockito.when(triggerRepository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
+        Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
 
 
         ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/archive")
@@ -203,8 +216,8 @@ public class TriggerControllerTest {
         Trigger primeiraTrigger = mapper.map(triggerRequest);
         UUID id = UUID.randomUUID();
         primeiraTrigger.setId(id);
-        Mockito.when(repository.save(primeiraTrigger)).thenReturn(primeiraTrigger);
-        Mockito.when(repository.findById(id)).thenReturn(java.util.Optional.of(primeiraTrigger));
+        Mockito.when(triggerRepository.save(primeiraTrigger)).thenReturn(primeiraTrigger);
+        Mockito.when(triggerRepository.findById(id)).thenReturn(java.util.Optional.of(primeiraTrigger));
         triggerRequest.setMessage("teste");
 
         ResultActions perform = mvc.perform(put(URI + "/" + id.toString())

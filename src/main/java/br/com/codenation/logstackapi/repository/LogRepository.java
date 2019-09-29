@@ -26,6 +26,7 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
             "  and (:content is null or lower(l.detail.content) like %:content%)" +
             "  and (:level is null or l.detail.level like :level) " +
             "  and (l.detail.timestamp between :start and :end) " +
+            "  and (l.customer.user.id = :userId) " +
             "  and (archived is false)")
     Page<Log> find(@Param("title") String title,
                    @Param("appName") String appName,
@@ -36,6 +37,7 @@ public interface LogRepository extends JpaRepository<Log, UUID> {
                    @Param("level") LogLevel level,
                    @Param("start") LocalDateTime startTimestamp,
                    @Param("end") LocalDateTime endTimestamp,
+                   @Param("userId") UUID userId,
                    Pageable pageable);
 
     List<Log> findByCheckAlert(Boolean checkAlert);

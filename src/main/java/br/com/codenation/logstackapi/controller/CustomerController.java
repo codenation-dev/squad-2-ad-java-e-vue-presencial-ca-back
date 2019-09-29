@@ -5,14 +5,14 @@ import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.CustomerMapper;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.service.impl.CustomerServiceImpl;
+import br.com.codenation.logstackapi.service.impl.CustomerService;
+import br.com.codenation.logstackapi.service.impl.SecurityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"Customers"}, description = "Endpoint para gerenciamento dos clientes")
 public class CustomerController {
 
-    private CustomerServiceImpl service;
+    private SecurityService securityService;
+    private CustomerService customerService;
     private CustomerMapper mapper;
 
     @ApiOperation(
@@ -37,9 +38,8 @@ public class CustomerController {
     })
     @GetMapping(value = "/customers/self", produces = MediaType.APPLICATION_JSON_VALUE)
     private CustomerResponseDTO self() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Customer customer = service.findByUser(user).get();
-        return mapper.map(customer);
+        User user = securityService.getUserAuthenticated();
+        return mapper.map(customerService.findByUser(user).orElse(new Customer()));
     }
 
 }

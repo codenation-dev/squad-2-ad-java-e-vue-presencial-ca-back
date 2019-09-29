@@ -7,7 +7,6 @@ import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.repository.LogRepository;
-import br.com.codenation.logstackapi.service.LogService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,40 +19,35 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-public class LogServiceImpl implements LogService {
+public class LogService {
 
-    private CustomerServiceImpl customerService;
-    private LogRepository repository;
+    private CustomerService customerService;
+    private LogRepository logRepository;
     private LogMapper mapper;
 
-    @Override
     public Log findById(UUID id) {
-        return repository.findById(id)
+        return logRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Log not found with the specified id"));
     }
 
-    @Override
     public Log unarchive(UUID id) {
         Log log = findById(id);
         log.setArchived(Boolean.FALSE);
         return this.save(log);
     }
 
-    @Override
     public Log archive(UUID id) {
         Log log = findById(id);
         log.setArchived(Boolean.TRUE);
         return this.save(log);
     }
 
-    @Override
     public Log checkAlert(UUID id) {
         Log log = findById(id);
         log.setCheckAlert(Boolean.TRUE);
         return this.save(log);
     }
 
-    @Override
     public Log add(UUID apiKey, LogRequestDTO dto) {
 
         Customer customer = customerService.findByApiKey(apiKey)
@@ -63,23 +57,21 @@ public class LogServiceImpl implements LogService {
         log.setCustomer(customer);
         log.setArchived(false);
         log.setCheckAlert(false);
-        return repository.save(log);
+        return logRepository.save(log);
     }
 
-    @Override
     public List<Log> findByCheckAlertNotVerified(Integer size) {
         if (size < 1) size = 10;
-        return repository.findByCheckAlert(false).stream().limit(size).collect(Collectors.toList());
+        return logRepository.findByCheckAlert(false).stream().limit(size).collect(Collectors.toList());
     }
 
-    @Override
     public Page<Log> find(LogSearch search, Integer page, Integer size, Sort sort) {
 
         search.validationValues();
 
         PageRequest pageRequest = PageRequest.of(page, size, sort);
 
-        return repository.find(
+        return logRepository.find(
                 search.getTitle(),
                 search.getAppName(),
                 search.getHost(),
@@ -89,12 +81,13 @@ public class LogServiceImpl implements LogService {
                 search.getLevel(),
                 search.getStartTimestamp(),
                 search.getEndTimestamp(),
+                search.getUser().getId(),
                 pageRequest);
 
     }
 
     private Log save(Log log) {
-        return repository.save(log);
+        return logRepository.save(log);
     }
 
 }

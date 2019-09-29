@@ -4,10 +4,8 @@ import br.com.codenation.logstackapi.builders.UserResquestBuilder;
 import br.com.codenation.logstackapi.dto.request.UserRequestDTO;
 import br.com.codenation.logstackapi.mappers.UserMapper;
 import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.repository.UserRepository;
-import br.com.codenation.logstackapi.service.impl.UserServiceImpl;
+import br.com.codenation.logstackapi.service.impl.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.h2.engine.UserBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,7 +44,7 @@ public class UserControllerTest {
     private MockMvc mvc;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private UserMapper mapper;

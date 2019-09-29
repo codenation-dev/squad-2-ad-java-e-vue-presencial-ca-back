@@ -24,6 +24,7 @@ public class LogSearch {
     private LogLevel level;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
+    private User user;
 
     public void validationValues() {
         if (endTimestamp.isBefore(startTimestamp)) {

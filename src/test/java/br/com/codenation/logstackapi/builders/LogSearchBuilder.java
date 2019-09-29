@@ -7,20 +7,22 @@ import br.com.codenation.logstackapi.model.enums.LogLevel;
 import java.time.LocalDateTime;
 
 public class LogSearchBuilder {
-    private LogSearch log;
+
+    private LogSearch search;
 
     private LogSearchBuilder() {
     }
 
     public static LogSearchBuilder umLog() {
         LogSearchBuilder builder = new LogSearchBuilder();
-        builder.log = LogSearch.builder()
+        builder.search = LogSearch.builder()
                 .appName("App Name")
                 .environment(LogEnvironment.DEVELOPMENT)
                 .host("hostname")
                 .ip("1.0.2.10")
                 .level(LogLevel.DEBUG)
                 .title("Title")
+                .user(UserBuilder.codenation().build())
                 .startTimestamp(LocalDateTime.now())
                 .endTimestamp(LocalDateTime.now())
                 .build();
@@ -28,7 +30,7 @@ public class LogSearchBuilder {
     }
 
     public LogSearch build() {
-        return log;
+        return search;
     }
 
 }

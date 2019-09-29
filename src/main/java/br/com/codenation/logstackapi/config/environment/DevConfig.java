@@ -1,6 +1,6 @@
 package br.com.codenation.logstackapi.config.environment;
 
-import br.com.codenation.logstackapi.service.impl.DBServiceImpl;
+import br.com.codenation.logstackapi.service.impl.DBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ import java.text.ParseException;
 public class DevConfig {
 
     @Autowired
-    DBServiceImpl dbService;
+    DBService dbService;
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String strategy;

@@ -1,17 +1,15 @@
 package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.model.entity.Alert;
-import br.com.codenation.logstackapi.service.NotificationAlertService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class NotificationAlertServiceImpl implements NotificationAlertService {
+public class NotificationAlertService {
 
-    private EmailServiceImpl service;
+    private EmailService service;
 
-    @Override
     public void sendEmail(Alert alert) {
         String email = alert.getTrigger().getEmail();
         String subject = "[LOGSTACK ALERT] " + alert.getTrigger().getName();

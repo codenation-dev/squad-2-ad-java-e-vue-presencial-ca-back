@@ -3,7 +3,6 @@ package br.com.codenation.logstackapi.service.impl;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.CustomerRepository;
-import br.com.codenation.logstackapi.service.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,26 +13,22 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerService {
 
     private CustomerRepository customerRepository;
 
-    @Override
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
-    @Override
     public Optional<Customer> findByUser(User user) {
         return customerRepository.findByUser(user);
     }
 
-    @Override
     public Optional<Customer> findByApiKey(UUID apiKey) {
         return customerRepository.findByApiKey(apiKey);
     }
 
-    @Override
     public Customer save(User user) {
         Customer customer = Customer.builder()
                 .user(user)
