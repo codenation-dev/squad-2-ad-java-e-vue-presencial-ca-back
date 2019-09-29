@@ -21,6 +21,7 @@ public class LogBuilder {
                 .archived(false)
                 .checkAlert(false)
                 .customer(CustomerBuilder.codenation().build())
+                .application(LogApplicationBuilder.umaAplicacao().build())
                 .build();
         return builder;
     }
