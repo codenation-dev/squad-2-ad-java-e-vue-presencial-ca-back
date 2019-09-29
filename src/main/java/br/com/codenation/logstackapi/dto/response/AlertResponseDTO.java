@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@JsonPropertyOrder({"id", "trigger", "log", "createdDate"})
+@JsonPropertyOrder({"id", "trigger", "log", "createdDate", "visualized"})
 public class AlertResponseDTO {
 
     @ApiModelProperty(value = "Identificador do alerta", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
@@ -24,5 +24,8 @@ public class AlertResponseDTO {
 
     @ApiModelProperty(value = "Data e hora do alerta", position = 4, example = "2019-09-16T19:14:06.738Z")
     private LocalDateTime createdDate;
+
+    @ApiModelProperty(value = "Alerta visualizado", position = 5)
+    private Boolean isVisualized;
 
 }

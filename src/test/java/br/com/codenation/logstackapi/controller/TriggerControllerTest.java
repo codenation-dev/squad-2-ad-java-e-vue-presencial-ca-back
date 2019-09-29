@@ -8,9 +8,8 @@ import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.Trigger;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.TriggerRepository;
-import br.com.codenation.logstackapi.service.impl.SecurityService;
-import br.com.codenation.logstackapi.service.impl.TriggerService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.codenation.logstackapi.service.SecurityService;
+import br.com.codenation.logstackapi.service.TriggerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonBytes;
 import static org.hamcrest.Matchers.hasSize;
@@ -73,7 +69,6 @@ public class TriggerControllerTest {
     @Value("${security.oauth2.client.client-secret}")
     private String secret;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
     private JacksonJsonParser parser = new JacksonJsonParser();
     private String token = "";
 
@@ -112,7 +107,7 @@ public class TriggerControllerTest {
 
         UUID id = UUID.randomUUID();
 
-        mvc.perform(MockMvcRequestBuilders.put(URI + id.toString() + "/archive")
+        mvc.perform(MockMvcRequestBuilders.post(URI + id.toString() + "/archive")
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
     }
@@ -155,7 +150,7 @@ public class TriggerControllerTest {
         Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
         Mockito.when(triggerRepository.findById(trigger.getId())).thenReturn(java.util.Optional.of(trigger));
 
-        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/active")
+        ResultActions perform = mvc.perform(post(URI + "/" + trigger.getId() + "/active")
                 .header("Authorization", token))
                 .andExpect(status().isOk());
 
@@ -195,6 +190,17 @@ public class TriggerControllerTest {
     }
 
     @Test
+    public void dadoTriggerNaoExistente_quandoArquivar_deveRetornarAlertaNaoEncontrado() throws Exception {
+        UUID id = UUID.randomUUID();
+        Mockito.when(triggerRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResultActions perform = mvc.perform(post(URI + "/" + id + "/archive")
+                .header("Authorization", token));
+
+        perform.andExpect(status().isNotFound());
+    }
+
+    @Test
     @Transactional
     public void dadoTriggerDesarquivada_quandoArquivarTrigger_deveRetornarTriggerArquivada() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().ativo().arquivado().build();
@@ -202,7 +208,7 @@ public class TriggerControllerTest {
         Mockito.when(triggerRepository.save(trigger)).thenReturn(trigger);
 
 
-        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/archive")
+        ResultActions perform = mvc.perform(post(URI + "/" + trigger.getId() + "/archive")
                 .header("Authorization", token))
                 .andExpect(status().isOk());
 
@@ -268,8 +274,19 @@ public class TriggerControllerTest {
     public void dadoTriggerInativoSemAutenticacao_quandoAtivaTrigger_deveRetornarErro() throws Exception {
         Trigger trigger = TriggerBuilder.gatilho1().inativo().desarquivado().build();
 
-        ResultActions perform = mvc.perform(put(URI + "/" + trigger.getId() + "/active"))
+        ResultActions perform = mvc.perform(post(URI + "/" + trigger.getId() + "/active"))
                 .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerNaoExistente_quandoAtivar_deveRetornarAlertaNaoEncontrado() throws Exception {
+        UUID id = UUID.randomUUID();
+        Mockito.when(triggerRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResultActions perform = mvc.perform(post(URI + "/" + id + "/active")
+                .header("Authorization", token));
+
+        perform.andExpect(status().isNotFound());
     }
 
     @Test
@@ -278,6 +295,17 @@ public class TriggerControllerTest {
 
         ResultActions perform = mvc.perform(delete(URI + "/" + trigger.getId() + "/active"))
                 .andExpect(status().is(401));
+    }
+
+    @Test
+    public void dadoTriggerNaoExistente_quandoDesativar_deveRetornarAlertaNaoEncontrado() throws Exception {
+        UUID id = UUID.randomUUID();
+        Mockito.when(triggerRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResultActions perform = mvc.perform(delete(URI + "/" + id + "/active")
+                .header("Authorization", token));
+
+        perform.andExpect(status().isNotFound());
     }
 
     @Test

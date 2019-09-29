@@ -1,10 +1,11 @@
-package br.com.codenation.logstackapi.service.impl;
+package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.builders.AlertBuilder;
 import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.AlertSearch;
 import br.com.codenation.logstackapi.repository.AlertRepository;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertThat;
 
@@ -31,7 +33,7 @@ public class AlertServiceTest {
     private AlertService alertService;
 
     @MockBean
-    private AlertRepository repository;
+    private AlertRepository alertRepository;
 
     @Test
     public void dadoAlert_quandoPesquisar_entaoDeveRetornarPageDeAlert(){
@@ -44,7 +46,7 @@ public class AlertServiceTest {
         PageRequest pageRequest = PageRequest.of(1,3);
         Page<Alert> page = new PageImpl<>(alert);
 
-        Mockito.when(repository.find(null, null, pageRequest)).thenReturn(page);
+        Mockito.when(alertRepository.find(null, null, pageRequest)).thenReturn(page);
 
         Page<Alert> pageResponse = alertService.find(search, 1, 3);
 
@@ -57,13 +59,28 @@ public class AlertServiceTest {
     public void dadoAlert_quandoSalvar_entaoDeveRetornarAlert(){
         Alert alert = AlertBuilder.umAlert().build();
 
-        Mockito.when(repository.save(alert)).thenReturn(alert);
+        Mockito.when(alertRepository.save(alert)).thenReturn(alert);
 
         Alert alertResponse = alertService.save(alert);
 
         assertThat(alertResponse, Matchers.notNullValue());
         assertThat(alertResponse.getId(), Matchers.equalTo(alert.getId()));
         assertThat(alertResponse.getTrigger().getName(), Matchers.equalTo(alert.getTrigger().getName()));
+    }
+
+
+    @Test
+    public void dadoAlertaNaoVisualizado_quandoConfimarVisualizacao_entaoDeveRetornarAlertaVisualizado() {
+
+        Alert alert = AlertBuilder.umAlert().naoVisualizado().build();
+
+        Mockito.when(alertRepository.findById(alert.getId())).thenReturn(Optional.of(alert));
+        Mockito.when(alertRepository.save(alert)).thenReturn(alert);
+
+        Alert result = alertService.visualized(alert.getId());
+
+        Assert.assertThat(result, Matchers.notNullValue());
+        Assert.assertThat(result.getVisualized(), Matchers.equalTo(Boolean.TRUE));
     }
 
 }

@@ -5,8 +5,8 @@ import br.com.codenation.logstackapi.dto.response.TriggerResponseDTO;
 import br.com.codenation.logstackapi.exception.ApiError;
 import br.com.codenation.logstackapi.mappers.TriggerMapper;
 import br.com.codenation.logstackapi.model.entity.User;
-import br.com.codenation.logstackapi.service.impl.SecurityService;
-import br.com.codenation.logstackapi.service.impl.TriggerService;
+import br.com.codenation.logstackapi.service.SecurityService;
+import br.com.codenation.logstackapi.service.TriggerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -81,8 +81,8 @@ public class TriggerController {
             @ApiResponse(code = 400, message = "Requisição mal formatada", response = ApiError.class),
             @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
-    })  
-    @PutMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
+    })
+    @PostMapping(value = "/triggers/{id}/active", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO active(@PathVariable UUID id){
         return mapper.map(triggerService.active(id));
     }
@@ -112,7 +112,7 @@ public class TriggerController {
             @ApiResponse(code = 404, message = "Gatilho não encontrado", response = ApiError.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
-    @PutMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/triggers/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private TriggerResponseDTO archive(@PathVariable UUID id) {
         return mapper.map(triggerService.archive(id));
     }

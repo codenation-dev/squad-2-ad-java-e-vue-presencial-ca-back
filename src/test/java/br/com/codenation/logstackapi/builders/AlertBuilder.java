@@ -17,6 +17,7 @@ public class AlertBuilder {
                 .id(UUID.randomUUID())
                 .log(LogBuilder.umLog().build())
                 .trigger(TriggerBuilder.gatilho1().build())
+                .visualized(false)
                 .build();
         return builder;
     }
@@ -27,8 +28,14 @@ public class AlertBuilder {
                 .id(UUID.randomUUID())
                 .log(LogBuilder.umLog().emDesenvolvimento().arquivado().build())
                 .trigger(TriggerBuilder.gatilho2().build())
+                .visualized(false)
                 .build();
         return builder;
+    }
+
+    public AlertBuilder naoVisualizado() {
+        alert.setVisualized(false);
+        return this;
     }
 
     public Alert build() {
