@@ -27,7 +27,8 @@ public interface AlertMapper {
             @Mapping(source = "trigger.email", target = "trigger.email"),
             @Mapping(source = "trigger.message", target = "trigger.message"),
             @Mapping(source = "trigger.createdBy", target = "trigger.createdBy"),
-            @Mapping(source = "createdDate", target = "createdDate")
+            @Mapping(source = "createdDate", target = "createdDate"),
+            @Mapping(source = "visualized", target = "isVisualized")
     })
     AlertResponseDTO map(Alert alert);
 

@@ -5,8 +5,8 @@ import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.AlertRepository;
-import br.com.codenation.logstackapi.service.impl.AlertService;
-import br.com.codenation.logstackapi.service.impl.SecurityService;
+import br.com.codenation.logstackapi.service.AlertService;
+import br.com.codenation.logstackapi.service.SecurityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +27,8 @@ import org.springframework.util.MultiValueMap;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -98,6 +100,32 @@ public class AlertControllerTest {
         ResultActions perform = mvc.perform(get(URI)).andExpect(status().is(401));
     }
 
+    @Test
+    public void dadoAlertaNaoVisualizado_quandoConfirmarVisualizacao_deveRetornarAlertaAtualizado() throws Exception {
+
+        Alert alert = AlertBuilder.umAlert().naoVisualizado().build();
+        Mockito.when(alertRepository.save(alert)).thenReturn(alert);
+        Mockito.when(alertRepository.findById(alert.getId())).thenReturn(Optional.of(alert));
+
+        ResultActions perform = mvc.perform(post(URI + "/" + alert.getId() + "/view")
+                .header("Authorization", token));
+
+        perform.andExpect(status().isOk());
+        perform.andExpect(jsonPath("$.isVisualized", is(Boolean.TRUE)));
+
+    }
+
+    @Test
+    public void dadoAlertaNaoExistente_quandoConfirmacaoVisualizacao_deveRetornarAlertaNaoEncontrado() throws Exception {
+        UUID id = UUID.randomUUID();
+        Mockito.when(alertRepository.findById(id)).thenReturn(Optional.empty());
+
+        ResultActions perform = mvc.perform(post(URI + "/" + id + "/view")
+                .header("Authorization", token));
+
+        perform.andExpect(status().isNotFound());
+    }
+
     private String generateToken() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -119,4 +147,5 @@ public class AlertControllerTest {
 
         return String.format("Bearer %s", token);
     }
+
 }
