@@ -4,14 +4,10 @@ package br.com.codenation.logstackapi.controller;
 import br.com.codenation.logstackapi.builders.CustomerBuilder;
 import br.com.codenation.logstackapi.builders.LogBuilder;
 import br.com.codenation.logstackapi.builders.LogRequestDTOBuilder;
-import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.Log;
-import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.CustomerRepository;
-import br.com.codenation.logstackapi.repository.LogRepository;
-import br.com.codenation.logstackapi.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

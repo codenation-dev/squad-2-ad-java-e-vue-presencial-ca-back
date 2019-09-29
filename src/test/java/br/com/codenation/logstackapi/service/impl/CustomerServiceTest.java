@@ -2,11 +2,9 @@ package br.com.codenation.logstackapi.service.impl;
 
 import br.com.codenation.logstackapi.builders.CustomerBuilder;
 import br.com.codenation.logstackapi.builders.UserBuilder;
-import br.com.codenation.logstackapi.mappers.CustomerMapper;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.CustomerRepository;
-import br.com.codenation.logstackapi.service.CustomerService;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +24,7 @@ import static org.junit.Assert.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class CustomerServiceImplTest {
+public class CustomerServiceTest {
 
     @MockBean
     private CustomerRepository customerRepository;
