@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.service.impl;
+package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.User;

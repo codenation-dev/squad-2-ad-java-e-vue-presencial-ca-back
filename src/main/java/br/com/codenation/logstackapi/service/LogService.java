@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.service.impl;
+package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.exception.ResourceNotFoundException;

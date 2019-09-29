@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,6 +28,9 @@ public class Alert {
 
     @ManyToOne
     private Trigger trigger;
+
+    @NotNull
+    private Boolean visualized;
 
     @CreatedDate
     private LocalDateTime createdDate;

@@ -1,4 +1,4 @@
-package br.com.codenation.logstackapi.service.impl;
+package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.AlertSearch;
@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +30,12 @@ public class AlertService {
 
     public List<Alert> findByTriggerCreatedBy(User user) {
         return alertRepository.findByTriggerCreatedById(user.getId());
+    }
+
+    public Alert visualized(UUID id) {
+        Alert alert = alertRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        alert.setVisualized(Boolean.TRUE);
+        return alertRepository.save(alert);
     }
 
 }

@@ -8,7 +8,8 @@ import br.com.codenation.logstackapi.dto.request.LogRequestDTO;
 import br.com.codenation.logstackapi.model.entity.Customer;
 import br.com.codenation.logstackapi.model.entity.Log;
 import br.com.codenation.logstackapi.repository.CustomerRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.codenation.logstackapi.repository.LogRepository;
+import br.com.codenation.logstackapi.service.LogService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,11 +34,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static br.com.codenation.logstackapi.util.TestUtil.convertObjectToJsonBytes;
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -50,7 +48,13 @@ public class LogControllerTest {
     private static String URI = "/api/v1/logs";
 
     @MockBean
+    private LogRepository logRepository;
+
+    @MockBean
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private LogService logService;
 
     @Autowired
     private MockMvc mvc;
@@ -61,7 +65,6 @@ public class LogControllerTest {
     @Value("${security.oauth2.client.client-secret}")
     private String secret;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
     private JacksonJsonParser parser = new JacksonJsonParser();
     private String token = "";
 
@@ -72,31 +75,16 @@ public class LogControllerTest {
 
     @Test
     public void dadoLogInexistente_quandoBuscoPorId_entaoRetornaNaoEncontrado() throws Exception {
-
-        UUID id = UUID.randomUUID();
-
-        mvc.perform(MockMvcRequestBuilders.get(URI + "/" + id.toString())
+        mvc.perform(MockMvcRequestBuilders.get(URI + "/8139c634-6f18-4f73-a8f2-01b74cc6d6b2")
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Transactional
-    public void dadoNenhumLogExistente_quandoBuscarTodosLogs_deveRetornarNenhumLog() throws Exception {
-
-        mvc.perform(get(URI)
-                .header("Authorization", token)
-                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content", hasSize(0)));
     }
 
     @Test
     public void dadoLogInexistente_quandoArquivarPorId_entaoRetornaNaoEncontrado() throws Exception {
 
         UUID id = UUID.randomUUID();
-
-        mvc.perform(MockMvcRequestBuilders.put(URI + "/" + id.toString() + "/archive")
+        mvc.perform(MockMvcRequestBuilders.post(URI + "/" + id.toString() + "/archive")
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
     }

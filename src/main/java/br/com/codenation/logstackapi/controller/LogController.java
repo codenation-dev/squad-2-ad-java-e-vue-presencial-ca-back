@@ -9,8 +9,8 @@ import br.com.codenation.logstackapi.model.entity.LogSearch;
 import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.model.enums.LogEnvironment;
 import br.com.codenation.logstackapi.model.enums.LogLevel;
-import br.com.codenation.logstackapi.service.impl.LogService;
-import br.com.codenation.logstackapi.service.impl.SecurityService;
+import br.com.codenation.logstackapi.service.LogService;
+import br.com.codenation.logstackapi.service.SecurityService;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
@@ -178,7 +178,7 @@ public class LogController {
             @ApiResponse(code = 404, message = "Log não encontrado", response = ApiError.class),
             @ApiResponse(code = 500, message = "Erro na api", response = ApiError.class)
     })
-    @PutMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/logs/{id}/archive", produces = MediaType.APPLICATION_JSON_VALUE)
     private LogResponseDTO archive(@PathVariable UUID id) {
         return mapper.map(logService.archive(id));
     }
