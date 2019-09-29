@@ -25,7 +25,7 @@ public class LogAlertMonitor {
     private AlertService alertService;
     private TriggerSearchMapper mapper;
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 30000)
     public void scheduledAlertNotifications() {
         verifyAlertLog();
     }
