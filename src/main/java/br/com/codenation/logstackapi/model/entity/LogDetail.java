@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -25,6 +26,7 @@ public class LogDetail {
     private LogLevel level;
 
     @NotNull
+    @Lob
     private String content;
 
 }
