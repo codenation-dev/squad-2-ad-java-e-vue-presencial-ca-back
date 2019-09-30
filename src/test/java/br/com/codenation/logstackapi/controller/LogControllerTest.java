@@ -14,6 +14,7 @@ import br.com.codenation.logstackapi.repository.CustomerRepository;
 import br.com.codenation.logstackapi.repository.LogRepository;
 import br.com.codenation.logstackapi.service.LogService;
 import br.com.codenation.logstackapi.service.SecurityService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,10 +67,13 @@ public class LogControllerTest {
     private SecurityService securityService;
 
     @MockBean
-    private LogRepository logRepository;
+    private CustomerRepository customerRepository;
 
     @MockBean
-    private CustomerRepository customerRepository;
+    private LogRepository logRepository;
+
+    @Autowired
+    private LogMapper mapper;
 
     @Autowired
     private LogService logService;
@@ -77,15 +81,13 @@ public class LogControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private LogMapper mapper;
-
     @Value("${security.oauth2.client.client-id}")
     private String client;
 
     @Value("${security.oauth2.client.client-secret}")
     private String secret;
 
+    private ObjectMapper objectMapper = new ObjectMapper();
     private JacksonJsonParser parser = new JacksonJsonParser();
     private String token = "";
 
@@ -96,7 +98,10 @@ public class LogControllerTest {
 
     @Test
     public void dadoLogInexistente_quandoBuscoPorId_entaoRetornaNaoEncontrado() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get(URI + "/8139c634-6f18-4f73-a8f2-01b74cc6d6b2")
+
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(MockMvcRequestBuilders.get(URI + "/" + id.toString())
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
     }
@@ -105,7 +110,8 @@ public class LogControllerTest {
     public void dadoLogInexistente_quandoArquivarPorId_entaoRetornaNaoEncontrado() throws Exception {
 
         UUID id = UUID.randomUUID();
-        mvc.perform(MockMvcRequestBuilders.post(URI + "/" + id.toString() + "/archive")
+
+        mvc.perform(MockMvcRequestBuilders.post(URI + "/" + UUID.randomUUID() + "/archive")
                 .header("Authorization", token))
                 .andExpect(status().isNotFound());
     }
@@ -249,6 +255,7 @@ public class LogControllerTest {
         ResultActions pageResponse = mvc.perform(get(URI))
                 .andExpect(status().is(401));
     }
+
     private String generateToken() throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
