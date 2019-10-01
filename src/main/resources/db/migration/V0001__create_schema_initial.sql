@@ -40,7 +40,7 @@ CREATE TABLE trigger_filter (
 	CONSTRAINT trigger_filter_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE "trigger" (
+CREATE TABLE triggers (
 	id uuid NOT NULL,
 	created_date timestamp NOT NULL,
 	last_modified_date timestamp NOT NULL,
@@ -61,6 +61,6 @@ CREATE TABLE alert (
 	last_modified_date timestamp NULL,
 	visualized bool NOT NULL,
 	log_id uuid NULL REFERENCES log(id),
-	trigger_id uuid null REFERENCES trigger(id),
+	trigger_id uuid null REFERENCES triggers(id),
 	CONSTRAINT alert_pkey PRIMARY KEY (id)
 );
