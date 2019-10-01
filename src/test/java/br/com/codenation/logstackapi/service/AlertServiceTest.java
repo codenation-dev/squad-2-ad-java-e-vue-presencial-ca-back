@@ -1,8 +1,10 @@
 package br.com.codenation.logstackapi.service;
 
 import br.com.codenation.logstackapi.builders.AlertBuilder;
+import br.com.codenation.logstackapi.builders.UserBuilder;
 import br.com.codenation.logstackapi.model.entity.Alert;
 import br.com.codenation.logstackapi.model.entity.AlertSearch;
+import br.com.codenation.logstackapi.model.entity.User;
 import br.com.codenation.logstackapi.repository.AlertRepository;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -83,4 +85,21 @@ public class AlertServiceTest {
         Assert.assertThat(result.getVisualized(), Matchers.equalTo(Boolean.TRUE));
     }
 
-}
+    @Test
+    public void dadoUser_quandoPesquisarPorTrigger_entaoDeveRetornarListaDeAlerta() {
+        List<Alert> listaAlert = new ArrayList<>();
+        listaAlert.add(AlertBuilder.umAlert().build());
+        listaAlert.add(AlertBuilder.doisAlert().build());
+        User user = UserBuilder.codenation().build();
+
+        Mockito.when(alertRepository.findByTriggerCreatedById(user.getId())).thenReturn(listaAlert);
+
+        List<Alert> listaAlertResponse = alertService.findByTriggerCreatedBy(user);
+
+        Assert.assertThat(listaAlertResponse, Matchers.notNullValue());
+        Assert.assertThat(listaAlertResponse.stream().count(), Matchers.equalTo(2L));
+    }
+
+
+
+    }
