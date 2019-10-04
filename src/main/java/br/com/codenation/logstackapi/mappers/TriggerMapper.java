@@ -19,6 +19,7 @@ public interface TriggerMapper {
             @Mapping(source = "email", target = "email"),
             @Mapping(source = "createdBy", target = "createdBy"),
             @Mapping(source = "active", target = "isActive"),
+            @Mapping(source = "archived", target = "isArchive"),
             @Mapping(source = "filters", target = "filters")
     })
     TriggerResponseDTO map(Trigger trigger);
